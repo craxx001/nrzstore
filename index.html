@@ -71,6 +71,17 @@
     ::-webkit-scrollbar-thumb:hover { background: var(--border-light); }
 
     .hidden { display: none !important; }
+    /* Success modal must stay hidden until a successful purchase */
+    #modal-success.hidden {
+        display: none !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+    }
+    #modal-success[aria-hidden="true"] {
+        display: none !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+    }
 
     /* ============================================
        LOADER
@@ -1981,60 +1992,54 @@
 </div>
 
 <!-- SUCCESS MODAL -->
-<div class="modal-overlay hidden" id="modal-success">
+<div class="modal-overlay hidden"
+     id="modal-success"
+     aria-hidden="true"
+     style="display:none !important;">
     <div class="modal" style="text-align:center;">
+
         <i class="fas fa-check-circle success-icon"></i>
 
-        <h2 style="font-size:22px;font-weight:800;margin-bottom:4px;">
-            Purchase Success!
+        <h2 style="font-size:22px;font-weight:800;margin-bottom:6px;">
+            Purchase Successful
         </h2>
 
-        <p style="color:var(--text-secondary);font-size:14px;margin-bottom:18px;">
+        <p style="color:var(--text-secondary);font-size:14px;margin-bottom:20px;">
             Your plan has been activated successfully.
         </p>
 
-        <!-- PURCHASE DETAILS -->
-        <div class="checkout-box" style="text-align:left;margin-bottom:18px;">
+        <div class="checkout-box" style="text-align:left;margin-bottom:20px;">
             <div class="row">
-                <span>Plan</span>
-                <strong id="success-plan-name" style="color:var(--accent-gold);">Plan</strong>
+                <span>Plan Name</span>
+                <strong id="success-plan-name" style="color:var(--accent-gold);">-</strong>
             </div>
 
             <div class="row">
                 <span>Details</span>
-                <strong id="success-plan-details">—</strong>
+                <strong id="success-plan-details">-</strong>
             </div>
 
             <div class="row">
-                <span>Amount Paid</span>
+                <span>Price</span>
                 <strong>₹<span id="success-plan-price">0.00</span></strong>
             </div>
 
             <div class="row">
                 <span>Status</span>
-                <strong style="color:var(--accent-green);">Active</strong>
+                <strong style="color:var(--accent-green);">Success</strong>
             </div>
         </div>
 
-        <!-- ACTIONS -->
-        <div class="modal-actions" style="margin-top:10px; display:flex; gap:10px;">
-            <button
-                class="btn btn-outline-modal"
-                id="modal-btn-cancel"
-                type="button"
-                onclick="closeModal('modal-success')"
-                style="flex:1;">
-                Cancel
-            </button>
-            <button
+        <!-- ONLY CONFIRM BUTTON -->
+        <button type="button"
                 class="btn btn-primary-modal"
                 id="modal-btn-confirm"
-                type="button"
-                onclick="confirmPurchaseSuccess()"
-                style="flex:1;">
-                <i class="fas fa-check"></i> Confirm
-            </button>
-        </div>
+                onclick="window.confirmPurchaseSuccess()"
+                style="width:100%;padding:13px;">
+            <i class="fas fa-check"></i>
+            Confirm
+        </button>
+
     </div>
 </div>
 
@@ -3002,17 +3007,12 @@
                 }
                 closeModal('modal-checkout');
 
-                // Success modal: show plan details only (no license key)
-                document.getElementById('success-plan-name').innerText =
-                    checkout.label || 'Plan';
-
-                document.getElementById('success-plan-details').innerText =
-                    checkout.panelName || 'Premium Plan';
-
-                document.getElementById('success-plan-price').innerText =
-                    price.toFixed(2);
-
-                openModal('modal-success');
+                // Open success modal only after a successful purchase.
+                showPurchaseSuccess(
+                    checkout.label || 'Plan',
+                    checkout.panelName || 'Premium Plan',
+                    price
+                );
             } else {
                 showToast("Transaction failed. Insufficient funds.", "error");
             }
@@ -3024,18 +3024,43 @@
     };
 
     // --- SUCCESS MODAL ---
-    // Always keep the success modal closed when the website first loads.
-    // It will only open after a successful purchase.
-    document.getElementById('modal-success')?.classList.add('hidden');
+    function showPurchaseSuccess(planName, details, price) {
+        const modal = document.getElementById('modal-success');
+        if (!modal) return;
+
+        document.getElementById('success-plan-name').textContent = planName;
+        document.getElementById('success-plan-details').textContent = details;
+        document.getElementById('success-plan-price').textContent =
+            Number(price || 0).toFixed(2);
+
+        modal.classList.remove('hidden');
+        modal.setAttribute('aria-hidden', 'false');
+        modal.style.display = 'flex';
+    }
 
     window.confirmPurchaseSuccess = function() {
-        closeModal('modal-success');
-        navigate('home');
+        const modal = document.getElementById('modal-success');
+
+        if (modal) {
+            modal.classList.add('hidden');
+            modal.setAttribute('aria-hidden', 'true');
+            modal.style.display = 'none';
+        }
+
+        // Go back to the user's Home/Dashboard.
+        if (typeof window.navigate === 'function') {
+            window.navigate('home');
+        }
     };
 
-    // Optional: tapping the dark area outside the modal closes it.
-    document.getElementById('modal-success')?.addEventListener('click', function(e) {
-        if (e.target === this) closeModal('modal-success');
+    // Never show success modal when opening/reloading the website.
+    document.addEventListener('DOMContentLoaded', function() {
+        const modal = document.getElementById('modal-success');
+        if (modal) {
+            modal.classList.add('hidden');
+            modal.setAttribute('aria-hidden', 'true');
+            modal.style.display = 'none';
+        }
     });
 
     // --- HISTORY ---
@@ -3120,5 +3145,17 @@
 
     console.log('✅ NRZ STORE App initialized with enhanced security system');
 </script>
+
+<script>
+// Defensive guard: never show the purchase-success modal on page load.
+document.addEventListener('DOMContentLoaded', function () {
+    const modal = document.getElementById('modal-success');
+    if (modal) {
+        modal.classList.add('hidden');
+        modal.setAttribute('aria-hidden', 'true');
+    }
+});
+</script>
+
 </body>
 </html>
