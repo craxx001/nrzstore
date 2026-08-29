@@ -1984,16 +1984,56 @@
 <div class="modal-overlay hidden" id="modal-success">
     <div class="modal" style="text-align:center;">
         <i class="fas fa-check-circle success-icon"></i>
-        <h2 style="font-size:22px;font-weight:800;margin-bottom:4px;">Purchase Success!</h2>
-        <p style="color:var(--text-secondary);font-size:14px;margin-bottom:16px;">Your premium key is ready.</p>
-        <div class="key-display">
-            <span class="key-label">License Key</span>
-            <div class="key-value" id="modal-key-display">XXXXXX</div>
+
+        <h2 style="font-size:22px;font-weight:800;margin-bottom:4px;">
+            Purchase Success!
+        </h2>
+
+        <p style="color:var(--text-secondary);font-size:14px;margin-bottom:18px;">
+            Your plan has been activated successfully.
+        </p>
+
+        <!-- PURCHASE DETAILS -->
+        <div class="checkout-box" style="text-align:left;margin-bottom:18px;">
+            <div class="row">
+                <span>Plan</span>
+                <strong id="success-plan-name" style="color:var(--accent-gold);">Plan</strong>
+            </div>
+
+            <div class="row">
+                <span>Details</span>
+                <strong id="success-plan-details">—</strong>
+            </div>
+
+            <div class="row">
+                <span>Amount Paid</span>
+                <strong>₹<span id="success-plan-price">0.00</span></strong>
+            </div>
+
+            <div class="row">
+                <span>Status</span>
+                <strong style="color:var(--accent-green);">Active</strong>
+            </div>
         </div>
-        <div class="action-row">
-            <button class="btn btn-primary-modal" id="modal-btn-access"><i class="fas fa-download"></i> Access Tool</button>
-            <button class="btn btn-outline-modal" onclick="copyToClipboard('modal-key-display','License Key')"><i class="fas fa-copy"></i> Copy</button>
-            <button class="btn btn-outline-modal" onclick="closeModal('modal-success')">Close</button>
+
+        <!-- ACTIONS -->
+        <div class="modal-actions" style="margin-top:10px; display:flex; gap:10px;">
+            <button
+                class="btn btn-outline-modal"
+                id="modal-btn-cancel"
+                type="button"
+                onclick="closeModal('modal-success')"
+                style="flex:1;">
+                Cancel
+            </button>
+            <button
+                class="btn btn-primary-modal"
+                id="modal-btn-confirm"
+                type="button"
+                onclick="confirmPurchaseSuccess()"
+                style="flex:1;">
+                <i class="fas fa-check"></i> Confirm
+            </button>
         </div>
     </div>
 </div>
@@ -2961,8 +3001,17 @@
                     await runTransaction(ref(db, `coupons/${window.appliedCoupon.id}/used`), (curr) => (curr || 0) + 1);
                 }
                 closeModal('modal-checkout');
-                document.getElementById('modal-key-display').innerText = newKey;
-                document.getElementById('modal-btn-access').onclick = () => window.open(checkout.link || "https://t.me/", '_blank');
+
+                // Success modal: show plan details only (no license key)
+                document.getElementById('success-plan-name').innerText =
+                    checkout.label || 'Plan';
+
+                document.getElementById('success-plan-details').innerText =
+                    checkout.panelName || 'Premium Plan';
+
+                document.getElementById('success-plan-price').innerText =
+                    price.toFixed(2);
+
                 openModal('modal-success');
             } else {
                 showToast("Transaction failed. Insufficient funds.", "error");
@@ -2973,6 +3022,21 @@
             btn.innerHTML = `Confirm Pay`;
         }
     };
+
+    // --- SUCCESS MODAL ---
+    // Always keep the success modal closed when the website first loads.
+    // It will only open after a successful purchase.
+    document.getElementById('modal-success')?.classList.add('hidden');
+
+    window.confirmPurchaseSuccess = function() {
+        closeModal('modal-success');
+        navigate('home');
+    };
+
+    // Optional: tapping the dark area outside the modal closes it.
+    document.getElementById('modal-success')?.addEventListener('click', function(e) {
+        if (e.target === this) closeModal('modal-success');
+    });
 
     // --- HISTORY ---
     function fetchPurchases() {
