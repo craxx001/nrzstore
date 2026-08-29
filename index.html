@@ -1683,7 +1683,7 @@
         <div class="dropdown" id="dropdown-menu">
             <div class="dropdown-item" onclick="navigate('home')"><i class="fas fa-th-large"></i> Dashboard</div>
             <div class="dropdown-item" onclick="navigate('wallet')"><i class="fas fa-wallet"></i> Wallet</div>
-            <div class="dropdown-item" onclick="navigate('history')"><i class="fas fa-key"></i> My Keys</div>
+            <div class="dropdown-item" onclick="navigate('history')"><i class="fas fa-key"></i> History</div>
             <div class="dropdown-item" onclick="navigate('profile')"><i class="fas fa-user"></i> Profile</div>
             <div class="dropdown-divider"></div>
             <div class="dropdown-item danger" id="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</div>
@@ -1770,7 +1770,7 @@
         <!-- Tabs -->
         <div class="wallet-tabs">
             <div class="wallet-tab active" onclick="switchWalletTab('auto')" id="tab-btn-auto"><i class="fas fa-bolt"></i> Instant UPI</div>
-            <div class="wallet-tab manual" onclick="switchWalletTab('manual')" id="tab-btn-manual"><i class="fas fa-qrcode"></i> Manual UPI</div>
+            <div class="wallet-tab manual" onclick="switchWalletTab('manual')" id="tab-btn-manual"><i class="fas fa-qrcode"></i> Pay via UPI</div>
             <div class="wallet-tab support" onclick="switchWalletTab('support')" id="tab-btn-support"><i class="fas fa-headset"></i> Support</div>
         </div>
 
@@ -1892,7 +1892,7 @@
                 </p>
                 <div style="display:flex;flex-direction:column;gap:10px;">
                     <a href="#" id="support-wa-btn" target="_blank" class="btn-outline" style="border-color:#25D366;color:#25D366;justify-content:center;padding:12px;">
-                        <i class="fab fa-whatsapp"></i> WhatsApp Support
+                        <i class="fab fa-whatsapp"></i> Discord Support
                     </a>
                     <a href="#" id="support-tg-btn" target="_blank" class="btn-outline" style="border-color:#0088cc;color:#0088cc;justify-content:center;padding:12px;">
                         <i class="fab fa-telegram-plane"></i> Telegram Support
@@ -2982,7 +2982,7 @@
             const container = document.getElementById('history-container');
             container.innerHTML = '';
             if (!snap.exists()) {
-                container.innerHTML = `<div class="empty-state"><i class="fas fa-key"></i><p>No keys purchased yet.</p></div>`;
+                container.innerHTML = `<div class="empty-state"><i class="fas fa-key"></i><p>No plans purchased yet.</p></div>`;
                 document.getElementById('prof-purchases').innerText = '0';
             } else {
                 const items = [];
