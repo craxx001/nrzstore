@@ -1774,7 +1774,7 @@
             <div class="wallet-tab support" onclick="switchWalletTab('support')" id="tab-btn-support"><i class="fas fa-headset"></i> Support</div>
         </div>
 
-        <!-- Tab: Instant UPI -->
+        <!-- Tab: Instant Pay -->
         <div id="wallet-tab-auto" class="wallet-section">
             <div class="premium-card">
                 <div class="card-head">
@@ -1791,7 +1791,6 @@
                 <button class="btn-primary-solid" id="btn-submit-payment" style="width:100%;">
                     <i class="fas fa-arrow-right"></i> Pay Now
                 </button>
-                <h4 style="font-size:13px;font-weight:600;color:var(--text-secondary);</i> Your order will be approved only after the payment is verified</h4>
 
                 <div style="margin-top:32px;padding-top:24px;border-top:1px solid var(--border-color);">
                     <h4 style="font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:12px;"><i class="fas fa-search"></i> Check Order Status</h4>
@@ -1848,14 +1847,14 @@
             </div>
         </div>
 
-        <!-- Tab: Manual UPI -->
+        <!-- Tab: Pay via UPI -->
         <div id="wallet-tab-manual" class="wallet-section hidden">
             <div class="premium-card">
                 <div class="card-head">
                     <i class="fas fa-qrcode" style="color:var(--accent-purple);"></i>
-                    <h3>Manual UPI</h3>
+                    <h3>Pay via UPI</h3>
                 </div>
-                <p class="card-desc">Scan the QR or copy UPI ID to transfer funds manually.</p>
+                <p class="card-desc">• Scan the QR or copy UPI ID to complete the payment • Your order will be approved after the payment is verified !</p>
 
                 <div class="qr-display manual">
                     <img id="manual-qr-display" src="" alt="QR" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-qrcode\\' style=\\'font-size:48px;color:var(--text-muted);\\'></i>'"/>
@@ -1875,7 +1874,7 @@
                 <div class="input-group"><input id="manual-amount" placeholder="Amount Sent (₹)" type="number"/></div>
                 <div class="input-group"><input id="manual-utr" placeholder="12-Digit UTR / Ref No." type="text"/></div>
                 <div class="input-group"><input id="manual-app" placeholder="Payment App (PhonePe, Paytm, etc.)" type="text"/></div>
-                <div class="input-group"><input id="manual-screenshot" placeholder="Screenshot URL (Drive, ImgBB)" type="url"/></div>
+                <div class="input-group"><input id="manual-screenshot" placeholder="Screenshot URL (optional)" type="url"/></div>
 
                 <button class="btn-primary-solid" id="btn-submit-manual" style="width:100%;background:linear-gradient(135deg,var(--accent-purple),#7c3aed);">
                     <i class="fas fa-paper-plane"></i> Submit Request
