@@ -8,7 +8,7 @@
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-<!-- FontAwesome -->
+<!-- constFontAwesome -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
 
 <!-- ZapUPI Payment Gateway -->
@@ -973,6 +973,11 @@
         color: #fff;
         border-color: var(--accent-blue);
     }
+    .wallet-tab.crypto.active {
+        background: var(--accent-gold);
+        color: #000;
+        border-color: var(--accent-gold);
+    }
     .wallet-tab.manual.active {
         background: var(--accent-purple);
         color: #fff;
@@ -1046,6 +1051,22 @@
         justify-content: center;
         padding: 12px;
         transition: var(--transition);
+    }
+    .qr-display img { width: 100%; height: 100%; object-fit: contain; border-radius: var(--radius-sm); }
+    .qr-display.crypto { border-color: rgba(251, 191, 36, 0.25); }
+    .qr-display.manual { border-color: rgba(139, 92, 246, 0.25); }
+
+    .copy-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 14px 18px;
+        background: var(--bg-input);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-sm);
+        margin-bottom: 16px;
+        flex-wrap: wrap;
     }
     .copy-row .copy-label {
         font-size: 11px;
@@ -1652,7 +1673,7 @@
     <nav class="navbar">
         <div class="brand">
             <div class="brand-icon">FF</div>
-            <img id="site-logo" src="https://share.google/dT3ytHTMpLnpScjD5" style="height: 36px; border-radius: 6px;"/>
+            <img id="site-logo" src="" style="display:none;"/>
             <span id="site-name">NRZ STORE</span>
         </div>
         <div class="nav-actions">
@@ -1662,7 +1683,7 @@
         <div class="dropdown" id="dropdown-menu">
             <div class="dropdown-item" onclick="navigate('home')"><i class="fas fa-th-large"></i> Dashboard</div>
             <div class="dropdown-item" onclick="navigate('wallet')"><i class="fas fa-wallet"></i> Wallet</div>
-            <div class="dropdown-item" onclick="navigate('history')"><i class="fas fa-clock"></i> History</div>
+            <div class="dropdown-item" onclick="navigate('history')"><i class="fas fa-key"></i> My Keys</div>
             <div class="dropdown-item" onclick="navigate('profile')"><i class="fas fa-user"></i> Profile</div>
             <div class="dropdown-divider"></div>
             <div class="dropdown-item danger" id="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</div>
@@ -1672,9 +1693,7 @@
     <!-- PAGE: HOME -->
     <div class="page-content" id="page-home">
         <div class="page-header">
-            <h2 class="page-title">          Our <span>Services</span></h2>
-            <div class="badges">
-                <span>🌏 𝙿𝚁𝙴𝙼𝙸𝚄𝙼 𝚂𝙴𝚁𝚅𝙸𝙲𝙴</span>
+            <h2 class="page-title">Our <span>Services</span></h2>
             <div class="search-box">
                 <input id="search-input" placeholder="Search plans..." type="text"/>
                 <i class="fas fa-search search-icon"></i>
@@ -1690,24 +1709,25 @@
 
         <div class="empty-state hidden" id="search-empty">
             <i class="fas fa-search-minus"></i>
-            <p>No plans found</p>
+            <p>No panels found</p>
             <button class="btn-primary-solid" onclick="document.getElementById('search-input').value=''; document.getElementById('search-input').dispatchEvent(new Event('input'));" style="width:auto;padding:10px 28px;margin-top:12px;font-size:13px;">Clear Search</button>
         </div>
 
         <!-- FOOTER -->
         <div class="store-footer">
-            <h3>Premium <span>FreeFire</span> Store</h3>
-            <p>Produced by <span style="color: red;">"@nrzravi"</span> &amp; Partnership with <span style="color: pink;">"Healing Queen"</p>
+            <h3><span>Premium Free Fire Services</span></h3>
+            <p>Partnership with <span style="color: red;">@Healing_Queen </span></p>
             <div class="badges">
                 <span>🔒 Safe Payment</span>
-                <span>⚡ Instant Services</span>
-                <span>👑 Premium</span>
+                <span>⚡ Secure Checkout</span>
+                <span>👥 248k+ Users</span>
             </div>
             <div class="features">
                 <span>✔ Fast Delivery</span>
+                <span>✔ Instant Service</span>
                 <span>✔ Trusted Seller</span>
             </div>
-            <p class="copy">© 2026-2031 NRZ STORE. All rights reserved.</p>
+            <p class="copy">© 2026-2031 FF Panel Store. All rights reserved.</p>
         </div>
     </div>
 
@@ -1752,6 +1772,7 @@
         <!-- Tabs -->
         <div class="wallet-tabs">
             <div class="wallet-tab active" onclick="switchWalletTab('auto')" id="tab-btn-auto"><i class="fas fa-bolt"></i> Instant UPI</div>
+            <div class="wallet-tab crypto" onclick="switchWalletTab('crypto')" id="tab-btn-crypto"><i class="fab fa-bitcoin"></i> Crypto</div>
             <div class="wallet-tab manual" onclick="switchWalletTab('manual')" id="tab-btn-manual"><i class="fas fa-qrcode"></i> Manual UPI</div>
             <div class="wallet-tab support" onclick="switchWalletTab('support')" id="tab-btn-support"><i class="fas fa-headset"></i> Support</div>
         </div>
@@ -1761,11 +1782,9 @@
             <div class="premium-card">
                 <div class="card-head">
                     <i class="fas fa-bolt" style="color:var(--accent-blue);"></i>
-                    <h3>Instant Payment</h3>
+                    <h3>Instant Gateway</h3>
                 </div>
-                <p class="card-desk">• Enter your Amount &amp; Contact datails below then click <b>Pay via UPI</b></p>
-                <p class="card-desk">• Complete payment using any UPI app, card or netbanking </p>
-                <p class="card-desk">• Payment is verified Automatically, Instant pay - Instant delever!
+                <p class="card-desc">Fast UPI payment. Balance updates automatically within seconds.</p>
                 <div class="input-group">
                     <input id="add-amount" placeholder="Amount (₹)" type="number"/>
                 </div>
@@ -1773,10 +1792,8 @@
                     <input id="add-phone" placeholder="WhatsApp Number" type="tel"/>
                 </div>
                 <button class="btn-primary-solid" id="btn-submit-payment" style="width:100%;">
-                    <i class="fas fa-arrow-right"></i> Pay via UPI
+                    <i class="fas fa-arrow-right"></i> Pay Now
                 </button>
-                <p class="card-desk" style="margin-top: 8px;">Order is only sent for approval after payment is verified</p>
-
 
                 <div style="margin-top:32px;padding-top:24px;border-top:1px solid var(--border-color);">
                     <h4 style="font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:12px;"><i class="fas fa-search"></i> Check Order Status</h4>
@@ -1793,6 +1810,43 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Tab: Crypto -->
+        <div id="wallet-tab-crypto" class="wallet-section hidden">
+            <div class="premium-card">
+                <div class="card-head">
+                    <i class="fab fa-bitcoin" style="color:var(--accent-gold);"></i>
+                    <h3>Binance / USDT</h3>
+                </div>
+                <p class="card-desc">Send USDT via Binance Pay or TRC20. Rate: <strong style="color:var(--accent-gold);">1 USDT = ₹<span id="crypto-rate">88.00</span></strong></p>
+
+                <div class="qr-display crypto">
+                    <img id="crypto-qr-display" src="" alt="QR" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-qrcode\\' style=\\'font-size:48px;color:var(--text-muted);\\'></i>'"/>
+                </div>
+                <div style="text-align:center;margin-bottom:20px;">
+                    <a id="crypto-qr-download" href="#" download="QR.jpg" class="btn-outline" style="border-color:var(--accent-gold);color:var(--accent-gold);">Download QR</a>
+                </div>
+
+                <div class="copy-row">
+                    <div>
+                        <span class="copy-label">Binance Pay ID</span>
+                        <div class="copy-value" id="crypto-payid-display">Loading...</div>
+                    </div>
+                    <button class="copy-btn" onclick="copyToClipboard('crypto-payid-display','Binance Pay ID')">Copy</button>
+                </div>
+                <div class="copy-row">
+                    <div>
+                        <span class="copy-label">USDT Address (TRC20)</span>
+                        <div class="copy-value" id="crypto-address-display">Loading...</div>
+                    </div>
+                    <button class="copy-btn" onclick="copyToClipboard('crypto-address-display','USDT Address')">Copy</button>
+                </div>
+
+                <button class="btn-primary-solid" style="width:100%;background:linear-gradient(135deg,var(--accent-gold),#f59e0b);color:#000;" onclick="openModal('modal-crypto-deposit')">
+                    <i class="fas fa-check-circle"></i> I Have Paid
+                </button>
             </div>
         </div>
 
@@ -1901,7 +1955,7 @@
     <div class="modal">
         <div class="modal-head"><i class="fas fa-shopping-cart"></i> Checkout</div>
         <div class="checkout-box">
-            <div class="row"><span>Item</span><strong id="chk-panel-name">Plan</strong></div>
+            <div class="row"><span>Item</span><strong id="chk-panel-name">Panel</strong></div>
             <div class="row"><span>Plan</span><strong id="chk-plan-label" style="color:var(--accent-gold);">Plan</strong></div>
             <div class="row"><span>Original Price</span><strong>₹<span id="chk-orig-price">0.00</span></strong></div>
             <div class="checkout-total">
@@ -1947,6 +2001,21 @@
     </div>
 </div>
 
+<!-- CRYPTO DEPOSIT MODAL -->
+<div class="modal-overlay hidden" id="modal-crypto-deposit">
+    <div class="modal" style="border-color:rgba(251,191,36,0.25);">
+        <div class="modal-head"><i class="fab fa-bitcoin" style="color:var(--accent-gold);"></i> Crypto Deposit</div>
+        <div class="input-group"><input id="crypto-amount" placeholder="Amount (USDT or INR)" type="number"/></div>
+        <div class="input-group"><input id="crypto-hash" placeholder="Transaction Hash / ID" type="text"/></div>
+        <div class="input-group"><input id="crypto-screenshot" placeholder="Screenshot URL" type="url"/></div>
+        <div class="input-group"><input id="crypto-note" placeholder="Optional note" type="text"/></div>
+        <div class="modal-actions">
+            <button class="btn btn-outline-modal" onclick="closeModal('modal-crypto-deposit')">Cancel</button>
+            <button class="btn btn-primary-modal" id="btn-submit-crypto" onclick="submitCryptoDeposit()" style="background:linear-gradient(135deg,var(--accent-gold),#f59e0b);color:#000;">Submit</button>
+        </div>
+    </div>
+</div>
+
 <!-- ==========================================
      FIREBASE + APP LOGIC
      ========================================== -->
@@ -1957,7 +2026,7 @@
     import { getDatabase, ref, set, get, onValue, push, runTransaction, serverTimestamp, update }
         from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-    const firebaseConfig = {
+     const firebaseConfig = {
   apiKey: "AIzaSyAOMEvIQ6mEEME8Jrda4rIPz3XncwiuqnY",
   authDomain: "nrz-store.firebaseapp.com",
   databaseURL: "https://nrz-store-default-rtdb.firebaseio.com",
@@ -1966,7 +2035,7 @@
   messagingSenderId: "477458670773",
   appId: "1:477458670773:web:bd2ca845dae86dc9804afc",
   measurementId: "G-LVM1S2Q9KW"
-    };
+};
 
     let app, auth, db;
     try {
@@ -2115,7 +2184,7 @@
         document.body.removeChild(textarea);
     }
 
-    window.closemodal = (id) => {
+    window.closeModal = (id) => {
         const modal = document.getElementById(id);
         if (modal) modal.classList.add('hidden');
     };
@@ -2157,6 +2226,7 @@
     window.switchWalletTab = (tab) => {
         document.querySelectorAll('.wallet-tab').forEach(t => t.classList.remove('active'));
         document.querySelectorAll('.wallet-section').forEach(s => s.classList.add('hidden'));
+        const tabMap = { auto: 'tab-btn-auto', crypto: 'tab-btn-crypto', manual: 'tab-btn-manual', support: 'tab-btn-support' };
         if (tabMap[tab]) document.getElementById(tabMap[tab]).classList.add('active');
         const section = document.getElementById(`wallet-tab-${tab}`);
         if (section) section.classList.remove('hidden');
@@ -2390,6 +2460,44 @@
         }
     });
 
+    // --- CRYPTO DEPOSIT ---
+    window.submitCryptoDeposit = async function() {
+        const amt = document.getElementById('crypto-amount').value;
+        const hash = document.getElementById('crypto-hash').value.trim();
+        const screenshot = document.getElementById('crypto-screenshot').value.trim();
+        const note = document.getElementById('crypto-note').value.trim();
+        const btn = document.getElementById('btn-submit-crypto');
+        if (!amt || amt <= 0) return showToast("Enter valid amount", "error");
+        if (!hash || hash.length < 10) return showToast("Enter valid transaction hash", "error");
+        if (!screenshot) return showToast("Screenshot URL required", "error");
+
+        btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Submitting...`;
+        btn.disabled = true;
+        const txId = "CRY" + Date.now();
+
+        try {
+            await set(ref(db, `transactions/${currentUser.uid}/${txId}`), {
+                id: txId, type: "deposit_crypto", amount: parseFloat(amt), status: "pending",
+                desc: "Crypto Deposit (USDT)", hash: hash, date: new Date().toISOString()
+            });
+            await set(ref(db, `crypto_deposits/${txId}`), {
+                uid: currentUser.uid, email: currentUser.email, amount: parseFloat(amt),
+                hash: hash, screenshot: screenshot, note: note, status: "pending", timestamp: serverTimestamp()
+            });
+            showToast("Crypto deposit submitted!");
+            document.getElementById('crypto-amount').value = '';
+            document.getElementById('crypto-hash').value = '';
+            document.getElementById('crypto-screenshot').value = '';
+            document.getElementById('crypto-note').value = '';
+            closeModal('modal-crypto-deposit');
+        } catch (e) {
+            showToast("Error submitting request", "error");
+        } finally {
+            btn.innerHTML = `Submit`;
+            btn.disabled = false;
+        }
+    };
+
     // --- SUPPORT LINKS ---
     function initContactLinks() {
         if (!db) return;
@@ -2452,6 +2560,26 @@
                 }
             }
         });
+        onValue(ref(db, 'deposit_settings'), (snap) => {
+            if (snap.exists()) {
+                const data = snap.val();
+                document.getElementById('crypto-payid-display').innerText = data.binance_pay_id || "Not Set";
+                document.getElementById('crypto-address-display').innerText = data.usdt_address || "Not Set";
+                document.getElementById('crypto-rate').innerText = data.crypto_rate || "88.00";
+                const qrImg = document.getElementById('crypto-qr-display');
+                const qrDl = document.getElementById('crypto-qr-download');
+                if (data.crypto_qr) {
+                    qrImg.src = data.crypto_qr;
+                    qrImg.style.display = 'block';
+                    qrDl.href = data.crypto_qr;
+                    qrDl.style.display = 'inline-flex';
+                } else {
+                    qrImg.style.display = 'none';
+                    qrDl.style.display = 'none';
+                }
+            }
+        });
+    }
 
     // --- PROMOTIONS ---
     let autoScrollInterval;
@@ -2637,7 +2765,7 @@
             const container = document.getElementById('panels-container');
             container.innerHTML = '';
             if (!snap.exists()) {
-                container.innerHTML = `<div class="empty-state"><i class="fas fa-box-open"></i><p>No plans available.</p></div>`;
+                container.innerHTML = `<div class="empty-state"><i class="fas fa-box-open"></i><p>No panels available.</p></div>`;
                 return;
             }
             snap.forEach(child => {
