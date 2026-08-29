@@ -1672,7 +1672,7 @@
     <!-- NAVBAR -->
     <nav class="navbar">
         <div class="brand">
-            <div class="brand-icon">FF</div>
+            <div class="brand-icon">🌏</div>
             <img id="site-logo" src="" style="display:none;"/>
             <span id="site-name">𝙽𝚁𝚉 𝚂𝚃𝙾𝚁𝙴</span>
         </div>
@@ -1693,7 +1693,7 @@
     <!-- PAGE: HOME -->
     <div class="page-content" id="page-home">
         <div class="page-header">
-            <h2 class="page-title">ㅤㅤㅤㅤㅤ<span>Our Products</span></h2>
+            <h2 class="page-title">Our <span>Products</span></h2>
             <div class="search-box">
                 <input id="search-input" placeholder="Search plans..." type="text"/>
                 <i class="fas fa-search search-icon"></i>
@@ -2763,7 +2763,7 @@
             const container = document.getElementById('panels-container');
             container.innerHTML = '';
             if (!snap.exists()) {
-                container.innerHTML = `<div class="empty-state"><i class="fas fa-box-open"></i><p>No panels available.</p></div>`;
+                container.innerHTML = `<div class="empty-state"><i class="fas fa-box-open"></i><p>No plans available.</p></div>`;
                 return;
             }
             snap.forEach(child => {
