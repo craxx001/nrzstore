@@ -849,6 +849,8 @@
         color: var(--text-primary);
         background: var(--bg-input);
     }
+    .btn-outline.feedback { border-color: rgba(248, 113, 113, 0.25); color: var(--accent-red); }
+    .btn-outline.feedback:hover { border-color: var(--accent-red); background: rgba(248, 113, 113, 0.06); }
 
     .btn-primary-solid {
         padding: 12px 20px;
@@ -971,6 +973,16 @@
         color: #fff;
         border-color: var(--accent-blue);
     }
+    .wallet-tab.crypto.active {
+        background: var(--accent-gold);
+        color: #000;
+        border-color: var(--accent-gold);
+    }
+    .wallet-tab.manual.active {
+        background: var(--accent-purple);
+        color: #fff;
+        border-color: var(--accent-purple);
+    }
     .wallet-tab.support.active {
         background: var(--accent-green);
         color: #000;
@@ -1041,6 +1053,8 @@
         transition: var(--transition);
     }
     .qr-display img { width: 100%; height: 100%; object-fit: contain; border-radius: var(--radius-sm); }
+    .qr-display.crypto { border-color: rgba(251, 191, 36, 0.25); }
+    .qr-display.manual { border-color: rgba(139, 92, 246, 0.25); }
 
     .copy-row {
         display: flex;
@@ -1106,7 +1120,78 @@
     /* ============================================
        HISTORY / KEYS
     ============================================ */
-
+    .history-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 20px;
+    }
+    .history-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius);
+        padding: 24px;
+        transition: var(--transition);
+    }
+    .history-card:hover { border-color: var(--border-light); transform: translateY(-3px); }
+    .history-card .hdr {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+    }
+    .history-card .hdr h4 {
+        font-size: 16px;
+        font-weight: 700;
+    }
+    .history-card .hdr .price-tag {
+        font-weight: 700;
+        color: var(--accent-blue);
+        font-size: 15px;
+        padding: 4px 14px;
+        background: rgba(79, 140, 255, 0.06);
+        border-radius: 20px;
+        border: 1px solid rgba(79, 140, 255, 0.1);
+    }
+    .history-card .meta {
+        font-size: 12px;
+        color: var(--text-secondary);
+        margin-bottom: 12px;
+    }
+    .history-card .key-box {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px 16px;
+        background: var(--bg-input);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-sm);
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+    }
+    .history-card .key-box .key-text {
+        font-family: 'Courier New', monospace;
+        font-weight: 700;
+        font-size: 16px;
+        letter-spacing: 1px;
+        color: var(--accent-green);
+        word-break: break-all;
+    }
+    .history-card .key-box .copy-key {
+        padding: 4px 16px;
+        border: 1.5px solid var(--accent-green);
+        border-radius: var(--radius-sm);
+        background: transparent;
+        color: var(--accent-green);
+        font-weight: 600;
+        font-size: 12px;
+        transition: var(--transition);
+        flex-shrink: 0;
+        cursor: pointer;
+    }
+    .history-card .key-box .copy-key:hover { background: rgba(52, 211, 153, 0.06); }
 
     /* ============================================
        PROFILE
@@ -1306,6 +1391,31 @@
         display: block;
         text-align: center;
     }
+    .modal .key-display {
+        background: var(--bg-input);
+        padding: 16px 20px;
+        border-radius: var(--radius-sm);
+        border: 2px dashed rgba(52, 211, 153, 0.2);
+        margin: 16px 0;
+        text-align: center;
+    }
+    .modal .key-display .key-label {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        display: block;
+        margin-bottom: 4px;
+    }
+    .modal .key-display .key-value {
+        font-family: 'Courier New', monospace;
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--accent-green);
+        letter-spacing: 2px;
+        word-break: break-all;
+    }
     .modal .action-row {
         display: flex;
         gap: 10px;
@@ -1454,6 +1564,7 @@
         .modal .modal-actions { flex-direction: column; }
         .modal .coupon-section .coupon-box { flex-direction: column; }
         .copy-row { flex-direction: column; align-items: stretch; }
+        .history-grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 480px) {
         .wallet-stats { grid-template-columns: 1fr; }
@@ -1572,6 +1683,7 @@
         <div class="dropdown" id="dropdown-menu">
             <div class="dropdown-item" onclick="navigate('home')"><i class="fas fa-th-large"></i> Dashboard</div>
             <div class="dropdown-item" onclick="navigate('wallet')"><i class="fas fa-wallet"></i> Wallet</div>
+            <div class="dropdown-item" onclick="navigate('history')"><i class="fas fa-key"></i> History</div>
             <div class="dropdown-item" onclick="navigate('profile')"><i class="fas fa-user"></i> Profile</div>
             <div class="dropdown-divider"></div>
             <div class="dropdown-item danger" id="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</div>
@@ -1658,6 +1770,7 @@
         <!-- Tabs -->
         <div class="wallet-tabs">
             <div class="wallet-tab active" onclick="switchWalletTab('auto')" id="tab-btn-auto"><i class="fas fa-bolt"></i> Instant UPI</div>
+            <div class="wallet-tab manual" onclick="switchWalletTab('manual')" id="tab-btn-manual"><i class="fas fa-qrcode"></i> Pay via UPI</div>
             <div class="wallet-tab support" onclick="switchWalletTab('support')" id="tab-btn-support"><i class="fas fa-headset"></i> Support</div>
         </div>
 
@@ -1694,6 +1807,78 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Tab: Crypto -->
+        <div id="wallet-tab-crypto" class="wallet-section hidden">
+            <div class="premium-card">
+                <div class="card-head">
+                    <i class="fab fa-bitcoin" style="color:var(--accent-gold);"></i>
+                    <h3>Binance / USDT</h3>
+                </div>
+                <p class="card-desc">Send USDT via Binance Pay or TRC20. Rate: <strong style="color:var(--accent-gold);">1 USDT = ₹<span id="crypto-rate">88.00</span></strong></p>
+
+                <div class="qr-display crypto">
+                    <img id="crypto-qr-display" src="" alt="QR" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-qrcode\\' style=\\'font-size:48px;color:var(--text-muted);\\'></i>'"/>
+                </div>
+                <div style="text-align:center;margin-bottom:20px;">
+                    <a id="crypto-qr-download" href="#" download="QR.jpg" class="btn-outline" style="border-color:var(--accent-gold);color:var(--accent-gold);">Download QR</a>
+                </div>
+
+                <div class="copy-row">
+                    <div>
+                        <span class="copy-label">Binance Pay ID</span>
+                        <div class="copy-value" id="crypto-payid-display">Loading...</div>
+                    </div>
+                    <button class="copy-btn" onclick="copyToClipboard('crypto-payid-display','Binance Pay ID')">Copy</button>
+                </div>
+                <div class="copy-row">
+                    <div>
+                        <span class="copy-label">USDT Address (TRC20)</span>
+                        <div class="copy-value" id="crypto-address-display">Loading...</div>
+                    </div>
+                    <button class="copy-btn" onclick="copyToClipboard('crypto-address-display','USDT Address')">Copy</button>
+                </div>
+
+                <button class="btn-primary-solid" style="width:100%;background:linear-gradient(135deg,var(--accent-gold),#f59e0b);color:#000;" onclick="openModal('modal-crypto-deposit')">
+                    <i class="fas fa-check-circle"></i> I Have Paid
+                </button>
+            </div>
+        </div>
+
+        <!-- Tab: Pay via UPI -->
+        <div id="wallet-tab-manual" class="wallet-section hidden">
+            <div class="premium-card">
+                <div class="card-head">
+                    <i class="fas fa-qrcode" style="color:var(--accent-purple);"></i>
+                    <h3>Pay via UPI</h3>
+                </div>
+                <p class="card-desc">• Scan the QR or copy UPI ID to complete the payment • Your order will be approved after the payment is verified !</p>
+
+                <div class="qr-display manual">
+                    <img id="manual-qr-display" src="" alt="QR" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-qrcode\\' style=\\'font-size:48px;color:var(--text-muted);\\'></i>'"/>
+                </div>
+                <div style="text-align:center;margin-bottom:20px;">
+                    <a id="manual-qr-download" href="#" download="QR.jpg" class="btn-outline" style="border-color:var(--accent-purple);color:var(--accent-purple);">Download QR</a>
+                </div>
+
+                <div class="copy-row">
+                    <div>
+                        <span class="copy-label">UPI ID</span>
+                        <div class="copy-value" id="manual-upi-display">Loading...</div>
+                    </div>
+                    <button class="copy-btn" onclick="copyToClipboard('manual-upi-display','UPI ID')">Copy</button>
+                </div>
+
+                <div class="input-group"><input id="manual-amount" placeholder="Amount Sent (₹)" type="number"/></div>
+                <div class="input-group"><input id="manual-utr" placeholder="12-Digit UTR / Ref No." type="text"/></div>
+                <div class="input-group"><input id="manual-app" placeholder="Payment App (PhonePe, Paytm, etc.)" type="text"/></div>
+                <div class="input-group"><input id="manual-screenshot" placeholder="Screenshot URL (optional)" type="url"/></div>
+
+                <button class="btn-primary-solid" id="btn-submit-manual" style="width:100%;background:linear-gradient(135deg,var(--accent-purple),#7c3aed);">
+                    <i class="fas fa-paper-plane"></i> Submit Request
+                </button>
             </div>
         </div>
 
@@ -1744,6 +1929,14 @@
         </div>
     </div>
 
+    <!-- PAGE: HISTORY -->
+    <div class="page-content hidden" id="page-history">
+        <div class="page-header"><h2 class="page-title">My <span>Keys</span></h2></div>
+        <div class="history-grid" id="history-container">
+            <!-- Injected via JS -->
+        </div>
+    </div>
+
     <!-- TELEGRAM FAB -->
     <a class="telegram-fab" href="#" id="global-telegram-btn" target="_blank" style="display:none;">
         <i class="fab fa-telegram-plane"></i>
@@ -1789,22 +1982,34 @@
 
 <!-- SUCCESS MODAL -->
 <div class="modal-overlay hidden" id="modal-success">
-    <div class="modal" style="text-align:center;max-width:520px;">
+    <div class="modal" style="text-align:center;">
         <i class="fas fa-check-circle success-icon"></i>
-        <h2 style="font-size:22px;font-weight:800;margin-bottom:4px;">Order Successful!</h2>
-        <p style="color:var(--text-secondary);font-size:14px;margin-bottom:20px;">Your order has been completed successfully.</p>
-        <div class="checkout-box" style="text-align:left;margin-bottom:20px;">
-            <div class="row"><span>Panel</span><strong id="success-panel-name">Panel</strong></div>
-            <div class="row"><span>Plan</span><strong id="success-plan-label" style="color:var(--accent-gold);">Plan</strong></div>
-            <div class="row"><span>Price</span><strong>₹<span id="success-price">0.00</span></strong></div>
-            <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border-color);">
-                <span style="display:block;color:var(--text-secondary);font-size:12px;margin-bottom:6px;">Description</span>
-                <div id="success-description" style="font-size:14px;line-height:1.65;white-space:pre-line;">-</div>
-            </div>
+        <h2 style="font-size:22px;font-weight:800;margin-bottom:4px;">Purchase Success!</h2>
+        <p style="color:var(--text-secondary);font-size:14px;margin-bottom:16px;">Your premium key is ready.</p>
+        <div class="key-display">
+            <span class="key-label">License Key</span>
+            <div class="key-value" id="modal-key-display">XXXXXX</div>
         </div>
-        <button class="btn btn-primary-modal" id="modal-btn-confirm" style="width:100%;">
-            <i class="fas fa-check"></i> Confirm
-        </button>
+        <div class="action-row">
+            <button class="btn btn-primary-modal" id="modal-btn-access"><i class="fas fa-download"></i> Access Tool</button>
+            <button class="btn btn-outline-modal" onclick="copyToClipboard('modal-key-display','License Key')"><i class="fas fa-copy"></i> Copy</button>
+            <button class="btn btn-outline-modal" onclick="closeModal('modal-success')">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- CRYPTO DEPOSIT MODAL -->
+<div class="modal-overlay hidden" id="modal-crypto-deposit">
+    <div class="modal" style="border-color:rgba(251,191,36,0.25);">
+        <div class="modal-head"><i class="fab fa-bitcoin" style="color:var(--accent-gold);"></i> Crypto Deposit</div>
+        <div class="input-group"><input id="crypto-amount" placeholder="Amount (USDT or INR)" type="number"/></div>
+        <div class="input-group"><input id="crypto-hash" placeholder="Transaction Hash / ID" type="text"/></div>
+        <div class="input-group"><input id="crypto-screenshot" placeholder="Screenshot URL" type="url"/></div>
+        <div class="input-group"><input id="crypto-note" placeholder="Optional note" type="text"/></div>
+        <div class="modal-actions">
+            <button class="btn btn-outline-modal" onclick="closeModal('modal-crypto-deposit')">Cancel</button>
+            <button class="btn btn-primary-modal" id="btn-submit-crypto" onclick="submitCryptoDeposit()" style="background:linear-gradient(135deg,var(--accent-gold),#f59e0b);color:#000;">Submit</button>
+        </div>
     </div>
 </div>
 
@@ -1843,6 +2048,7 @@
     let currentUser = null;
     let userData = { balance: 0 };
     window.ZAP_KEY = "";
+    window.MANUAL_UPI = "";
     let securityCompleted = false;
 
     const loader = document.getElementById('loader');
@@ -1970,7 +2176,7 @@
             document.execCommand('copy');
             showToast(`${label || 'Text'} copied!`, "success");
         } catch (e) {
-            showToast("Failed to copy. Please try again.", "error");
+            showToast("Failed to copy. Please copy manually.", "error");
         }
         document.body.removeChild(textarea);
     }
@@ -1984,6 +2190,13 @@
         const modal = document.getElementById(id);
         if (modal) modal.classList.remove('hidden');
     };
+
+    function generateKey(length = 12) {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        let result = '';
+        for (let i = 0; i < length; i++) result += chars.charAt(Math.floor(Math.random() * chars.length));
+        return result;
+    }
 
     function extractYouTubeID(url) {
         if (!url) return null;
@@ -2010,7 +2223,7 @@
     window.switchWalletTab = (tab) => {
         document.querySelectorAll('.wallet-tab').forEach(t => t.classList.remove('active'));
         document.querySelectorAll('.wallet-section').forEach(s => s.classList.add('hidden'));
-        const tabMap = { auto: 'tab-btn-auto', support: 'tab-btn-support' };
+        const tabMap = { auto: 'tab-btn-auto', crypto: 'tab-btn-crypto', manual: 'tab-btn-manual', support: 'tab-btn-support' };
         if (tabMap[tab]) document.getElementById(tabMap[tab]).classList.add('active');
         const section = document.getElementById(`wallet-tab-${tab}`);
         if (section) section.classList.remove('hidden');
@@ -2206,16 +2419,164 @@
             }
         });
     });
+
+    // --- MANUAL DEPOSIT ---
+    document.getElementById('btn-submit-manual').addEventListener('click', async function() {
+        const amt = document.getElementById('manual-amount').value;
+        const utr = document.getElementById('manual-utr').value.trim();
+        const appName = document.getElementById('manual-app').value.trim();
+        const screenshot = document.getElementById('manual-screenshot').value.trim();
+        const btn = this;
+        if (!amt || amt <= 0) return showToast("Enter valid amount", "error");
+        if (!utr || utr.length < 8) return showToast("Enter valid UTR", "error");
+        if (!appName) return showToast("Enter payment app name", "error");
+
+        btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Submitting...`;
+        btn.disabled = true;
+        const txId = "MAN" + Date.now();
+
+        try {
+            await set(ref(db, `transactions/${currentUser.uid}/${txId}`), {
+                id: txId, type: "deposit_manual", amount: parseFloat(amt), status: "pending",
+                desc: `Manual Deposit via ${appName}`, utr: utr, date: new Date().toISOString()
+            });
+            await set(ref(db, `manual_deposits/${txId}`), {
+                uid: currentUser.uid, email: currentUser.email, amount: parseFloat(amt),
+                utr: utr, app: appName, screenshot: screenshot, status: "pending", timestamp: serverTimestamp()
+            });
+            showToast("Deposit submitted! Awaiting admin approval.");
+            document.getElementById('manual-amount').value = '';
+            document.getElementById('manual-utr').value = '';
+            document.getElementById('manual-app').value = '';
+            document.getElementById('manual-screenshot').value = '';
+        } catch (e) {
+            showToast("Error submitting request", "error");
+        } finally {
+            btn.innerHTML = `<i class="fas fa-paper-plane"></i> Submit Request`;
+            btn.disabled = false;
+        }
+    });
+
+    // --- CRYPTO DEPOSIT ---
+    window.submitCryptoDeposit = async function() {
+        const amt = document.getElementById('crypto-amount').value;
+        const hash = document.getElementById('crypto-hash').value.trim();
+        const screenshot = document.getElementById('crypto-screenshot').value.trim();
+        const note = document.getElementById('crypto-note').value.trim();
+        const btn = document.getElementById('btn-submit-crypto');
+        if (!amt || amt <= 0) return showToast("Enter valid amount", "error");
+        if (!hash || hash.length < 10) return showToast("Enter valid transaction hash", "error");
+        if (!screenshot) return showToast("Screenshot URL required", "error");
+
+        btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Submitting...`;
+        btn.disabled = true;
+        const txId = "CRY" + Date.now();
+
+        try {
+            await set(ref(db, `transactions/${currentUser.uid}/${txId}`), {
+                id: txId, type: "deposit_crypto", amount: parseFloat(amt), status: "pending",
+                desc: "Crypto Deposit (USDT)", hash: hash, date: new Date().toISOString()
+            });
+            await set(ref(db, `crypto_deposits/${txId}`), {
+                uid: currentUser.uid, email: currentUser.email, amount: parseFloat(amt),
+                hash: hash, screenshot: screenshot, note: note, status: "pending", timestamp: serverTimestamp()
+            });
+            showToast("Crypto deposit submitted!");
+            document.getElementById('crypto-amount').value = '';
+            document.getElementById('crypto-hash').value = '';
+            document.getElementById('crypto-screenshot').value = '';
+            document.getElementById('crypto-note').value = '';
+            closeModal('modal-crypto-deposit');
+        } catch (e) {
+            showToast("Error submitting request", "error");
+        } finally {
+            btn.innerHTML = `Submit`;
+            btn.disabled = false;
+        }
+    };
+
+    // --- SUPPORT LINKS ---
+    function initContactLinks() {
+        if (!db) return;
+        onValue(ref(db, 'support_links'), (snap) => {
+            const data = snap.val() || {};
+            const wa = data.whatsapp || '#';
+            const tgLogin = data.telegram_login || '#';
+            const tgDash = data.telegram_dashboard || '#';
+            document.getElementById('auth-wa-link').href = wa;
+            document.getElementById('auth-wa-link-2').href = wa;
+            document.getElementById('auth-tg-link').href = tgLogin;
+            document.getElementById('auth-tg-link-2').href = tgLogin;
+            const fab = document.getElementById('global-telegram-btn');
+            fab.href = tgDash;
+            fab.style.display = tgDash === '#' ? 'none' : 'flex';
+            document.getElementById('support-wa-btn').href = wa;
+            document.getElementById('support-tg-btn').href = tgDash !== '#' ? tgDash : tgLogin;
+        });
+    }
+
+    // --- BRANDING ---
+    function initBranding() {
+        if (!db) return;
+        onValue(ref(db, 'settings/branding'), (snap) => {
+            const data = snap.val();
+            if (data) {
+                if (data.name) {
+                    document.getElementById('site-name').innerText = data.name;
+                    document.title = data.name + " | PREMIUM";
+                }
+                if (data.logo && data.logo.length > 5) {
+                    const logo = document.getElementById('site-logo');
+                    logo.src = data.logo;
+                    logo.style.display = 'inline-block';
+                    const brandIcon = document.querySelector('.brand .brand-icon');
+                    if (brandIcon) brandIcon.style.display = 'none';
+                }
+            }
+        });
+    }
+
     // --- DEPOSIT SETTINGS ---
     function fetchDepositSettings() {
         if (!db) return;
         onValue(ref(db, 'settings/payment'), (snap) => {
-            if (snap.exists()) window.ZAP_KEY = snap.val().zap_key || '';
+            if (snap.exists()) {
+                const data = snap.val();
+                window.ZAP_KEY = data.zap_key || "";
+                document.getElementById('manual-upi-display').innerText = data.upiId || "Not Set";
+                const qrImg = document.getElementById('manual-qr-display');
+                const qrDl = document.getElementById('manual-qr-download');
+                if (data.qrImage) {
+                    qrImg.src = data.qrImage;
+                    qrImg.style.display = 'block';
+                    qrDl.href = data.qrImage;
+                    qrDl.style.display = 'inline-flex';
+                } else {
+                    qrImg.style.display = 'none';
+                    qrDl.style.display = 'none';
+                }
+            }
+        });
+        onValue(ref(db, 'deposit_settings'), (snap) => {
+            if (snap.exists()) {
+                const data = snap.val();
+                document.getElementById('crypto-payid-display').innerText = data.binance_pay_id || "Not Set";
+                document.getElementById('crypto-address-display').innerText = data.usdt_address || "Not Set";
+                document.getElementById('crypto-rate').innerText = data.crypto_rate || "88.00";
+                const qrImg = document.getElementById('crypto-qr-display');
+                const qrDl = document.getElementById('crypto-qr-download');
+                if (data.crypto_qr) {
+                    qrImg.src = data.crypto_qr;
+                    qrImg.style.display = 'block';
+                    qrDl.href = data.crypto_qr;
+                    qrDl.style.display = 'inline-flex';
+                } else {
+                    qrImg.style.display = 'none';
+                    qrDl.style.display = 'none';
+                }
+            }
         });
     }
-        });
-    }
-
 
     // --- PROMOTIONS ---
     let autoScrollInterval;
@@ -2385,6 +2746,7 @@
         if (target) target.classList.remove('hidden');
         const dropdown = document.getElementById('dropdown-menu');
         if (dropdown) dropdown.classList.remove('active');
+        if (pageId === 'history') fetchPurchases();
         if (pageId === 'wallet') switchWalletTab('auto');
         window.scrollTo(0, 0);
     };
@@ -2398,7 +2760,6 @@
         if (!db) return;
         onValue(ref(db, 'panels'), (snap) => {
             const container = document.getElementById('panels-container');
-            window.panelsCache = {};
             container.innerHTML = '';
             if (!snap.exists()) {
                 container.innerHTML = `<div class="empty-state"><i class="fas fa-box-open"></i><p>No plans available.</p></div>`;
@@ -2408,10 +2769,12 @@
                 const p = child.val();
                 if (!p || p.status !== 'active') return;
                 const panelId = child.key;
-                window.panelsCache[panelId] = p;
                 const desc = p.description || 'Premium tool';
                 const features = desc.split(/\n|-/).filter(f => f && f.trim().length > 0);
                 const featuresHtml = features.map(f => `<span class="chip"><i class="fas fa-bolt"></i> ${f.trim()}</span>`).join('');
+                const updateLink = p.link ? `window.open('${p.link}','_blank')` : "showToast('File link not available','warning')";
+                const feedbackBtn = p.feedback && p.feedback.trim() ?
+                    `<button class="btn-outline feedback" onclick="window.open('${p.feedback}','_blank')"><i class="fas fa-star"></i> Feedback</button>` : '';
 
                 let plansHtml = '';
                 if (p.plans && Object.keys(p.plans).length > 0) {
@@ -2424,7 +2787,12 @@
                     plansHtml += `</select>`;
                 } else {
                     plansHtml = `<p style="color:var(--text-muted);font-size:13px;text-align:center;margin:8px 0;">Pricing unavailable</p>`;
-                }inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--bg-input);color:var(--text-muted);"><i class="fas fa-video-slash" style="font-size:28px;margin-bottom:8px;"></i><span style="font-weight:600;font-size:13px;">No Video</span></div></div>`;
+                }
+
+                const ytID = extractYouTubeID(p.youtube);
+                const videoHtml = ytID ?
+                    `<div class="video-wrap"><iframe src="https://www.youtube.com/embed/${ytID}?autoplay=1&mute=1&rel=0&modestbranding=1" allowfullscreen></iframe></div>` :
+                    `<div class="video-wrap"><div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--bg-input);color:var(--text-muted);"><i class="fas fa-video-slash" style="font-size:28px;margin-bottom:8px;"></i><span style="font-weight:600;font-size:13px;">No Video</span></div></div>`;
 
                 const card = document.createElement('div');
                 card.className = 'panel-card';
@@ -2432,6 +2800,7 @@
                 card.setAttribute('data-search', searchText);
                 const panelName = (p.name || 'Panel').replace(/'/g, "\\'");
                 card.innerHTML = `
+                    ${videoHtml}
                     <div class="panel-body">
                         <div class="panel-name">${p.name || 'Panel'}</div>
                         <div class="feature-list">${featuresHtml}</div>
@@ -2439,9 +2808,13 @@
                             <span class="trust-item"><i class="fas fa-shield-alt"></i> Safe Payment</span>
                             <span class="trust-item"><i class="fas fa-medal"></i> Verified</span>
                         </div>
+                        <div class="btn-row">
+                            <button class="btn-outline" onclick="${updateLink}"><i class="fas fa-file-download"></i> Update</button>
+                            ${feedbackBtn}
+                        </div>
                         ${plansHtml}
-                        <button class="btn-primary-solid" onclick="handlePurchaseClick('${panelId}','${panelName}')" style="width:100%;">
-                            <i class="fas fa-shopping-cart"></i> Purchase
+                        <button class="btn-primary-solid" onclick="handlePurchaseClick('${panelId}','${panelName}','${p.link || ''}')" style="width:100%;">
+                            <i class="fas fa-shopping-cart"></i> Purchase Key
                         </button>
                     </div>
                 `;
@@ -2486,7 +2859,7 @@
     window.currentCheckout = {};
     window.appliedCoupon = null;
 
-    window.handlePurchaseClick = (panelId, panelName) => {
+    window.handlePurchaseClick = (panelId, panelName, link) => {
         const select = document.getElementById(`plan-${panelId}`);
         if (!select) return showToast('No plans available', 'error');
         let planData;
@@ -2496,7 +2869,7 @@
             return showToast('Error reading plan data', 'error');
         }
         window.currentCheckout = {
-            panelId, panelName, description: (window.panelsCache?.[panelId]?.description || 'Premium tool'),
+            panelId, panelName, link: link || '',
             planKey: planData.key || '',
             label: planData.label || 'Plan',
             originalPrice: parseFloat(planData.price) || 0,
@@ -2568,6 +2941,7 @@
                 return undefined;
             });
             if (result.committed) {
+                const newKey = generateKey(12);
                 const txId = "PUR" + Date.now();
                 await set(push(ref(db, `purchases/${currentUser.uid}`)), {
                     panelId: checkout.panelId || '',
@@ -2575,6 +2949,8 @@
                     plan: checkout.planKey || '',
                     label: checkout.label || 'Plan',
                     price: price,
+                    key: newKey,
+                    link: checkout.link || '',
                     date: new Date().toISOString()
                 });
                 await set(ref(db, `transactions/${currentUser.uid}/${txId}`), {
@@ -2585,14 +2961,8 @@
                     await runTransaction(ref(db, `coupons/${window.appliedCoupon.id}/used`), (curr) => (curr || 0) + 1);
                 }
                 closeModal('modal-checkout');
-                document.getElementById('success-panel-name').innerText = checkout.panelName || 'Panel';
-                document.getElementById('success-plan-label').innerText = checkout.label || 'Plan';
-                document.getElementById('success-price').innerText = price.toFixed(2);
-                document.getElementById('success-description').innerText = checkout.description || 'Premium tool';
-                document.getElementById('modal-btn-confirm').onclick = () => {
-                    closeModal('modal-success');
-                    navigate('home');
-                };
+                document.getElementById('modal-key-display').innerText = newKey;
+                document.getElementById('modal-btn-access').onclick = () => window.open(checkout.link || "https://t.me/", '_blank');
                 openModal('modal-success');
             } else {
                 showToast("Transaction failed. Insufficient funds.", "error");
@@ -2604,6 +2974,71 @@
         }
     };
 
+    // --- HISTORY ---
+    function fetchPurchases() {
+        if (!db || !currentUser) return;
+        showLoader();
+        get(ref(db, `purchases/${currentUser.uid}`)).then(snap => {
+            const container = document.getElementById('history-container');
+            container.innerHTML = '';
+            if (!snap.exists()) {
+                container.innerHTML = `<div class="empty-state"><i class="fas fa-key"></i><p>No plans purchased yet.</p></div>`;
+                document.getElementById('prof-purchases').innerText = '0';
+            } else {
+                const items = [];
+                snap.forEach(child => items.push({ id: child.key, ...child.val() }));
+                items.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+                document.getElementById('prof-purchases').innerText = items.length;
+                items.forEach(p => {
+                    const dateStr = p.date ? new Date(p.date).toLocaleString() : 'N/A';
+                    const label = p.label || (p.days ? `${p.days} Days` : 'Premium Access');
+                    const card = document.createElement('div');
+                    card.className = 'history-card';
+                    const keyId = `hist-key-${p.id || Date.now()}`;
+                    card.innerHTML = `
+                        <div class="hdr">
+                            <h4>${p.panelName || 'Panel'}</h4>
+                            <span class="price-tag">₹${(p.price || 0).toFixed(2)}</span>
+                        </div>
+                        <div class="meta"><i class="fas fa-tag"></i> ${label} &middot; ${dateStr}</div>
+                        <div class="key-box">
+                            <span class="key-text" id="${keyId}">${p.key || 'N/A'}</span>
+                            <button class="copy-key" onclick="copyToClipboard('${keyId}','License Key')"><i class="fas fa-copy"></i> Copy</button>
+                        </div>
+                        <button class="btn-outline" style="width:100%;justify-content:center;border-color:var(--accent-blue);color:var(--accent-blue);" onclick="window.open('${p.link || ''}','_blank')">
+                            <i class="fas fa-download"></i> Access Files
+                        </button>
+                    `;
+                    container.appendChild(card);
+                });
+            }
+            hideLoader();
+        }).catch(() => { hideLoader();
+            showToast("Failed to load history", "error"); });
+    }
+
+    // --- INIT ---
+    // Initial load - hide loader after security check if user not logged in
+    setTimeout(() => {
+        if (!currentUser) {
+            hideLoader();
+            // Run security check on auth screen as well
+            if (!securityCompleted) {
+                performSecurityCheck().then(() => {
+                    // Security check done, show auth screen normally
+                });
+            }
+        }
+    }, 2000);
+
+    // Close dropdown on outside click
+    document.addEventListener('click', (e) => {
+        const menu = document.getElementById('dropdown-menu');
+        const toggle = document.getElementById('menu-toggle');
+        if (menu && menu.classList.contains('active') && !menu.contains(e.target) && !toggle.contains(e.target)) {
+            menu.classList.remove('active');
+        }
+    });
 
     // Enter key support for login
     document.getElementById('login-pass').addEventListener('keypress', (e) => {
