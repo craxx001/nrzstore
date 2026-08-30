@@ -11,8 +11,8 @@
 <!-- constFontAwesome -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
 
-<!-- ZapUPI Payment Gateway -->
-<script src="https://zapupi.com/single-html-web-kit.js"></script>
+<!-- ZapPay Payment Gateway -->
+<script src="https://zappay.shop/zappay-pay.js"></script>
 
 <style>
     /* ============================================
@@ -2027,60 +2027,67 @@
         document.getElementById('login-box').classList.remove('hidden');
     });
 
-    // --- DIRECT ZAPUPI PURCHASE SYSTEM ---
-    let paymentPollInterval = null;
-    let pendingPurchase = null;
+// --- ZAPPAY PURCHASE INTEGRATION ---
+let paymentPollInterval = null;
 
-    function clearPendingPurchase() {
-        if (paymentPollInterval) clearInterval(paymentPollInterval);
-        paymentPollInterval = null;
-        localStorage.removeItem('pending_purchase_order');
-        localStorage.removeItem('pending_purchase_data');
-    }
+function clearPendingPurchase() {
+    if (paymentPollInterval) clearInterval(paymentPollInterval);
+    paymentPollInterval = null;
+    localStorage.removeItem('pending_purchase_order');
+    localStorage.removeItem('pending_purchase_data');
+}
 
-    function startPaymentWatcher(orderId) {
-        if (paymentPollInterval) clearInterval(paymentPollInterval);
-        localStorage.setItem('pending_purchase_order', orderId);
-        paymentPollInterval = setInterval(() => {
-            if (!window.ZAP_KEY) return;
-            try {
-                ZapUPI.orderStatus({ zap_key: window.ZAP_KEY, order_id: orderId }, {
-                    onResponse: async (oid, data) => {
-                        if (!data || !data.data) return;
-                        if (data.data.status === 'Success') {
-                            clearInterval(paymentPollInterval);
-                            paymentPollInterval = null;
-                            await processSuccessfulPayment(orderId, data.data);
-                        } else if (data.data.status === 'Failed') {
-                            clearPendingPurchase();
-                            await updatePaymentStatus(orderId, 'failed');
-                            showToast('Payment Failed. Order: ' + orderId, 'error');
-                        }
-                    },
-                    onError: (err) => console.log('Watcher error:', err)
-                });
-            } catch (e) { console.log('Poll error:', e); }
-        }, 5000);
-    }
+if (typeof ZapPay !== 'undefined' && ZapPay.setCallbacks) {
+    ZapPay.setCallbacks({
+        onSuccess: (order) => {
+            showToast('Payment completed. Verifying status...', 'success');
+            if (order && order.order_id) {
+                verifyAndProcessOrder(order.order_id);
+            }
+        },
+        onFailed: (order) => {
+            clearPendingPurchase();
+            showToast('Payment Failed or Cancelled.', 'error');
+        },
+        onTimeout: (order) => {
+            clearPendingPurchase();
+            showToast('Payment Timed Out.', 'warning');
+        }
+    });
+}
 
-    if (typeof ZapUPI !== 'undefined' && ZapUPI.setPaymentCallbacks) {
-        ZapUPI.setPaymentCallbacks({
-            onSuccess: async (orderId) => {
-                showToast('Payment Success! Processing...', 'success');
-                if (!paymentPollInterval) startPaymentWatcher(orderId);
-            },
-            onFailed: async (orderId) => {
-                clearPendingPurchase();
-                await updatePaymentStatus(orderId, 'failed');
-                showToast('Payment Failed. Order: ' + orderId, 'error');
-            },
-            onTimeout: async (orderId) => {
-                clearPendingPurchase();
-                await updatePaymentStatus(orderId, 'failed');
-                showToast('Payment Timed Out.', 'warning');
+function startPaymentWatcher(orderId) {
+    if (paymentPollInterval) clearInterval(paymentPollInterval);
+    localStorage.setItem('pending_purchase_order', orderId);
+    
+    paymentPollInterval = setInterval(async () => {
+        if (!window.ZAP_KEY) return;
+        await verifyAndProcessOrder(orderId);
+    }, 3000);
+}
+
+async function verifyAndProcessOrder(orderId) {
+    try {
+        const response = await fetch(`https://zappay-beta.vercel.app/api/developer/order-status/${orderId}`, {
+            method: 'GET',
+            headers: {
+                'X-ZapAPI-Key': window.ZAP_KEY
             }
         });
+        const resData = await response.json();
+
+        if (resData.success && resData.data && resData.data.status === 'success') {
+            clearPendingPurchase();
+            await processSuccessfulPayment(orderId, resData.data);
+        } else if (resData.data && resData.data.status === 'failed') {
+            clearPendingPurchase();
+            await updatePaymentStatus(orderId, 'failed');
+            showToast('Payment status failed.', 'error');
+        }
+    } catch (err) {
+        console.log('Status check error:', err);
     }
+}
 
     async function processSuccessfulPayment(orderId, gatewayData) {
         if (!currentUser) return;
@@ -2144,68 +2151,69 @@
         } catch (e) { console.error(e); }
     }
 
-    async function startPanelPayment(checkout) {
-        if (!currentUser) return showToast('Please login first', 'error');
-        if (!window.ZAP_KEY) return showToast('Payment gateway offline. Contact admin.', 'error');
-        if (!checkout || !checkout.price || checkout.price <= 0) return showToast('Invalid plan price', 'error');
-        if (typeof ZapUPI === 'undefined' || !ZapUPI.createOrder) return showToast('Payment gateway not available', 'error');
+async function startPanelPayment(checkout) {
+    if (!currentUser) return showToast('Please login first', 'error');
+    if (!window.ZAP_KEY) return showToast('Payment gateway offline. Contact admin.', 'error');
+    if (!checkout || !checkout.price || checkout.price <= 0) return showToast('Invalid plan price', 'error');
+    if (typeof ZapPay === 'undefined' || !ZapPay.createOrder) return showToast('Payment gateway standard failed to load', 'error');
 
-        const orderId = 'PUR' + Date.now();
-        pendingPurchase = { ...checkout, orderId };
-        localStorage.setItem('pending_purchase_data', JSON.stringify(pendingPurchase));
-        showLoader();
-
-        try {
-            await set(ref(db, `transactions/${currentUser.uid}/${orderId}`), {
-                id: orderId,
-                type: 'purchase',
-                amount: checkout.price,
-                status: 'pending',
-                panelId: checkout.panelId || '',
-                panelName: checkout.panelName || 'Panel',
-                planKey: checkout.planKey || '',
-                label: checkout.label || 'Plan',
-                link: checkout.link || '',
-                desc: `Purchase ${checkout.panelName || 'Panel'} - ${checkout.label || 'Plan'}`,
-                date: new Date().toISOString()
-            });
-            await set(ref(db, `gateway_payments/${orderId}`), {
-                uid: currentUser.uid,
-                email: currentUser.email || '',
-                amount: checkout.price,
-                panelId: checkout.panelId || '',
-                panelName: checkout.panelName || 'Panel',
-                planKey: checkout.planKey || '',
-                label: checkout.label || 'Plan',
-                status: 'pending',
-                timestamp: serverTimestamp()
-            });
-
-            ZapUPI.createOrder({
-                zap_key: window.ZAP_KEY,
-                order_id: orderId,
-                amount: checkout.price,
-                customer_mobile: currentUser.phoneNumber || userData.phone || userData.mobile || '',
-                remark: `${currentUser.uid} | ${checkout.panelName} | ${checkout.label}`
-            }, {
-                onResponse: (url) => {
-                    hideLoader();
-                    startPaymentWatcher(orderId);
-                    ZapUPI.loadPayment(url);
-                },
-                onError: async (err) => {
-                    hideLoader();
-                    clearPendingPurchase();
-                    await updatePaymentStatus(orderId, 'failed');
-                    showToast('Payment gateway error: ' + err, 'error');
-                }
-            });
-        } catch (e) {
-            hideLoader();
-            clearPendingPurchase();
-            showToast('System error. Try again.', 'error');
-        }
+    const cleanAmount = Number(String(checkout.price).replace(/[^0-9.]/g, ''));
+    if (cleanAmount < 1 || cleanAmount > 5000) {
+        return showToast('Amount must be between ₹1 and ₹5000', 'error');
     }
+
+    const orderId = 'PUR' + Date.now();
+    localStorage.setItem('pending_purchase_data', JSON.stringify({ ...checkout, orderId }));
+    showLoader();
+
+    try {
+        await set(ref(db, `transactions/${currentUser.uid}/${orderId}`), {
+            id: orderId,
+            type: 'purchase',
+            amount: cleanAmount,
+            status: 'pending',
+            panelId: checkout.panelId || '',
+            panelName: checkout.panelName || 'Panel',
+            planKey: checkout.planKey || '',
+            label: checkout.label || 'Plan',
+            link: checkout.link || '',
+            desc: `Purchase ${checkout.panelName || 'Panel'} - ${checkout.label || 'Plan'}`,
+            date: new Date().toISOString()
+        });
+
+        await set(ref(db, `gateway_payments/${orderId}`), {
+            uid: currentUser.uid,
+            email: currentUser.email || '',
+            amount: cleanAmount,
+            panelId: checkout.panelId || '',
+            panelName: checkout.panelName || 'Panel',
+            planKey: checkout.planKey || '',
+            label: checkout.label || 'Plan',
+            status: 'pending',
+            timestamp: serverTimestamp()
+        });
+
+        hideLoader();
+
+        let rawPhone = currentUser.phoneNumber || userData.phone || userData.mobile || '';
+        let cleanPhone = String(rawPhone).replace(/[^0-9]/g, '');
+        if (cleanPhone.length > 10) cleanPhone = cleanPhone.slice(-10);
+
+        ZapPay.createOrder({
+            zap_api: window.ZAP_KEY,
+            amount: cleanAmount,
+            title: `${checkout.panelName || 'Panel'} - ${checkout.label || 'Plan'}`.substring(0, 100),
+            customer_mobile: cleanPhone.length === 10 ? cleanPhone : undefined
+        });
+
+        startPaymentWatcher(orderId);
+
+    } catch (e) {
+        hideLoader();
+        clearPendingPurchase();
+        showToast('System error. Try again.', 'error');
+    }
+}
 
     // --- SUPPORT LINKS ---
     function initContactLinks() {
