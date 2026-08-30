@@ -1945,6 +1945,16 @@
             setTimeout(() => toast.remove(), 300);
         }, 3500);
     };
+// Window object par support modal open & close functions declare karein
+    window.openSupportModal = function() {
+        const modal = document.getElementById('support-modal');
+        if (modal) modal.classList.remove('hidden');
+        };
+
+    window.closeSupportModal = function() {
+        const modal = document.getElementById('support-modal');
+        if (modal) modal.classList.add('hidden');
+    };
 
     window.copyToClipboard = (elementId, label) => {
         const el = document.getElementById(elementId);
@@ -2567,30 +2577,30 @@
         }).catch(() => showToast('Failed to load history', 'error')).finally(() => hideLoader());
     }
 
-// Position: Main <script> tag ke andar
-function openSupportModal() {
-    const supportModal = document.getElementById('support-modal');
-    if (supportModal) {
-        supportModal.classList.remove('hidden');
+// Position: Main tag ke andar
+    function openSupportModal() {
+        const supportModal = document.getElementById('support-modal');
+        if (supportModal) {
+            supportModal.classList.remove('hidden');
+        }
+        const menu = document.getElementById('dropdown-menu');
+        if (menu) menu.classList.remove('active');
     }
-    const menu = document.getElementById('dropdown-menu');
-    if (menu) menu.classList.remove('active');
-}
 
-function closeSupportModal() {
-    const supportModal = document.getElementById('support-modal');
-    if (supportModal) {
-        supportModal.classList.add('hidden');
+    function closeSupportModal() {
+        const supportModal = document.getElementById('support-modal');
+        if (supportModal) {
+            supportModal.classList.add('hidden');
+        }
     }
-}
 
 // Background click handler me include karein:
-document.addEventListener('click', (e) => {
-    const supportModal = document.getElementById('support-modal');
-    if (e.target === supportModal) {
-        closeSupportModal();
-    }
-});
+    document.addEventListener('click', (e) => {
+        const supportModal = document.getElementById('support-modal');
+        if (e.target === supportModal) {
+            closeSupportModal();
+        }
+    });
 
    // --- INIT ---
     // Initial load - hide loader after security check if user not logged in
