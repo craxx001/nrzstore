@@ -2567,7 +2567,24 @@
         }).catch(() => showToast('Failed to load history', 'error')).finally(() => hideLoader());
     }
 
-    // --- INIT ---
+// Support Modal Functions
+function openSupportModal() {
+    const supportModal = document.getElementById('support-modal');
+    if (supportModal) {
+        supportModal.classList.remove('hidden');
+    }
+    const menu = document.getElementById('dropdown-menu');
+    if (menu) menu.classList.remove('active');
+}
+
+function closeSupportModal() {
+    const supportModal = document.getElementById('support-modal');
+    if (supportModal) {
+        supportModal.classList.add('hidden');
+    }
+}
+ 
+   // --- INIT ---
     // Initial load - hide loader after security check if user not logged in
     setTimeout(() => {
         if (!currentUser) {
