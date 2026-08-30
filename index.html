@@ -2567,7 +2567,7 @@
         }).catch(() => showToast('Failed to load history', 'error')).finally(() => hideLoader());
     }
 
-// Support Modal Functions
+// Position: Main <script> tag ke andar
 function openSupportModal() {
     const supportModal = document.getElementById('support-modal');
     if (supportModal) {
@@ -2583,7 +2583,15 @@ function closeSupportModal() {
         supportModal.classList.add('hidden');
     }
 }
- 
+
+// Background click handler me include karein:
+document.addEventListener('click', (e) => {
+    const supportModal = document.getElementById('support-modal');
+    if (e.target === supportModal) {
+        closeSupportModal();
+    }
+});
+
    // --- INIT ---
     // Initial load - hide loader after security check if user not logged in
     setTimeout(() => {
