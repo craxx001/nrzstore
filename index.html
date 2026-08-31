@@ -1610,9 +1610,9 @@
         <!-- LOGIN -->
         <div class="auth-card" id="login-box">
             <div class="brand">
-                <div class="logo-icon">FF</div>
-                <h1>NRZ<span>STORE</span></h1>
-                <p>Welcome back to your premium dashboard</p>
+                <div class="logo-icon">朱</div>
+                <h1>𝗡𝗥𝗭 <span> 𝗦𝗧𝗢𝗥𝗘</span></h1>
+                <p>Welcome back to the Store</p>
             </div>
             <div class="input-group">
                 <input id="login-email" placeholder="Email address" type="email"/>
@@ -1625,7 +1625,7 @@
             <button class="btn-auth" id="btn-login">
                 <span><i class="fas fa-arrow-right"></i> Login</span>
             </button>
-            <p class="auth-toggle">New here? <span id="go-to-signup">Create account</span></p>
+            <p class="auth-toggle">or <span id="go-to-signup">Create account</span></p>
             <div class="auth-divider">or continue with</div>
             <div class="social-row">
                 <a class="social-btn wa" href="#" id="auth-wa-link" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
@@ -1636,7 +1636,7 @@
         <!-- SIGNUP -->
         <div class="auth-card hidden" id="signup-box">
             <div class="brand">
-                <div class="logo-icon">FF</div>
+                <div class="logo-icon">朱</div>
                 <h1>Join <span>Now</span></h1>
                 <p>Create your account and get started</p>
             </div>
@@ -1649,9 +1649,9 @@
                 <i class="fas fa-lock input-icon"></i>
             </div>
             <button class="btn-auth" id="btn-signup">
-                <span><i class="fas fa-user-plus"></i> Sign Up</span>
+                <span><i class="fas fa-user-plus"></i> Create</span>
             </button>
-            <p class="auth-toggle">Already registered? <span id="go-to-login">Login</span></p>
+            <p class="auth-toggle">Have an account? <span id="go-to-login">Login</span></p>
             <div class="auth-divider">or continue with</div>
             <div class="social-row">
                 <a class="social-btn wa" href="#" id="auth-wa-link-2" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
@@ -1671,7 +1671,7 @@
         <div class="brand">
             <div class="brand-icon">朱</div>
             <img id="site-logo" src"" style="display:none;"/>
-            <span id="site-name">𝗡𝗥𝗭  𝗦𝗧𝗢𝗥𝗘 </span>
+            <span id="site-name">name kya rakhu....?</span>
         </div>
         <div class="nav-actions">
             <button class="menu-btn" id="menu-toggle"><i class="fas fa-bars"></i></button>
@@ -1781,7 +1781,7 @@
         <!-- Support Links List -->
         <div style="display: flex; flex-direction: column; gap: 12px;">
             <!-- Customer Support -->
-            <a href="https://t.me/nrzstore" target="_blank" class="social-btn wa" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); color: #0088cc; background: var(--bg-input);">
+            <a href="https://t.me/nrzempire" target="_blank" class="social-btn wa" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); color: #0088cc; background: var(--bg-input);">
                 <span><i class="fa-brands fa-telegram" style="font-size: 20px;"></i> Customer Support</span>
                 <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 14px;"></i>
             </a>
@@ -2472,7 +2472,6 @@ async function startPanelPayment(checkout) {
                         <div style="display:flex;align-items:center;">${imageHtml}<div><div class="panel-name">${p.name || 'Panel'}</div>${categoryHtml}</div></div>
                         ${featuresHtml ? `<div class="feature-list">${featuresHtml}</div>` : ''}
                         <div class="trust-row">
-                            <span class="trust-item"><i class="fas fa-shield-alt"></i> Safe Payment</span>
                         </div>
                         ${updateBtn || socialBtns ? `<div class="btn-row">${updateBtn}${socialBtns}</div>` : ''}
                         ${plansHtml}
