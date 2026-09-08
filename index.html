@@ -827,8 +827,8 @@
     /* Inline image emoji + percentage size-code support */
     .panel-card .panel-body .panel-name .ff-inline-img,
     .ff-inline-img {
-        width: 1.15em;
-        height: 1.15em;
+        width: 1.725em;
+        height: 1.725em;
         display: inline-block;
         vertical-align: -0.18em;
         object-fit: contain;
@@ -2991,7 +2991,7 @@
 
                 let plansHtml = '';
                 if (p.plans && Object.keys(p.plans).length > 0) {
-                    const sorted = Object.entries(p.plans).sort((a, b) => (a[1].price || 0) - (b[1].price || 0));
+                    const sorted = Object.entries(p.plans).sort((a, b) => { const ao = Number(a[1]?.order); const bo = Number(b[1]?.order); if (Number.isFinite(ao) && Number.isFinite(bo)) return ao - bo; return (a[1]?.price || 0) - (b[1]?.price || 0); });
                     plansHtml = `<div class="plans-container" id="plans-${panelId}" role="group" aria-label="Plans">`;
                     sorted.forEach(([key, data], index) => {
                         const label = data.label || `${data.days || ''} Days`;
@@ -3252,21 +3252,12 @@
 
         const renderText = (raw) => {
             if (!raw) return '';
-            return raw.split(/(\s+)/).map(part => {
-                if (!part) return '';
-                if (/^\s+$/.test(part)) return part;
-                const imgMatch = part.match(/^https?:\/\/[^\s<]+$/i);
-                if (imgMatch) {
-                    const cleanUrl = part.replace(/[),.;!?]+$/g, '');
-                    const trailing = part.slice(cleanUrl.length);
-                    const img = `<img class="ff-inline-img" src="${escapeHtml(cleanUrl)}" alt="" loading="lazy" onerror="this.style.display='none'">`;
-                    return (currentSize !== 100 ? `<span class="ff-size" style="font-size:${currentSize}%">${img}</span>` : img) + escapeHtml(trailing);
-                }
-                let out = escapeHtml(part);
-                if (currentSize !== 100) out = `<span class="ff-size" style="font-size:${currentSize}%">${out}</span>`;
-                if (currentColor) out = `<span class="ff-color" style="color:#${currentColor}">${out}</span>`;
-                return out;
-            }).join('');
+            // Keep normal spaces intact. The previous word-by-word rendering
+            // made spaces inside flex chips disappear.
+            let out = escapeHtml(raw);
+            if (currentSize !== 100) out = `<span class="ff-size" style="font-size:${currentSize}%">${out}</span>`;
+            if (currentColor) out = `<span class="ff-color" style="color:#${currentColor}">${out}</span>`;
+            return out;
         };
 
         while ((match = tokenRe.exec(text)) !== null) {
