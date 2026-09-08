@@ -827,10 +827,10 @@
     /* Inline image emoji + percentage size-code support */
     .panel-card .panel-body .panel-name .ff-inline-img,
     .ff-inline-img {
-        width: 1.725em;
-        height: 1.725em;
+        width: 2.3em;
+        height: 2.3em;
         display: inline-block;
-        vertical-align: -0.18em;
+        vertical-align: middle;
         object-fit: contain;
         border: 0;
         margin: 0 .08em;
@@ -942,7 +942,7 @@
     }
     .panel-card .plan-option:hover { transform:translateY(-2px); border-color:rgba(79,140,255,.45); background:linear-gradient(135deg,rgba(79,140,255,.13),rgba(139,92,246,.08)); }
     .panel-card .plan-option.active { border-color:var(--accent-blue); box-shadow:0 0 0 1px rgba(79,140,255,.25),0 10px 28px rgba(79,140,255,.12); }
-    .plan-option .plan-option-label { order:1; flex:1; display:block; font-size:13px; font-weight:500; line-height:1.35; word-break:break-word; text-align:left; }
+    .plan-option .plan-option-label { order:1; flex:1; display:flex; align-items:center; min-height:24px; font-size:13px; font-weight:500; line-height:1.35; word-break:break-word; text-align:left; }
     .plan-option .plan-option-price { order:2; display:block; margin-top:0; font-size:16px; font-weight:500; color:#fff; white-space:nowrap; }
     .plan-option .plan-option-check {
         position:absolute;
@@ -2971,10 +2971,20 @@
                 container.innerHTML = `<div class="empty-state"><i class="fas fa-box-open"></i><p>No panels available.</p></div>`;
                 return;
             }
+            const panelEntries = [];
             snap.forEach(child => {
                 const p = child.val();
                 if (!p || p.status !== 'active') return;
-                const panelId = child.key;
+                panelEntries.push({ id: child.key, p, originalIndex: panelEntries.length });
+            });
+            panelEntries.sort((a, b) => {
+                const ao = Number(a.p?.order), bo = Number(b.p?.order);
+                const ah = Number.isFinite(ao), bh = Number.isFinite(bo);
+                if (ah && bh && ao !== bo) return ao - bo;
+                if (ah !== bh) return ah ? -1 : 1;
+                return a.originalIndex - b.originalIndex;
+            });
+            panelEntries.forEach(({id: panelId, p}) => {
                 const desc = p.description || '';
                 const category = String(p.category || '').trim();
                 const features = desc.split(/\n|-/).filter(f => f && f.trim().length > 0);
