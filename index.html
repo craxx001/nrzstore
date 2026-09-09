@@ -2091,6 +2091,8 @@
     </div>
 </div>
 
+    .success-order-message { color: var(--accent-gold); font-weight: 700; }
+
 <!-- SUCCESS MODAL -->
 <div class="modal-overlay hidden" id="modal-success">
     <div class="modal" style="text-align:center;">
@@ -2098,7 +2100,7 @@
         <h2 style="font-size:22px;font-weight:800;margin-bottom:4px;">Purchase Success!</h2>
         <p style="color:var(--text-secondary);font-size:14px;margin-bottom:16px;">Order placed.</p>
         <div class="key-display">
-            <p class="success-order-message">We have received your order, processing will be start shortly.</p>
+            <p class="success-order-message">⌛ Delivery starts in <span id="success-delivery-time">—</span>.</p>
         </div>
         <div class="action-row">
             <button class="btn btn-outline-modal" onclick="closeModal('modal-success')">Close</button>
@@ -3146,7 +3148,7 @@
                         </div>
                         ${(updateBtn || feedbackBtn) ? `<div class="btn-row">${updateBtn}${feedbackBtn}</div>` : ''}
                         ${plansHtml}
-                        <button class="btn-primary-solid" onclick="handlePurchaseClick('${panelId}','${panelName}','${p.link || ''}')" style="width:100%;">
+                        <button class="btn-primary-solid" onclick="handlePurchaseClick('${panelId}','${panelName}','${p.link || ''}','${String(p.deliveryTime ?? '').replace(/'/g, "\\'")}')" style="width:100%;">
                             <i class="fas fa-shopping-cart"></i> Buy Now
                         </button>
                     </div>
@@ -3192,7 +3194,7 @@
     window.currentCheckout = {};
     window.appliedCoupon = null;
 
-    window.handlePurchaseClick = (panelId, panelName, link) => {
+    window.handlePurchaseClick = (panelId, panelName, link, deliveryTime) => {
         const container = document.getElementById(`plans-${panelId}`);
         const selected = container?.querySelector('.plan-option.active');
         if (!selected) return showToast('Please select a plan', 'warning');
@@ -3204,6 +3206,7 @@
         }
         window.currentCheckout = {
             panelId, panelName, link: link || '',
+            deliveryTime: deliveryTime || '',
             planKey: planData.key || '',
             label: planData.label || 'Plan',
             originalPrice: parseFloat(planData.price) || 0,
@@ -3328,6 +3331,8 @@
                     await runTransaction(ref(db, `coupons/${window.appliedCoupon.id}/used`), (curr) => (curr || 0) + 1);
                 }
                 closeModal('modal-checkout');
+                const successDelivery = document.getElementById('success-delivery-time');
+                if (successDelivery) successDelivery.innerText = checkout.deliveryTime || '—';
                 openModal('modal-success');
             } else {
                 navigate('wallet');
