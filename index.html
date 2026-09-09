@@ -3046,8 +3046,8 @@
         });
     }
 
-    // --- NAVIGATION ---
-    window.navigate = (pageId) => {
+    // --- NAVIGATION + BROWSER BACK SUPPORT ---
+    window.navigate = (pageId, addHistory = true) => {
         document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
         const target = document.getElementById(`page-${pageId}`);
         if (target) target.classList.remove('hidden');
@@ -3055,8 +3055,29 @@
         if (dropdown) dropdown.classList.remove('active');
         if (pageId === 'plans') fetchMyPlan();
         if (pageId === 'wallet') switchWalletTab('auto');
+
+        // Create a browser-history entry so Android/browser Back returns
+        // to the previous page inside this SPA instead of closing the site.
+        if (addHistory) {
+            const current = history.state?.page;
+            if (current !== pageId) {
+                history.pushState({ page: pageId }, '', `#${pageId}`);
+            }
+        }
+
         window.scrollTo(0, 0);
     };
+
+    // Handle Android/browser Back button.
+    window.addEventListener('popstate', function(event) {
+        const pageId = event.state?.page || 'home';
+        window.navigate(pageId, false);
+    });
+
+    // Keep the initial page in browser history.
+    if (!history.state?.page) {
+        history.replaceState({ page: 'home' }, '', '#home');
+    }
 
     document.getElementById('menu-toggle').addEventListener('click', function() {
         document.getElementById('dropdown-menu').classList.toggle('active');
