@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
-<title>GALU | MODZ</title>
+<title>NRZ | STORE</title>
 
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
@@ -19,25 +19,25 @@
        ROOT VARIABLES & RESET
     ============================================ */
     :root {
-        --bg-primary: #08090d;
-        --bg-secondary: #0e1016;
-        --bg-card: #141820;
-        --bg-card-hover: #1a1f2a;
-        --bg-input: #0c0f15;
-        --border-color: #252b3a;
-        --border-light: #333a4d;
+        --bg-primary: #0b0906;
+        --bg-secondary: #12100b;
+        --bg-card: #18140d;
+        --bg-card-hover: #211a10;
+        --bg-input: #100e09;
+        --border-color: #332a1a;
+        --border-light: #4a3a20;
         --text-primary: #eef2f8;
         --text-secondary: #8892a8;
         --text-muted: #4a5266;
-        --accent-blue: #4f8cff;
-        --accent-cyan: #00d4ff;
-        --accent-purple: #8b5cf6;
-        --accent-pink: #ec4899;
-        --accent-gold: #fbbf24;
+        --accent-blue: #ffb300;
+        --accent-cyan: #ffd54a;
+        --accent-purple: #ff7a00;
+        --accent-pink: #ff8a00;
+        --accent-gold: #ffc107;
         --accent-green: #34d399;
         --accent-red: #f87171;
         --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.5);
-        --shadow-glow: 0 0 40px rgba(79, 140, 255, 0.15);
+        --shadow-glow: 0 0 40px rgba(255, 179, 0, 0.15);
         --radius: 16px;
         --radius-sm: 10px;
         --radius-lg: 24px;
@@ -93,7 +93,7 @@
         border: 3px solid var(--border-color);
         border-top-color: var(--accent-blue);
         animation: spin 0.8s cubic-bezier(0.6, 0, 0.4, 1) infinite;
-        box-shadow: 0 0 30px rgba(79, 140, 255, 0.1);
+        box-shadow: 0 0 30px rgba(255, 179, 0, 0.1);
     }
     @keyframes spin { 100% { transform: rotate(360deg); } }
     #loader .loader-text {
@@ -199,7 +199,7 @@
     }
     #security-overlay .security-dots span.active {
         background: var(--accent-blue);
-        box-shadow: 0 0 12px rgba(79, 140, 255, 0.4);
+        box-shadow: 0 0 12px rgba(255, 179, 0, 0.4);
     }
     #security-overlay .security-dots span.done {
         background: var(--accent-green);
@@ -281,7 +281,7 @@
         width: 600px;
         height: 600px;
         border-radius: 50%;
-        background: radial-gradient(circle, rgba(79, 140, 255, 0.06), transparent 70%);
+        background: radial-gradient(circle, rgba(255, 179, 0, 0.06), transparent 70%);
         top: -200px;
         right: -200px;
         pointer-events: none;
@@ -292,7 +292,7 @@
         width: 500px;
         height: 500px;
         border-radius: 50%;
-        background: radial-gradient(circle, rgba(139, 92, 246, 0.05), transparent 70%);
+        background: radial-gradient(circle, rgba(255, 122, 0, 0.05), transparent 70%);
         bottom: -200px;
         left: -200px;
         pointer-events: none;
@@ -304,14 +304,33 @@
         z-index: 1;
     }
     .auth-card {
-        background: var(--bg-card);
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius-lg);
+        background:
+            linear-gradient(135deg, rgba(255,255,255,.105), rgba(255,255,255,.035) 48%, rgba(79,140,255,.035));
+        border: 1px solid rgba(255,255,255,.16);
+        border-radius: 28px;
         padding: 44px 36px 36px;
-        box-shadow: var(--shadow-card);
+        box-shadow:
+            0 24px 70px rgba(0,0,0,.42),
+            inset 0 1px 0 rgba(255,255,255,.18),
+            inset 0 -1px 0 rgba(255,255,255,.035),
+            0 0 0 1px rgba(79,140,255,.035);
+        backdrop-filter: blur(24px) saturate(145%);
+        -webkit-backdrop-filter: blur(24px) saturate(145%);
         transition: var(--transition);
         position: relative;
         overflow: hidden;
+        isolation: isolate;
+    }
+    .auth-card::after {
+        content: '';
+        position: absolute;
+        inset: 1px;
+        border-radius: 27px;
+        background:
+            radial-gradient(circle at 12% 8%, rgba(255,255,255,.13), transparent 26%),
+            linear-gradient(120deg, rgba(255,255,255,.045), transparent 42%, rgba(139,92,246,.045));
+        pointer-events: none;
+        z-index: -1;
     }
     .auth-card::before {
         content: '';
@@ -340,7 +359,15 @@
         font-size: 24px;
         font-weight: 900;
         color: #fff;
-        box-shadow: 0 8px 24px rgba(79, 140, 255, 0.3);
+        box-shadow: 0 8px 24px rgba(255, 179, 0, 0.3);
+        overflow: hidden;
+    }
+    .auth-card .brand .logo-icon img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+        border-radius: inherit;
     }
     .auth-card .brand h1 {
         font-size: 26px;
@@ -384,7 +411,7 @@
     }
     .auth-card .input-group input:focus {
         border-color: var(--accent-blue);
-        box-shadow: 0 0 0 4px rgba(79, 140, 255, 0.08);
+        box-shadow: 0 0 0 4px rgba(255, 179, 0, 0.08);
     }
     .auth-card .input-group input:focus + .input-icon,
     .auth-card .input-group input:focus ~ .input-icon {
@@ -419,7 +446,7 @@
         transition: var(--transition);
     }
     .btn-auth:hover::before { opacity: 1; }
-    .btn-auth:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(79, 140, 255, 0.3); }
+    .btn-auth:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(255, 179, 0, 0.3); }
     .btn-auth:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
     .btn-auth span { position: relative; z-index: 1; }
     .btn-auth i { position: relative; z-index: 1; }
@@ -545,19 +572,58 @@
     }
     .navbar .balance-pill {
         display: flex;
+        cursor: pointer;
+        font-family: inherit;
+        outline: none;
         align-items: center;
         gap: 8px;
-        padding: 8px 18px;
-        background: rgba(79, 140, 255, 0.08);
-        border: 1px solid rgba(79, 140, 255, 0.15);
-        border-radius: 30px;
-        font-weight: 700;
+        padding: 9px 18px;
+        min-height: 40px;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(145deg, #6ee7b7 0%, #34d399 45%, #059669 100%);
+        border: 1px solid rgba(167, 243, 208, .72);
+        border-radius: 14px;
+        font-weight: 800;
         font-size: 14px;
-        color: var(--accent-blue);
-        transition: var(--transition);
+        color: #052e1c;
+        text-shadow: 0 1px 0 rgba(255,255,255,.28);
+        transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+        box-shadow:
+            inset 0 1px 0 rgba(255,255,255,.72),
+            inset 0 -2px 0 rgba(0,0,0,.16),
+            0 3px 0 #047857,
+            0 8px 18px rgba(16,185,129,.22);
     }
-    .navbar .balance-pill:hover { border-color: rgba(79, 140, 255, 0.3); }
-    .navbar .balance-pill i { font-size: 14px; }
+    .navbar .balance-pill::before {
+        content: '';
+        position: absolute;
+        left: 8%;
+        right: 8%;
+        top: 3px;
+        height: 42%;
+        border-radius: 999px;
+        background: linear-gradient(180deg, rgba(255,255,255,.42), rgba(255,255,255,0));
+        pointer-events: none;
+    }
+    .navbar .balance-pill:hover {
+        transform: translateY(-2px);
+        filter: brightness(1.05);
+        box-shadow:
+            inset 0 1px 0 rgba(255,255,255,.78),
+            inset 0 -2px 0 rgba(0,0,0,.14),
+            0 5px 0 #047857,
+            0 12px 24px rgba(16,185,129,.30);
+    }
+    .navbar .balance-pill:active {
+        transform: translateY(2px);
+        box-shadow:
+            inset 0 2px 3px rgba(0,0,0,.18),
+            0 1px 0 #047857,
+            0 4px 10px rgba(16,185,129,.20);
+    }
+    .navbar .balance-pill i { font-size: 14px; position: relative; z-index: 1; }
+    .navbar .balance-pill span { position: relative; z-index: 1; }
     .navbar .menu-btn {
         width: 42px;
         height: 42px;
@@ -672,7 +738,7 @@
     }
     .search-box input:focus {
         border-color: var(--accent-purple);
-        box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.06);
+        box-shadow: 0 0 0 4px rgba(255, 122, 0, 0.06);
     }
     .search-box input::placeholder { color: var(--text-muted); }
     .search-box .search-icon {
@@ -797,6 +863,19 @@
         font-weight: 800;
         letter-spacing: -0.3px;
     }
+    /* Inline image emoji + percentage size-code support */
+    .panel-card .panel-body .panel-name .ff-inline-img,
+    .ff-inline-img {
+        width: 2.3em;
+        height: 2.3em;
+        display: inline-block;
+        vertical-align: middle;
+        object-fit: contain;
+        border: 0;
+        margin: 0 .08em;
+        border-radius: .18em;
+    }
+    .ff-size { display: inline; }
     .panel-card .panel-body .feature-list {
         display: flex;
         flex-wrap: wrap;
@@ -804,17 +883,15 @@
     }
     .panel-card .panel-body .feature-list .chip {
         padding: 4px 14px;
-        background: rgba(79, 140, 255, 0.08);
-        border: 1px solid rgba(79, 140, 255, 0.12);
+        background: color-mix(in srgb, var(--chip-color, var(--accent-blue)) 10%, transparent);
+        border: 1px solid color-mix(in srgb, var(--chip-color, var(--accent-blue)) 25%, transparent);
         border-radius: 20px;
         font-size: 11px;
         font-weight: 600;
-        color: var(--accent-blue);
+        color: var(--chip-color, var(--accent-blue));
         display: flex;
         align-items: center;
-        gap: 4px;
     }
-    .panel-card .panel-body .feature-list .chip i { font-size: 10px; }
     .panel-card .panel-body .trust-row {
         display: flex;
         gap: 16px;
@@ -860,46 +937,263 @@
     .btn-outline.feedback:hover { border-color: var(--accent-red); background: rgba(248, 113, 113, 0.06); }
 
     .btn-primary-solid {
-        padding: 13px 20px;
-        background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-        border: none;
-        border-radius: var(--radius-sm);
-        font-weight: 700;
+        padding: 14px 20px;
+        min-height: 50px;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(145deg, #9b6cff 0%, #7c3aed 42%, #5b21b6 100%);
+        border: 1px solid rgba(196,181,253,.72);
+        border-radius: 14px;
+        font-weight: 800;
         font-size: 15px;
+        letter-spacing: .1px;
         color: #fff;
-        transition: var(--transition);
+        text-shadow: 0 1px 1px rgba(0,0,0,.18);
+        transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 8px;
         width: 100%;
-        margin-top: 4px;
+        margin-top: 8px;
         cursor: pointer;
+        box-shadow:
+            inset 0 1px 0 rgba(255,255,255,.62),
+            inset 0 -2px 0 rgba(0,0,0,.20),
+            0 4px 0 #4c1d95,
+            0 10px 22px rgba(124,58,237,.25);
     }
+    .btn-primary-solid::before {
+        content: '';
+        position: absolute;
+        left: 7%;
+        right: 7%;
+        top: 3px;
+        height: 42%;
+        border-radius: 999px;
+        background: linear-gradient(180deg, rgba(255,255,255,.34), rgba(255,255,255,0));
+        pointer-events: none;
+    }
+    .btn-primary-solid i,
+    .btn-primary-solid span { position: relative; z-index: 1; }
     .btn-primary-solid:hover {
         transform: translateY(-2px);
-        box-shadow: 0 8px 30px rgba(79, 140, 255, 0.3);
+        filter: brightness(1.06);
+        box-shadow:
+            inset 0 1px 0 rgba(255,255,255,.70),
+            inset 0 -2px 0 rgba(0,0,0,.16),
+            0 6px 0 #4c1d95,
+            0 14px 28px rgba(124,58,237,.34);
     }
-    .btn-primary-solid:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .btn-primary-solid:active {
+        transform: translateY(2px);
+        box-shadow:
+            inset 0 2px 4px rgba(0,0,0,.20),
+            0 1px 0 #4c1d95,
+            0 5px 12px rgba(124,58,237,.20);
+    }
+    .btn-primary-solid:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 2px 0 #4c1d95;
+    }
 
-    .panel-card .plan-select {
-        width: 100%;
-        padding: 10px 16px;
-        background: var(--bg-input);
-        border: 1.5px solid var(--border-color);
-        border-radius: var(--radius-sm);
-        font-size: 14px;
-        font-weight: 500;
-        color: var(--text-primary);
-        appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238892a8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: right 14px center;
-        transition: var(--transition);
-        cursor: pointer;
+    /* Collapsible plan selector — compact 3D dropdown style */
+    .panel-card .plans-container {
+        position:relative;
+        display:block;
+        margin-top:8px;
+        width:100%;
+        z-index:5;
     }
-    .panel-card .plan-select:focus { border-color: var(--accent-purple); }
-    .panel-card .plan-select option { background: var(--bg-card); }
+    .panel-card .plan-dropdown-toggle {
+        position:relative;
+        width:100%;
+        min-height:54px;
+        padding:13px 48px 13px 16px;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:12px;
+        text-align:left;
+        color:var(--text-primary);
+        background:linear-gradient(145deg,rgba(255,255,255,.105),rgba(255,255,255,.035));
+        border:1px solid rgba(255,255,255,.14);
+        border-radius:14px;
+        cursor:pointer;
+        overflow:hidden;
+        backdrop-filter:blur(14px);
+        -webkit-backdrop-filter:blur(14px);
+        box-shadow:
+            inset 0 1px 0 rgba(255,255,255,.10),
+            inset 0 -2px 0 rgba(0,0,0,.18),
+            0 4px 0 rgba(0,0,0,.28),
+            0 10px 24px rgba(0,0,0,.16);
+        transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+    .panel-card .plan-dropdown-toggle::before {
+        content:'';
+        position:absolute;
+        left:6%;
+        right:6%;
+        top:2px;
+        height:40%;
+        border-radius:999px;
+        background:linear-gradient(180deg,rgba(255,255,255,.12),transparent);
+        pointer-events:none;
+    }
+    .panel-card .plan-dropdown-toggle:hover {
+        transform:translateY(-2px);
+        border-color:rgba(139,92,246,.48);
+        box-shadow:
+            inset 0 1px 0 rgba(255,255,255,.14),
+            inset 0 -2px 0 rgba(0,0,0,.18),
+            0 6px 0 rgba(0,0,0,.30),
+            0 14px 28px rgba(0,0,0,.22);
+    }
+    .panel-card .plan-dropdown-toggle.open {
+        border-color:rgba(139,92,246,.65);
+        border-bottom-left-radius:10px;
+        border-bottom-right-radius:10px;
+    }
+    .plan-selected-info {
+        min-width:0;
+        flex:1;
+        display:flex;
+        align-items:center;
+        gap:10px;
+        position:relative;
+        z-index:1;
+    }
+    .plan-selected-label {
+        min-width:0;
+        font-size:14px;
+        font-weight:700;
+        line-height:1.35;
+        word-break:break-word;
+    }
+    .plan-selected-price {
+        position:relative;
+        z-index:1;
+        font-size:16px;
+        font-weight:800;
+        color:#fff;
+        white-space:nowrap;
+    }
+    .plan-dropdown-chevron {
+        position:absolute;
+        right:16px;
+        top:50%;
+        transform:translateY(-50%);
+        font-size:17px;
+        color:#a5b4fc;
+        transition:transform .2s ease, color .2s ease;
+        z-index:2;
+    }
+    .plan-dropdown-toggle.open .plan-dropdown-chevron {
+        transform:translateY(-50%) rotate(180deg);
+        color:#c4b5fd;
+    }
+    .panel-card .plan-dropdown-menu {
+        display:none;
+        position:absolute;
+        left:0;
+        right:0;
+        top:calc(100% - 1px);
+        padding:8px;
+        background:rgba(15,17,24,.98);
+        border:1px solid rgba(139,92,246,.45);
+        border-top:0;
+        border-radius:0 0 14px 14px;
+        box-shadow:0 16px 34px rgba(0,0,0,.38);
+        backdrop-filter:blur(18px);
+        -webkit-backdrop-filter:blur(18px);
+        z-index:50;
+    }
+    .panel-card .plan-dropdown-menu.open {
+        display:flex;
+        flex-direction:column;
+        gap:6px;
+        animation:planDropIn .18s ease;
+    }
+    @keyframes planDropIn {
+        from { opacity:0; transform:translateY(-5px); }
+        to { opacity:1; transform:translateY(0); }
+    }
+    .panel-card .plan-option {
+        position:relative;
+        width:100%;
+        min-height:48px;
+        padding:11px 38px 11px 14px;
+        border:1px solid rgba(255,255,255,.08);
+        border-radius:10px;
+        background:linear-gradient(145deg,rgba(255,255,255,.07),rgba(255,255,255,.025));
+        cursor:pointer;
+        transition:transform .16s ease, background .16s ease, border-color .16s ease;
+        color:var(--text-primary);
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:14px;
+        text-align:initial;
+        overflow:hidden;
+    }
+    .panel-card .plan-option:hover {
+        transform:translateX(2px);
+        border-color:rgba(139,92,246,.55);
+        background:linear-gradient(145deg,rgba(124,58,237,.20),rgba(139,92,246,.07));
+    }
+    .panel-card .plan-option.active {
+        border-color:rgba(139,92,246,.72);
+        background:linear-gradient(145deg,rgba(124,58,237,.25),rgba(139,92,246,.08));
+        box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 0 0 1px rgba(139,92,246,.10);
+    }
+    .plan-option .plan-option-label {
+        order:1;
+        flex:1;
+        display:flex;
+        align-items:center;
+        min-height:24px;
+        font-size:13px;
+        font-weight:600;
+        line-height:1.35;
+        word-break:break-word;
+        text-align:left;
+    }
+    .plan-option .plan-option-price {
+        order:2;
+        display:block;
+        margin-top:0;
+        font-size:15px;
+        font-weight:800;
+        color:#fff;
+        white-space:nowrap;
+    }
+    .plan-option .plan-option-check {
+        position:absolute;
+        top:50%;
+        right:10px;
+        transform:translateY(-50%) scale(.7);
+        width:18px;
+        height:18px;
+        border-radius:50%;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        background:#7c3aed;
+        color:#fff;
+        font-size:9px;
+        line-height:1;
+        opacity:0;
+        transition:var(--transition);
+        box-shadow:0 2px 8px rgba(124,58,237,.40);
+        z-index:2;
+    }
+    .plan-option.active .plan-option-check {
+        opacity:1;
+        transform:translateY(-50%) scale(1);
+    }
 
     /* ============================================
        WALLET - Modern Dashboard
@@ -919,8 +1213,17 @@
         align-items: center;
         gap: 16px;
         transition: var(--transition);
+        position: relative;
     }
     .wallet-stat:hover { border-color: var(--border-light); }
+
+    /* Balance expiry indicator */
+    .wallet-expiry { position:absolute; top:18px; right:20px; display:none; flex-direction:column; align-items:flex-end; gap:3px; text-align:right; line-height:1; z-index:2; }
+    .wallet-expiry.active { display:flex; }
+    .wallet-expiry-label { color:#ff4d4d; font-size:10px; font-weight:800; letter-spacing:.7px; text-transform:uppercase; }
+    .wallet-expiry-time { display:flex; align-items:center; gap:5px; color:#ff5b5b; font-size:13px; font-weight:800; white-space:nowrap; }
+    .wallet-expiry-time i { font-size:11px; }
+    @media (max-width:600px) { .wallet-expiry{top:15px;right:16px;} .wallet-expiry-label{font-size:9px;} .wallet-expiry-time{font-size:12px;} }
     .wallet-stat .stat-icon {
         width: 48px;
         height: 48px;
@@ -931,9 +1234,9 @@
         font-size: 20px;
         flex-shrink: 0;
     }
-    .wallet-stat .stat-icon.blue { background: rgba(79, 140, 255, 0.1); color: var(--accent-blue); }
+    .wallet-stat .stat-icon.blue { background: rgba(255, 179, 0, 0.1); color: var(--accent-blue); }
     .wallet-stat .stat-icon.green { background: rgba(52, 211, 153, 0.1); color: var(--accent-green); }
-    .wallet-stat .stat-icon.purple { background: rgba(139, 92, 246, 0.1); color: var(--accent-purple); }
+    .wallet-stat .stat-icon.purple { background: rgba(255, 122, 0, 0.1); color: var(--accent-purple); }
     .wallet-stat .stat-icon.gold { background: rgba(251, 191, 36, 0.1); color: var(--accent-gold); }
     .wallet-stat .stat-info h4 {
         font-size: 12px;
@@ -1042,7 +1345,7 @@
     }
     .premium-card .input-group input:focus {
         border-color: var(--accent-blue);
-        box-shadow: 0 0 0 4px rgba(79, 140, 255, 0.06);
+        box-shadow: 0 0 0 4px rgba(255, 179, 0, 0.06);
     }
     .premium-card .input-group input::placeholder { color: var(--text-muted); }
 
@@ -1061,7 +1364,7 @@
     }
     .qr-display img { width: 100%; height: 100%; object-fit: contain; border-radius: var(--radius-sm); }
     .qr-display.crypto { border-color: rgba(251, 191, 36, 0.25); }
-    .qr-display.manual { border-color: rgba(139, 92, 246, 0.25); }
+    .qr-display.manual { border-color: rgba(255, 122, 0, 0.25); }
 
     .copy-row {
         display: flex;
@@ -1129,7 +1432,7 @@
     ============================================ */
     .plan-details-card {
         background: var(--bg-card);
-        border: 1px solid rgba(0, 212, 255, 0.28);
+        border: 1px solid rgba(255, 213, 74, 0.28);
         border-radius: 24px;
         padding: 34px;
         box-shadow: 0 12px 40px rgba(0,0,0,0.25);
@@ -1280,6 +1583,8 @@
     }
     .modal .checkout-box .row:last-child { border-bottom: none; }
     .modal .checkout-box .row strong { color: var(--text-primary); }
+    .modal .checkout-box .row strong span { color: inherit; }
+    .modal .checkout-box .row strong .ff-color { color: inherit; }
     .modal .checkout-total {
         display: flex;
         justify-content: space-between;
@@ -1294,7 +1599,7 @@
     .modal .strike { text-decoration: line-through; color: var(--text-muted); font-size: 14px; font-weight: 500; margin-right: 8px; }
     .modal .discount-badge {
         padding: 2px 12px;
-        background: rgba(139, 92, 246, 0.12);
+        background: rgba(255, 122, 0, 0.12);
         border: 1px solid var(--accent-purple);
         border-radius: 20px;
         font-size: 11px;
@@ -1373,7 +1678,7 @@
     }
     .modal .modal-actions .btn-primary-modal:hover {
         transform: translateY(-2px);
-        box-shadow: 0 8px 30px rgba(79, 140, 255, 0.3);
+        box-shadow: 0 8px 30px rgba(255, 179, 0, 0.3);
     }
 
     .modal .success-icon {
@@ -1407,6 +1712,13 @@
         color: var(--accent-green);
         letter-spacing: 2px;
         word-break: break-all;
+    }
+    .success-order-message {
+        color:var(--text-secondary);
+        font-size:14px;
+        line-height:1.7;
+        margin:0;
+        text-align:center;
     }
     .modal .action-row {
         display: flex;
@@ -1538,6 +1850,20 @@
         font-size: 12px;
     }
 
+    .healing-queen-rgb {
+        background: linear-gradient(90deg,#ff004c,#ff8a00,#ffee00,#00ff85,#00c8ff,#7c3cff,#ff00c8,#ff004c);
+        background-size: 300% 100%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: healingQueenRGB 3s linear infinite;
+        font-weight: 800;
+    }
+    @keyframes healingQueenRGB {
+        0% { background-position: 0% 50%; }
+        100% { background-position: 300% 50%; }
+    }
+
     /* ============================================
        RESPONSIVE
     ============================================ */
@@ -1565,6 +1891,32 @@
         .page-content { padding: 76px 12px 50px; }
         .modal .action-row { flex-direction: column; }
     }
+
+    /* Wallet fixed top-up amount pills */
+    .wallet-amount-label { margin: 18px 0 12px; font-size: 13px; font-weight: 600; color: var(--text-secondary); }
+    .wallet-amount-pills { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+    .amount-pill { padding: 10px 17px; min-width: 62px; border-radius: 999px; border: 1.5px solid var(--border-color); background: var(--bg-input); color: var(--text-secondary); font-size: 14px; font-weight: 700; transition: var(--transition); }
+    .amount-pill:hover { border-color: var(--accent-blue); color: var(--text-primary); transform: translateY(-1px); }
+    .amount-pill.active { background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); border-color: transparent; color: #fff; box-shadow: 0 7px 22px rgba(79,140,255,.22); }
+    @media (max-width: 480px) { .wallet-amount-pills { gap: 8px; } .amount-pill { min-width: 58px; padding: 9px 13px; } }
+
+/* NRZ STORE — independent red/white neon glitch branding */
+.nrz-store-glitch, #site-name {
+  color:#fff !important; -webkit-text-fill-color:#fff !important; font-weight:900;
+  position:relative; display:inline-block; letter-spacing:.02em;
+  text-shadow:none !important; filter:none !important;
+  isolation:isolate; animation:nrzGlitchFlicker 2.8s steps(1,end) infinite;
+}
+.nrz-store-glitch .nrz-red { color:#ff2020 !important; -webkit-text-fill-color:#ff2020 !important; text-shadow:none !important; }
+.nrz-store-glitch .nrz-white { color:#fff !important; -webkit-text-fill-color:#fff !important; text-shadow:none !important; }
+.nrz-store-glitch::before,.nrz-store-glitch::after,#site-name::before,#site-name::after {
+ content:attr(data-text); position:absolute; inset:0; pointer-events:none; overflow:hidden; opacity:0;
+}
+.nrz-store-glitch::before,#site-name::before { color:#ff2020; -webkit-text-fill-color:#ff2020; clip-path:inset(45% 0 45% 0); animation:nrzGlitchRed 2.8s steps(1,end) infinite; }
+.nrz-store-glitch::after,#site-name::after { color:#fff; -webkit-text-fill-color:#fff; clip-path:inset(45% 0 45% 0); animation:nrzGlitchWhite 2.8s steps(1,end) infinite; }
+@keyframes nrzGlitchRed { 0%,78%,100%{opacity:0;transform:none} 79%{opacity:1;clip-path:inset(8% 0 78% 0);transform:translate(-3px,0)} 80%{opacity:.8;clip-path:inset(66% 0 14% 0);transform:translate(3px,0)} 81%{opacity:0} 91%{opacity:.9;clip-path:inset(38% 0 42% 0);transform:translate(-2px,0)} 92%{opacity:0} }
+@keyframes nrzGlitchWhite { 0%,81%,100%{opacity:0;transform:none} 82%{opacity:1;clip-path:inset(70% 0 9% 0);transform:translate(3px,0)} 83%{opacity:.75;clip-path:inset(16% 0 64% 0);transform:translate(-3px,0)} 84%{opacity:0} 94%{opacity:.9;clip-path:inset(42% 0 36% 0);transform:translate(2px,0)} 95%{opacity:0} }
+@keyframes nrzGlitchFlicker { 0%,100%{opacity:1} 79%,82%{opacity:.82} 80%{opacity:1} }
 </style>
 </head>
 <body>
@@ -1604,8 +1956,7 @@
         <!-- LOGIN -->
         <div class="auth-card" id="login-box">
             <div class="brand">
-                <div class="logo-icon">FF</div>
-                <h1>GALU<span>MODZ</span></h1>
+                                <h1 class="nrz-store-glitch" data-text="NRZ STORE"><span class="nrz-red">NRZ</span> <span class="nrz-white">STORE</span></h1>
                 <p>Welcome back to your premium dashboard</p>
             </div>
             <div class="input-group">
@@ -1630,8 +1981,7 @@
         <!-- SIGNUP -->
         <div class="auth-card hidden" id="signup-box">
             <div class="brand">
-                <div class="logo-icon">FF</div>
-                <h1>Join <span>Now</span></h1>
+                                <h1 class="nrz-store-glitch" data-text="NRZ STORE"><span class="nrz-red">NRZ</span> <span class="nrz-white">STORE</span></h1>
                 <p>Create your account and get started</p>
             </div>
             <div class="input-group">
@@ -1663,12 +2013,12 @@
     <!-- NAVBAR -->
     <nav class="navbar">
         <div class="brand">
-            <div class="brand-icon" id="default-brand-icon">FF</div>
-            <img id="site-logo" src="" alt="Site Logo" style="display:none;width:34px;height:34px;object-fit:cover;border-radius:9px;" />
-            <span id="site-name">GALU MODZ</span>
+            <div class="brand-icon" id="default-brand-icon" style="display:none;">FF</div>
+            <img id="site-logo" src="" alt="Site Logo" loading="eager" decoding="async" style="display:none;width:34px;height:34px;object-fit:cover;border-radius:9px;" />
+            <span id="site-name" class="nrz-store-glitch" data-text="NRZ STORE"><span class="nrz-red">NRZ</span> <span class="nrz-white">STORE</span></span>
         </div>
         <div class="nav-actions">
-            <div class="balance-pill"><i class="fas fa-wallet"></i> ₹<span id="nav-balance">0.00</span></div>
+            <button type="button" class="balance-pill" id="nav-wallet-pill" aria-label="Open Wallet" onclick="navigate('wallet')"><i class="fas fa-wallet"></i> ₹<span id="nav-balance">0.00</span></button>
             <button class="menu-btn" id="menu-toggle"><i class="fas fa-bars"></i></button>
         </div>
         <div class="dropdown" id="dropdown-menu">
@@ -1707,14 +2057,13 @@
         <!-- FOOTER -->
         <div class="store-footer">
             <h3>NRZ <span>ONLINE</span> SERVICES</h3>
-            <p>Partnership with "Healing Queen"</p>
+            <p>Partnership with "<a href="https://youtube.com/@healing_queen?si=lFGBUVLhxz2i4WGt" target="_blank" rel="noopener noreferrer" class="healing-queen-rgb">Healing Queen</a>"</p>
             <div class="badges">
                 <span>🔒 Safe Payment</span>
             </div>
             <div class="features">
                 <span>✔ Fast Delivery</span>
                 <span>✔ Instant Service</span>
-                <span>✔ Trusted Seller</span>
             </div>
             <p class="copy">© 2026-2031 produced by @nrzravi</p>
         </div>
@@ -1728,11 +2077,15 @@
 
         <!-- Stats -->
         <div class="wallet-stats">
-            <div class="wallet-stat">
+            <div class="wallet-stat" id="wallet-balance-card">
                 <div class="stat-icon blue"><i class="fas fa-wallet"></i></div>
                 <div class="stat-info">
                     <h4>Balance</h4>
                     <h2 id="wallet-stat-bal">₹0.00</h2>
+                </div>
+                <div class="wallet-expiry" id="wallet-expiry">
+                    <span class="wallet-expiry-label">Expires in</span>
+                    <span class="wallet-expiry-time"><i class="far fa-clock"></i><span id="wallet-expiry-time">30d</span></span>
                 </div>
             </div>
             <div class="wallet-stat">
@@ -1742,26 +2095,12 @@
                     <h2 id="wallet-stat-today">₹0.00</h2>
                 </div>
             </div>
-            <div class="wallet-stat">
-                <div class="stat-icon purple"><i class="fas fa-arrow-down"></i></div>
-                <div class="stat-info">
-                    <h4>Total Deposit</h4>
-                    <h2 id="wallet-stat-dep">₹0.00</h2>
-                </div>
-            </div>
-            <div class="wallet-stat">
-                <div class="stat-icon gold"><i class="fas fa-clock"></i></div>
-                <div class="stat-info">
-                    <h4>Pending</h4>
-                    <h2 id="wallet-stat-pending">₹0.00</h2>
-                </div>
-            </div>
         </div>
 
         <!-- Tabs -->
         <div class="wallet-tabs">
             <div class="wallet-tab active" onclick="switchWalletTab('auto')" id="tab-btn-auto"><i class="fas fa-bolt"></i> Instant UPI</div>
-            <div class="wallet-tab crypto" onclick="switchWalletTab('crypto')" id="tab-btn-crypto"><i class="fab fa-bitcoin"></i> Crypto</div>
+            <div class="wallet-tab crypto" onclick="switchWalletTab('crypto')" id="tab-btn-crypto"><i class="fab fa-bitcoin"></i> Binance</div>
             <div class="wallet-tab manual" onclick="switchWalletTab('manual')" id="tab-btn-manual"><i class="fas fa-qrcode"></i> Manual UPI</div>
             <div class="wallet-tab support" onclick="switchWalletTab('support')" id="tab-btn-support"><i class="fas fa-headset"></i> Support</div>
         </div>
@@ -1774,12 +2113,17 @@
                     <h3>Instant Gateway</h3>
                 </div>
                 <p class="card-desc">Fast UPI payment. Balance updates automatically within seconds.</p>
-                <div class="input-group">
-                    <input id="add-amount" placeholder="Amount (₹)" type="number"/>
+                <div class="wallet-amount-label">Select Top-up Amount</div>
+                <div class="wallet-amount-pills" id="wallet-amount-pills">
+                    <button type="button" class="amount-pill" data-amount="5">₹5</button>
+                    <button type="button" class="amount-pill" data-amount="20">₹20</button>
+                    <button type="button" class="amount-pill" data-amount="50">₹50</button>
+                    <button type="button" class="amount-pill" data-amount="100">₹100</button>
+                    <button type="button" class="amount-pill" data-amount="250">₹250</button>
+                    <button type="button" class="amount-pill" data-amount="500">₹500</button>
+                    <button type="button" class="amount-pill" data-amount="1000">₹1000</button>
                 </div>
-                <div class="input-group">
-                    <input id="add-phone" placeholder="WhatsApp Number" type="tel"/>
-                </div>
+                <input id="add-amount" type="hidden" value="5"/>
                 <button class="btn-primary-solid" id="btn-submit-payment" style="width:100%;">
                     <i class="fas fa-arrow-right"></i> Pay Now
                 </button>
@@ -1809,7 +2153,7 @@
                     <i class="fab fa-bitcoin" style="color:var(--accent-gold);"></i>
                     <h3>Binance / USDT</h3>
                 </div>
-                <p class="card-desc">Send USDT via Binance Pay or TRC20. Rate: <strong style="color:var(--accent-gold);">1 USDT = ₹<span id="crypto-rate">88.00</span></strong></p>
+                <p class="card-desc">This payment method is currently unavailable!</p>
 
                 <div class="qr-display crypto">
                     <img id="crypto-qr-display" src="" alt="QR" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-qrcode\\' style=\\'font-size:48px;color:var(--text-muted);\\'></i>'"/>
@@ -1846,7 +2190,7 @@
                     <i class="fas fa-qrcode" style="color:var(--accent-purple);"></i>
                     <h3>Manual UPI</h3>
                 </div>
-                <p class="card-desc">Scan the QR or copy UPI ID to transfer funds manually.</p>
+                <p class="card-desc">Scan the QR code or copy the UPI ID to pay<br><strong style="color:#ffd54a;">The amount will be credited to your wallet within 30 minutes</strong></p>
 
                 <div class="qr-display manual">
                     <img id="manual-qr-display" src="" alt="QR" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-qrcode\\' style=\\'font-size:48px;color:var(--text-muted);\\'></i>'"/>
@@ -1880,13 +2224,13 @@
                 <i class="fas fa-headset" style="font-size:48px;color:var(--accent-green);margin-bottom:12px;display:block;"></i>
                 <h3 style="font-size:20px;font-weight:800;margin-bottom:8px;">Need Help?</h3>
                 <p style="color:var(--text-secondary);font-size:14px;line-height:1.7;margin-bottom:24px;">
-                    Facing issues with deposits, purchases, or your account? Contact support.
+                    Agar apko yaha deposit, purchase, services ya account related koi bhi issue aarhi hai to niche Support Links ka use karke solve kara skte ho !
                 </p>
                 <div style="display:flex;flex-direction:column;gap:10px;">
-                    <a href="#" id="support-wa-btn" target="_blank" class="btn-outline" style="border-color:#25D366;color:#25D366;justify-content:center;padding:12px;">
-                        <i class="fab fa-whatsapp"></i> WhatsApp Support
+                    <a href="https://discord.gg/vKx2bphJAU" id="support-wa-btn" target="_blank" rel="noopener noreferrer" class="btn-outline" style="border-color:#5865F2;color:#5865F2;justify-content:center;padding:12px;">
+                        <i class="fab fa-discord"></i> Discord Support
                     </a>
-                    <a href="#" id="support-tg-btn" target="_blank" class="btn-outline" style="border-color:#0088cc;color:#0088cc;justify-content:center;padding:12px;">
+                    <a href="https://t.me/nrzempire" id="support-tg-btn" target="_blank" rel="noopener noreferrer" class="btn-outline" style="border-color:#0088cc;color:#0088cc;justify-content:center;padding:12px;">
                         <i class="fab fa-telegram-plane"></i> Telegram Support
                     </a>
                 </div>
@@ -1964,8 +2308,8 @@
             </div>
         </div>
         <div class="checkout-uid-section">
-            <label for="chk-uid-input">UID</label>
-            <input id="chk-uid-input" type="text" inputmode="numeric" placeholder="Enter your UID" autocomplete="off"/>
+            <label for="chk-uid-input">Enter your UID/map code</label>
+            <input id="chk-uid-input" type="text" inputmode="text" placeholder="Enter your UID/map code" autocomplete="off"/>
         </div>
         <div class="modal-actions checkout-actions">
             <button class="btn btn-primary-modal" id="btn-confirm-pay" onclick="executePurchase()">Confirm Pay</button>
@@ -1978,15 +2322,29 @@
     <div class="modal" style="text-align:center;">
         <i class="fas fa-check-circle success-icon"></i>
         <h2 style="font-size:22px;font-weight:800;margin-bottom:4px;">Purchase Success!</h2>
-        <p style="color:var(--text-secondary);font-size:14px;margin-bottom:16px;">Your premium key is ready.</p>
+        <p style="color:var(--text-secondary);font-size:14px;margin-bottom:16px;">Order placed.</p>
         <div class="key-display">
-            <span class="key-label">License Key</span>
-            <div class="key-value" id="modal-key-display">XXXXXX</div>
+            <p class="success-order-message">⌛ Delivery starts in <span id="success-delivery-time">—</span>.</p>
         </div>
         <div class="action-row">
-            <button class="btn btn-primary-modal" id="modal-btn-access"><i class="fas fa-download"></i> Access Tool</button>
-            <button class="btn btn-outline-modal" onclick="copyToClipboard('modal-key-display','License Key')"><i class="fas fa-copy"></i> Copy</button>
             <button class="btn btn-outline-modal" onclick="closeModal('modal-success')">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- INSUFFICIENT BALANCE / ADD MONEY MODAL -->
+<div class="modal-overlay hidden" id="modal-insufficient-balance">
+    <div class="modal" style="text-align:center;max-width:420px;">
+        <div style="width:58px;height:58px;margin:0 auto 14px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,77,77,.12);color:#ff4d4d;font-size:24px;"><i class="fas fa-wallet"></i></div>
+        <h2 style="font-size:22px;font-weight:800;margin-bottom:6px;">Insufficient Balance</h2>
+        <p style="color:var(--text-secondary);font-size:14px;line-height:1.6;margin-bottom:18px;">Your wallet balance is not enough for this purchase. Add money to your wallet and try again.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;text-align:left;">
+            <div style="padding:12px;border:1px solid var(--border-color);border-radius:12px;background:var(--bg-input);"><div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;font-weight:700;">Available</div><strong id="insufficient-current" style="font-size:16px;">₹0.00</strong></div>
+            <div style="padding:12px;border:1px solid var(--border-color);border-radius:12px;background:var(--bg-input);"><div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;font-weight:700;">Required</div><strong id="insufficient-required" style="font-size:16px;color:var(--accent-gold);">₹0.00</strong></div>
+        </div>
+        <div class="modal-actions" style="justify-content:center;">
+            <button class="btn btn-outline-modal" onclick="closeModal('modal-insufficient-balance')">Cancel</button>
+            <button class="btn btn-primary-modal" onclick="goToAddMoney()"><i class="fas fa-plus"></i> Add Money</button>
         </div>
     </div>
 </div>
@@ -2040,6 +2398,9 @@
     // --- STATE ---
     let currentUser = null;
     let userData = { balance: 0, plan: null };
+    let lastObservedBalance = null;
+    let walletExpiryInterval = null;
+    let walletExpiryProcessing = false;
     window.ZAP_KEY = "";
     window.MANUAL_UPI = "";
     let securityCompleted = false;
@@ -2237,6 +2598,16 @@
         if (section) section.classList.remove('hidden');
     };
 
+    // --- WALLET TOP-UP AMOUNT PILLS ---
+    document.querySelectorAll('.amount-pill').forEach(pill => {
+        pill.addEventListener('click', () => {
+            document.querySelectorAll('.amount-pill').forEach(p => p.classList.remove('active'));
+            pill.classList.add('active');
+            document.getElementById('add-amount').value = pill.dataset.amount;
+        });
+    });
+    document.querySelector('.amount-pill[data-amount="5"]')?.classList.add('active');
+
     // --- ZAPPAY PAYMENT SYSTEM ---
     const ZAPPAY_API_BASE = "https://zappay-beta.vercel.app";
     let paymentPollInterval = null;
@@ -2247,15 +2618,7 @@
         return Number.isFinite(n) ? Math.floor(n * 100) / 100 : NaN;
     }
 
-    function sanitizePhone(value) {
-        const digits = String(value || '').replace(/\D/g, '');
-        if (digits.length === 10 && /^[6-9]/.test(digits)) return digits;
-        if (digits.length === 12 && digits.startsWith('91') && /^[6-9]/.test(digits.slice(2))) return digits.slice(2);
-        if (digits.length === 11 && digits.startsWith('0') && /^[6-9]/.test(digits.slice(1))) return digits.slice(1);
-        return '';
-    }
-
-    async function zapPayCreateOrder(amount, title, phone) {
+    async function zapPayCreateOrder(amount, title) {
         const key = String(window.ZAP_KEY || '').trim();
         const response = await fetch(`${ZAPPAY_API_BASE}/api/developer/create-order`, {
             method: 'POST',
@@ -2263,7 +2626,6 @@
             body: JSON.stringify({
                 amount,
                 title: title || 'Wallet Deposit',
-                customer_mobile: phone || undefined,
                 useEmbedded: true
             })
         });
@@ -2304,7 +2666,13 @@
             });
 
             if (result.committed) {
-                await runTransaction(ref(db, `users/${currentUser.uid}/balance`), (bal) => (Number(bal) || 0) + amount);
+                const expiryAt = Date.now() + (30 * 24 * 60 * 60 * 1000);
+                await runTransaction(ref(db, `users/${currentUser.uid}`), (user) => {
+                    if (!user) return user;
+                    user.balance = (Number(user.balance) || 0) + amount;
+                    user.walletExpiresAt = expiryAt;
+                    return user;
+                });
                 await update(ref(db, `gateway_payments/${orderId}`), {
                     status: "approved",
                     gateway_status: "success",
@@ -2376,19 +2744,17 @@
     // --- AUTO DEPOSIT ---
     document.getElementById('btn-submit-payment').addEventListener('click', async function() {
         const amt = sanitizeAmount(document.getElementById('add-amount').value);
-        const phone = sanitizePhone(document.getElementById('add-phone').value);
         const btn = this;
 
         if (!window.ZAP_KEY) return showToast("Gateway offline. Contact admin.", "error");
         if (!Number.isFinite(amt) || amt < 1 || amt > 5000) return showToast("Enter an amount between ₹1 and ₹5,000", "error");
-        if (!phone) return showToast("Enter a valid 10-digit Indian mobile number", "error");
         if (!currentUser) return showToast("Please login again", "error");
 
         btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Creating Order...`;
         btn.disabled = true;
 
         try {
-            const order = await zapPayCreateOrder(amt, `Wallet Deposit - ${currentUser.uid}`, phone);
+            const order = await zapPayCreateOrder(amt, `Wallet Deposit - ${currentUser.uid}`);
             const orderId = order.order_id;
 
             await set(ref(db, `transactions/${currentUser.uid}/${orderId}`), {
@@ -2403,7 +2769,6 @@
                 uid: currentUser.uid,
                 email: currentUser.email || "",
                 amount: amt,
-                phone: phone,
                 status: "pending",
                 gateway: "ZapPay",
                 timestamp: serverTimestamp()
@@ -2577,8 +2942,8 @@
             const fab = document.getElementById('global-telegram-btn');
             fab.href = tgDash;
             fab.style.display = tgDash === '#' ? 'none' : 'flex';
-            document.getElementById('support-wa-btn').href = wa;
-            document.getElementById('support-tg-btn').href = tgDash !== '#' ? tgDash : tgLogin;
+            document.getElementById('support-wa-btn').href = 'https://discord.gg/vKx2bphJAU';
+            document.getElementById('support-tg-btn').href = 'https://t.me/nrzempire';
         });
     }
 
@@ -2597,7 +2962,8 @@
             const logo = String(data.logo || '').trim();
 
             if (name && nameEl) {
-                nameEl.textContent = name;
+                nameEl.dataset.text = name;
+                nameEl.innerHTML = '<span class="nrz-red">NRZ</span> <span class="nrz-white">STORE</span>';
                 document.title = name + ' | PREMIUM';
             }
 
@@ -2794,9 +3160,67 @@
     document.getElementById('btn-logout').addEventListener('click', async function() {
         showLoader();
         try { await signOut(auth);
+            lastObservedBalance = null;
+            if (walletExpiryInterval) { clearInterval(walletExpiryInterval); walletExpiryInterval = null; }
             document.getElementById('dropdown-menu').classList.remove('active'); } catch (e) { console.error(e); }
         hideLoader();
     });
+
+    // --- WALLET MONEY EXPIRY (30 DAYS) ---
+    const WALLET_EXPIRY_MS = 30 * 24 * 60 * 60 * 1000;
+    function formatWalletExpiry(ms) {
+        if (ms <= 0) return '0d';
+        const totalSeconds = Math.ceil(ms / 1000);
+        const days = Math.floor(totalSeconds / 86400);
+        const hours = Math.floor((totalSeconds % 86400) / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+        if (days > 0) return `${days}d`;
+        if (hours > 0) return `${hours}h`;
+        if (minutes > 0) return `${minutes}m`;
+        return `${seconds}s`;
+    }
+    function updateWalletExpiryUI() {
+        const box=document.getElementById('wallet-expiry'), out=document.getElementById('wallet-expiry-time');
+        if (!box || !out) return;
+        const balance=Number(userData?.balance)||0, expiryAt=Number(userData?.walletExpiresAt)||0, remaining=expiryAt-Date.now();
+        if (balance >= 1 && remaining > 0) { box.classList.add('active'); out.textContent=formatWalletExpiry(remaining); }
+        else box.classList.remove('active');
+    }
+    async function expireWalletMoney() {
+        if (!currentUser || walletExpiryProcessing) return;
+        const balance=Number(userData?.balance)||0, expiryAt=Number(userData?.walletExpiresAt)||0;
+        if (balance < 1 || !expiryAt || expiryAt > Date.now()) return;
+        walletExpiryProcessing=true;
+        try {
+            const result=await runTransaction(ref(db, `users/${currentUser.uid}`), user => {
+                if (!user) return user;
+                const bal=Number(user.balance)||0, exp=Number(user.walletExpiresAt)||0;
+                if (bal >= 1 && exp > 0 && exp <= Date.now()) { user.balance=0; user.walletExpiresAt=null; return user; }
+                return undefined;
+            });
+            if (result.committed) {
+                const id='EXP'+Date.now();
+                await set(ref(db, `transactions/${currentUser.uid}/${id}`), {id, type:'wallet_expiry', amount:-balance, status:'success', desc:'Wallet balance expired after 30 days', date:new Date().toISOString()});
+                showToast('Your wallet balance has expired.', 'warning');
+            }
+        } catch(e) { console.error('Wallet expiry error:',e); }
+        finally { walletExpiryProcessing=false; }
+    }
+    function startWalletExpiryWatcher() {
+        if (walletExpiryInterval) clearInterval(walletExpiryInterval);
+        updateWalletExpiryUI();
+        walletExpiryInterval=setInterval(async()=>{
+            updateWalletExpiryUI();
+            const balance=Number(userData?.balance)||0, expiryAt=Number(userData?.walletExpiresAt)||0;
+            if (balance >= 1 && expiryAt > 0 && expiryAt <= Date.now()) await expireWalletMoney();
+        },1000);
+    }
+    async function restartWalletExpiry() {
+        if (!currentUser) return;
+        try { await update(ref(db, `users/${currentUser.uid}`), {walletExpiresAt:Date.now()+WALLET_EXPIRY_MS}); }
+        catch(e) { console.error('Wallet expiry restart error:',e); }
+    }
 
     // --- USER DATA ---
     function initUserData() {
@@ -2806,11 +3230,16 @@
                 userData = snap.val();
                 if (userData.status === "banned") { signOut(auth);
                     alert("Account banned."); return; }
-                const bal = parseFloat(userData.balance || 0).toFixed(2);
+                const numericBalance = Number(userData.balance) || 0;
+                const bal = numericBalance.toFixed(2);
                 document.getElementById('nav-balance').innerText = bal;
                 document.getElementById('prof-bal').innerText = `₹${bal}`;
                 document.getElementById('wallet-stat-bal').innerText = `₹${bal}`;
                 document.getElementById('prof-email').innerText = userData.email;
+                if (lastObservedBalance !== null && numericBalance > lastObservedBalance && numericBalance >= 1) restartWalletExpiry();
+                if (numericBalance >= 1 && !Number(userData.walletExpiresAt)) restartWalletExpiry();
+                lastObservedBalance = numericBalance;
+                updateWalletExpiryUI();
                 if (userData.createdAt) {
                     document.getElementById('prof-date').innerText = new Date(userData.createdAt).toLocaleDateString();
                 }
@@ -2820,8 +3249,9 @@
             }
             hideLoader();
         });
+        startWalletExpiryWatcher();
         onValue(ref(db, `transactions/${currentUser.uid}`), (snap) => {
-            let totalDep = 0, todayDep = 0, pendingDep = 0;
+            let totalDep = 0, todayDep = 0;
             const today = new Date().toLocaleDateString();
             if (snap.exists()) {
                 snap.forEach(child => {
@@ -2831,18 +3261,17 @@
                         if (tx.status === 'success') {
                             totalDep += parseFloat(tx.amount) || 0;
                             if (txDate === today) todayDep += parseFloat(tx.amount) || 0;
-                        } else if (tx.status === 'pending') pendingDep += parseFloat(tx.amount) || 0;
+                        }
                     }
                 });
             }
-            document.getElementById('wallet-stat-dep').innerText = `₹${totalDep.toFixed(2)}`;
+            null.innerText = `₹${totalDep.toFixed(2)}`;
             document.getElementById('wallet-stat-today').innerText = `₹${todayDep.toFixed(2)}`;
-            document.getElementById('wallet-stat-pending').innerText = `₹${pendingDep.toFixed(2)}`;
         });
     }
 
-    // --- NAVIGATION ---
-    window.navigate = (pageId) => {
+    // --- NAVIGATION + BROWSER BACK SUPPORT ---
+    window.navigate = (pageId, addHistory = true) => {
         document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
         const target = document.getElementById(`page-${pageId}`);
         if (target) target.classList.remove('hidden');
@@ -2850,11 +3279,77 @@
         if (dropdown) dropdown.classList.remove('active');
         if (pageId === 'plans') fetchMyPlan();
         if (pageId === 'wallet') switchWalletTab('auto');
+
+        // Create a browser-history entry so Android/browser Back returns
+        // to the previous page inside this SPA instead of closing the site.
+        if (addHistory) {
+            const current = history.state?.page;
+            if (current !== pageId) {
+                history.pushState({ page: pageId }, '', `#${pageId}`);
+            }
+        }
+
         window.scrollTo(0, 0);
     };
 
+    // Handle Android/browser Back button.
+    window.addEventListener('popstate', function(event) {
+        const pageId = event.state?.page || 'home';
+        window.navigate(pageId, false);
+    });
+
+    // Keep the initial page in browser history.
+    if (!history.state?.page) {
+        history.replaceState({ page: 'home' }, '', '#home');
+    }
+
     document.getElementById('menu-toggle').addEventListener('click', function() {
         document.getElementById('dropdown-menu').classList.toggle('active');
+    });
+
+    window.togglePlanDropdown = function(event, panelId) {
+        if (event) event.stopPropagation();
+        const container = document.getElementById(`plans-${panelId}`);
+        if (!container) return;
+        document.querySelectorAll('.plans-container .plan-dropdown-menu.open').forEach(menu => {
+            if (menu.closest('.plans-container') !== container) menu.classList.remove('open');
+        });
+        const menu = container.querySelector('.plan-dropdown-menu');
+        const toggle = container.querySelector('.plan-dropdown-toggle');
+        const willOpen = !menu?.classList.contains('open');
+        menu?.classList.toggle('open', willOpen);
+        toggle?.classList.toggle('open', willOpen);
+        toggle?.setAttribute('aria-expanded', String(willOpen));
+    };
+
+    window.selectPlanOption = function(el, panelId) {
+        const container = document.getElementById(`plans-${panelId}`);
+        if (!container) return;
+        container.querySelectorAll('.plan-option').forEach(btn => btn.classList.remove('active'));
+        el.classList.add('active');
+
+        const label = el.querySelector('.plan-option-label');
+        const price = el.querySelector('.plan-option-price');
+        const selectedLabel = container.querySelector('.plan-selected-label');
+        const selectedPrice = container.querySelector('.plan-selected-price');
+        if (selectedLabel && label) selectedLabel.innerHTML = label.innerHTML;
+        if (selectedPrice && price) selectedPrice.textContent = price.textContent;
+
+        const menu = container.querySelector('.plan-dropdown-menu');
+        const toggle = container.querySelector('.plan-dropdown-toggle');
+        menu?.classList.remove('open');
+        toggle?.classList.remove('open');
+        toggle?.setAttribute('aria-expanded', 'false');
+    };
+
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.plans-container')) {
+            document.querySelectorAll('.plans-container .plan-dropdown-menu.open').forEach(menu => menu.classList.remove('open'));
+            document.querySelectorAll('.plans-container .plan-dropdown-toggle.open').forEach(toggle => {
+                toggle.classList.remove('open');
+                toggle.setAttribute('aria-expanded', 'false');
+            });
+        }
     });
 
     // --- FETCH PANELS ---
@@ -2867,14 +3362,29 @@
                 container.innerHTML = `<div class="empty-state"><i class="fas fa-box-open"></i><p>No panels available.</p></div>`;
                 return;
             }
+            const panelEntries = [];
             snap.forEach(child => {
                 const p = child.val();
                 if (!p || p.status !== 'active') return;
-                const panelId = child.key;
+                panelEntries.push({ id: child.key, p, originalIndex: panelEntries.length });
+            });
+            panelEntries.sort((a, b) => {
+                const ao = Number(a.p?.order), bo = Number(b.p?.order);
+                const ah = Number.isFinite(ao), bh = Number.isFinite(bo);
+                if (ah && bh && ao !== bo) return ao - bo;
+                if (ah !== bh) return ah ? -1 : 1;
+                return a.originalIndex - b.originalIndex;
+            });
+            panelEntries.forEach(({id: panelId, p}) => {
                 const desc = p.description || '';
                 const category = String(p.category || '').trim();
                 const features = desc.split(/\n|-/).filter(f => f && f.trim().length > 0);
-                const featuresHtml = features.map(f => `<span class="chip"><i class="fas fa-bolt"></i> ${f.trim()}</span>`).join('');
+                const featuresHtml = features.map(f => {
+                    const feature = f.trim();
+                    const colorMatch = feature.match(/\[([0-9a-fA-F]{6})\]/);
+                    const chipColor = colorMatch ? `#${colorMatch[1]}` : 'var(--accent-blue)';
+                    return `<span class="chip" style="--chip-color:${chipColor}">${ffColorText(feature)}</span>`;
+                }).join('');
                 const updateLink = p.link ? `window.open('${p.link}','_blank')` : '';
                 const updateBtn = updateLink ? `<button class="btn-outline" onclick="${updateLink}"><i class="fas fa-file-download"></i> Update</button>` : '';
                 const feedbackBtn = p.feedback && p.feedback.trim() ?
@@ -2882,13 +3392,34 @@
 
                 let plansHtml = '';
                 if (p.plans && Object.keys(p.plans).length > 0) {
-                    const sorted = Object.entries(p.plans).sort((a, b) => (a[1].price || 0) - (b[1].price || 0));
-                    plansHtml = `<select class="plan-select" id="plan-${panelId}">`;
-                    sorted.forEach(([key, data]) => {
-                        const label = data.label || `${data.days || ''} Days`;
-                        plansHtml += `<option value='${JSON.stringify({ key, label, price: data.price || 0 })}'>${label} - ₹${data.price || 0}</option>`;
+                    const sorted = Object.entries(p.plans).sort((a, b) => {
+                        const ao = Number(a[1]?.order);
+                        const bo = Number(b[1]?.order);
+                        if (Number.isFinite(ao) && Number.isFinite(bo)) return ao - bo;
+                        return (a[1]?.price || 0) - (b[1]?.price || 0);
                     });
-                    plansHtml += `</select>`;
+                    const firstKey = sorted[0][0];
+                    const firstData = sorted[0][1] || {};
+                    const firstLabel = firstData.label || `${firstData.days || ''} Days`;
+                    plansHtml = `<div class="plans-container" id="plans-${panelId}" role="group" aria-label="Plans">
+                        <button type="button" class="plan-dropdown-toggle" aria-expanded="false" onclick="togglePlanDropdown(event, '${panelId}')">
+                            <span class="plan-selected-info">
+                                <span class="plan-selected-label">${ffColorText(firstLabel)}</span>
+                            </span>
+                            <span class="plan-selected-price">₹${firstData.price || 0}</span>
+                            <i class="fas fa-chevron-down plan-dropdown-chevron" aria-hidden="true"></i>
+                        </button>
+                        <div class="plan-dropdown-menu" role="menu">`;
+                    sorted.forEach(([key, data], index) => {
+                        const label = data.label || `${data.days || ''} Days`;
+                        const payload = JSON.stringify({ key, label, price: data.price || 0 }).replace(/"/g, '&quot;');
+                        plansHtml += `<button type="button" role="menuitem" class="plan-option${index === 0 ? ' active' : ''}" data-plan='${payload}' onclick="selectPlanOption(this, '${panelId}')">
+                            <span class="plan-option-check" aria-hidden="true"><i class="fas fa-check"></i></span>
+                            <span class="plan-option-label">${ffColorText(label)}</span>
+                            <span class="plan-option-price">₹${data.price || 0}</span>
+                        </button>`;
+                    });
+                    plansHtml += `</div></div>`;
                 } else {
                     plansHtml = `<p style="color:var(--text-muted);font-size:13px;text-align:center;margin:8px 0;">Pricing unavailable</p>`;
                 }
@@ -2900,7 +3431,7 @@
 
                 const card = document.createElement('div');
                 card.className = 'panel-card';
-                const searchText = `${p.name || ''} ${desc}`.toLowerCase();
+                const searchText = `${String(p.name || '').replace(/\[[^\]]+\]/g, '')} ${String(desc || '').replace(/\[[^\]]+\]/g, '')}`.toLowerCase();
                 card.setAttribute('data-search', searchText);
                 const panelName = (p.name || 'Panel').replace(/'/g, "\\'");
                 card.innerHTML = `
@@ -2908,16 +3439,16 @@
                     ${videoHtml}
                     <div class="panel-body">
                         <div class="panel-heading-row">
-                            ${p.logo ? `<img class="panel-logo" src="${p.logo}" alt="${p.name || 'Panel'} logo" onerror="this.style.display='none'">` : ''}
-                            <div><div class="panel-name">${p.name || 'Panel'}</div>${category ? `<div class="panel-category">${category}</div>` : ''}</div>
+                            ${p.logo ? `<img class="panel-logo" src="${p.logo}" alt="${escapeHtml(p.name || 'Panel')} logo" onerror="this.style.display='none'">` : ''}
+                            <div><div class="panel-name">${ffColorText(p.name || 'Panel')}</div>${category ? `<div class="panel-category">${ffColorText(category)}</div>` : ''}</div>
                         </div>
                         ${featuresHtml ? `<div class="feature-list">${featuresHtml}</div>` : ''}
                         <div class="trust-row">
                         </div>
                         ${(updateBtn || feedbackBtn) ? `<div class="btn-row">${updateBtn}${feedbackBtn}</div>` : ''}
                         ${plansHtml}
-                        <button class="btn-primary-solid" onclick="handlePurchaseClick('${panelId}','${panelName}','${p.link || ''}')" style="width:100%;">
-                            <i class="fas fa-shopping-cart"></i> Purchase Key
+                        <button class="btn-primary-solid" onclick="handlePurchaseClick('${panelId}','${panelName}','${p.link || ''}','${String(p.deliveryTime ?? '').replace(/'/g, "\\'")}')" style="width:100%;">
+                            <i class="fas fa-shopping-cart"></i> Buy Now
                         </button>
                     </div>
                 `;
@@ -2962,25 +3493,27 @@
     window.currentCheckout = {};
     window.appliedCoupon = null;
 
-    window.handlePurchaseClick = (panelId, panelName, link) => {
-        const select = document.getElementById(`plan-${panelId}`);
-        if (!select) return showToast('No plans available', 'error');
+    window.handlePurchaseClick = (panelId, panelName, link, deliveryTime) => {
+        const container = document.getElementById(`plans-${panelId}`);
+        const selected = container?.querySelector('.plan-option.active');
+        if (!selected) return showToast('Please select a plan', 'warning');
         let planData;
         try {
-            planData = JSON.parse(select.value);
+            planData = JSON.parse(selected.getAttribute('data-plan') || '{}');
         } catch(e) {
             return showToast('Error reading plan data', 'error');
         }
         window.currentCheckout = {
             panelId, panelName, link: link || '',
+            deliveryTime: deliveryTime || '',
             planKey: planData.key || '',
             label: planData.label || 'Plan',
             originalPrice: parseFloat(planData.price) || 0,
             finalPrice: parseFloat(planData.price) || 0
         };
         window.appliedCoupon = null;
-        document.getElementById('chk-panel-name').innerText = panelName;
-        document.getElementById('chk-plan-label').innerText = planData.label || 'Plan';
+        document.getElementById('chk-panel-name').innerHTML = ffColorText(panelName);
+        document.getElementById('chk-plan-label').innerHTML = ffColorText(planData.label || 'Plan');
         document.getElementById('chk-orig-price').innerText = (parseFloat(planData.price) || 0).toFixed(2);
         document.getElementById('chk-final-price').innerText = (parseFloat(planData.price) || 0).toFixed(2);
         document.getElementById('chk-coupon-input').value = '';
@@ -3040,6 +3573,16 @@
         }
     };
 
+    window.goToAddMoney = function() {
+        closeModal('modal-insufficient-balance');
+        navigate('wallet');
+        setTimeout(() => {
+            switchWalletTab('auto');
+            const gateway = document.getElementById('wallet-tab-auto');
+            if (gateway) gateway.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 50);
+    };
+
     window.executePurchase = async function() {
         const checkout = window.currentCheckout;
         const enteredUid = document.getElementById('chk-uid-input')?.value.trim() || '';
@@ -3047,14 +3590,22 @@
         const price = checkout.finalPrice || 0;
         const btn = document.getElementById('btn-confirm-pay');
         const balance = parseFloat(userData.balance || 0);
-        if (balance < price) return showToast(`Insufficient balance. Need ₹${price.toFixed(2)}`, "error");
+        if (balance < price) {
+            navigate('wallet');
+            document.getElementById('insufficient-current').innerText = `₹${balance.toFixed(2)}`;
+            document.getElementById('insufficient-required').innerText = `₹${price.toFixed(2)}`;
+            openModal('modal-insufficient-balance');
+            return;
+        }
         showLoader();
         btn.disabled = true;
         btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Processing...`;
         try {
-            const result = await runTransaction(ref(db, `users/${currentUser.uid}/balance`), (bal) => {
-                if (bal === null) return 0;
-                if (bal >= price) return bal - price;
+            const expiryAt = Date.now() + WALLET_EXPIRY_MS;
+            const result = await runTransaction(ref(db, `users/${currentUser.uid}`), (user) => {
+                if (!user) return user;
+                const bal = Number(user.balance) || 0;
+                if (bal >= price) { user.balance = bal - price; user.walletExpiresAt = expiryAt; return user; }
                 return undefined;
             });
             if (result.committed) {
@@ -3079,11 +3630,15 @@
                     await runTransaction(ref(db, `coupons/${window.appliedCoupon.id}/used`), (curr) => (curr || 0) + 1);
                 }
                 closeModal('modal-checkout');
-                document.getElementById('modal-key-display').innerText = newKey;
-                document.getElementById('modal-btn-access').onclick = () => window.open(checkout.link || "https://t.me/", '_blank');
+                const successDelivery = document.getElementById('success-delivery-time');
+                if (successDelivery) successDelivery.innerText = checkout.deliveryTime || '—';
                 openModal('modal-success');
             } else {
-                showToast("Transaction failed. Insufficient funds.", "error");
+                navigate('wallet');
+                const latestBalance = Number(userData?.balance) || 0;
+                document.getElementById('insufficient-current').innerText = `₹${latestBalance.toFixed(2)}`;
+                document.getElementById('insufficient-required').innerText = `₹${price.toFixed(2)}`;
+                openModal('modal-insufficient-balance');
             }
         } catch (e) { showToast("System error. Try again.", "error"); } finally {
             hideLoader();
@@ -3128,12 +3683,47 @@
         return String(value ?? '').replace(/[&<>\"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#039;'}[ch]));
     }
 
+    // Rich panel-text parser:
+    // [RRGGBB] = color until next color code
+    // [50] = 50% of the normal text size until another [NNN] code
+    // https://.../image.png = rendered inline at emoji/icon size
+    function ffColorText(value) {
+        const text = String(value ?? '');
+        const tokenRe = /\[([0-9a-fA-F]{6})\]|\[(\d{1,3})\]|https?:\/\/[^\s<]+/g;
+        let html = '', last = 0, currentColor = null, currentSize = 100, match;
+
+        const renderText = (raw) => {
+            if (!raw) return '';
+            // Keep normal spaces intact. The previous word-by-word rendering
+            // made spaces inside flex chips disappear.
+            let out = escapeHtml(raw);
+            if (currentSize !== 100) out = `<span class="ff-size" style="font-size:${currentSize}%">${out}</span>`;
+            if (currentColor) out = `<span class="ff-color" style="color:#${currentColor}">${out}</span>`;
+            return out;
+        };
+
+        while ((match = tokenRe.exec(text)) !== null) {
+            html += renderText(text.slice(last, match.index));
+            if (match[1]) {
+                currentColor = match[1];
+            } else if (match[2]) {
+                currentSize = Math.max(1, Math.min(500, parseInt(match[2], 10)));
+            } else {
+                const cleanUrl = match[0].replace(/[),.;!?]+$/g, '');
+                const img = `<img class="ff-inline-img" src="${escapeHtml(cleanUrl)}" alt="" loading="lazy" onerror="this.style.display='none'">`;
+                html += currentSize !== 100 ? `<span class="ff-size" style="font-size:${currentSize}%">${img}</span>` : img;
+            }
+            last = match.index + match[0].length;
+        }
+        return html + renderText(text.slice(last));
+    }
+
     function renderMyPlan(plan) {
         const container=document.getElementById('my-plan-container');
         if(!container) return;
         const active=String(plan?.status||'').toLowerCase()==='active';
         if(!plan || !active){
-            container.innerHTML='<div class="plans-empty"><i class="fas fa-calendar-xmark"></i><h3>No Active Plan</h3><p>Admin ne abhi aapke account par koi plan assign nahi kiya hai.</p></div>';
+            container.innerHTML='<div class="plans-empty"><i class="fas fa-calendar-xmark"></i><h3>No Active Plan</h3><p>Buy a weekly or monthly Likes plan.</p></div>';
             return;
         }
         const daysLeft=getPlanDaysLeft(plan);
@@ -3207,7 +3797,7 @@
         try { hideLoader(); } catch (_) {}
     });
 
-    console.log('✅ GALU MODZ App initialized with enhanced security system');
+    console.log('✅ NRZ STORE App initialized with enhanced security system');
 </script>
 </body>
 </html>
