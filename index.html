@@ -572,58 +572,22 @@
     }
     .navbar .balance-pill {
         display: flex;
-        cursor: pointer;
-        font-family: inherit;
-        outline: none;
+         cursor: pointer;
+         font-family: inherit;
+         outline: none;
         align-items: center;
         gap: 8px;
-        padding: 9px 18px;
-        min-height: 40px;
-        position: relative;
-        overflow: hidden;
-        background: linear-gradient(145deg, #6ee7b7 0%, #34d399 45%, #059669 100%);
-        border: 1px solid rgba(167, 243, 208, .72);
-        border-radius: 14px;
-        font-weight: 800;
+        padding: 8px 18px;
+        background: rgba(255, 179, 0, 0.08);
+        border: 1px solid rgba(255, 179, 0, 0.15);
+        border-radius: 30px;
+        font-weight: 700;
         font-size: 14px;
-        color: #052e1c;
-        text-shadow: 0 1px 0 rgba(255,255,255,.28);
-        transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
-        box-shadow:
-            inset 0 1px 0 rgba(255,255,255,.72),
-            inset 0 -2px 0 rgba(0,0,0,.16),
-            0 3px 0 #047857,
-            0 8px 18px rgba(16,185,129,.22);
+        color: var(--accent-blue);
+        transition: var(--transition);
     }
-    .navbar .balance-pill::before {
-        content: '';
-        position: absolute;
-        left: 8%;
-        right: 8%;
-        top: 3px;
-        height: 42%;
-        border-radius: 999px;
-        background: linear-gradient(180deg, rgba(255,255,255,.42), rgba(255,255,255,0));
-        pointer-events: none;
-    }
-    .navbar .balance-pill:hover {
-        transform: translateY(-2px);
-        filter: brightness(1.05);
-        box-shadow:
-            inset 0 1px 0 rgba(255,255,255,.78),
-            inset 0 -2px 0 rgba(0,0,0,.14),
-            0 5px 0 #047857,
-            0 12px 24px rgba(16,185,129,.30);
-    }
-    .navbar .balance-pill:active {
-        transform: translateY(2px);
-        box-shadow:
-            inset 0 2px 3px rgba(0,0,0,.18),
-            0 1px 0 #047857,
-            0 4px 10px rgba(16,185,129,.20);
-    }
-    .navbar .balance-pill i { font-size: 14px; position: relative; z-index: 1; }
-    .navbar .balance-pill span { position: relative; z-index: 1; }
+    .navbar .balance-pill:hover { border-color: rgba(255, 179, 0, 0.3); }
+    .navbar .balance-pill i { font-size: 14px; }
     .navbar .menu-btn {
         width: 42px;
         height: 42px;
@@ -937,263 +901,73 @@
     .btn-outline.feedback:hover { border-color: var(--accent-red); background: rgba(248, 113, 113, 0.06); }
 
     .btn-primary-solid {
-        padding: 14px 20px;
-        min-height: 50px;
-        position: relative;
-        overflow: hidden;
-        background: linear-gradient(145deg, #9b6cff 0%, #7c3aed 42%, #5b21b6 100%);
-        border: 1px solid rgba(196,181,253,.72);
-        border-radius: 14px;
-        font-weight: 800;
+        padding: 13px 20px;
+        background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+        border: none;
+        border-radius: var(--radius-sm);
+        font-weight: 700;
         font-size: 15px;
-        letter-spacing: .1px;
         color: #fff;
-        text-shadow: 0 1px 1px rgba(0,0,0,.18);
-        transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+        transition: var(--transition);
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 8px;
         width: 100%;
-        margin-top: 8px;
+        margin-top: 4px;
         cursor: pointer;
-        box-shadow:
-            inset 0 1px 0 rgba(255,255,255,.62),
-            inset 0 -2px 0 rgba(0,0,0,.20),
-            0 4px 0 #4c1d95,
-            0 10px 22px rgba(124,58,237,.25);
     }
-    .btn-primary-solid::before {
-        content: '';
-        position: absolute;
-        left: 7%;
-        right: 7%;
-        top: 3px;
-        height: 42%;
-        border-radius: 999px;
-        background: linear-gradient(180deg, rgba(255,255,255,.34), rgba(255,255,255,0));
-        pointer-events: none;
-    }
-    .btn-primary-solid i,
-    .btn-primary-solid span { position: relative; z-index: 1; }
     .btn-primary-solid:hover {
         transform: translateY(-2px);
-        filter: brightness(1.06);
-        box-shadow:
-            inset 0 1px 0 rgba(255,255,255,.70),
-            inset 0 -2px 0 rgba(0,0,0,.16),
-            0 6px 0 #4c1d95,
-            0 14px 28px rgba(124,58,237,.34);
+        box-shadow: 0 8px 30px rgba(255, 179, 0, 0.3);
     }
-    .btn-primary-solid:active {
-        transform: translateY(2px);
-        box-shadow:
-            inset 0 2px 4px rgba(0,0,0,.20),
-            0 1px 0 #4c1d95,
-            0 5px 12px rgba(124,58,237,.20);
-    }
-    .btn-primary-solid:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-        transform: none;
-        box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 2px 0 #4c1d95;
-    }
+    .btn-primary-solid:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-    /* Collapsible plan selector — compact 3D dropdown style */
     .panel-card .plans-container {
-        position:relative;
-        display:block;
-        margin-top:8px;
-        width:100%;
-        z-index:5;
-    }
-    .panel-card .plan-dropdown-toggle {
-        position:relative;
-        width:100%;
-        min-height:54px;
-        padding:13px 48px 13px 16px;
-        display:flex;
-        align-items:center;
-        justify-content:space-between;
-        gap:12px;
-        text-align:left;
-        color:var(--text-primary);
-        background:linear-gradient(145deg,rgba(255,255,255,.105),rgba(255,255,255,.035));
-        border:1px solid rgba(255,255,255,.14);
-        border-radius:14px;
-        cursor:pointer;
-        overflow:hidden;
-        backdrop-filter:blur(14px);
-        -webkit-backdrop-filter:blur(14px);
-        box-shadow:
-            inset 0 1px 0 rgba(255,255,255,.10),
-            inset 0 -2px 0 rgba(0,0,0,.18),
-            0 4px 0 rgba(0,0,0,.28),
-            0 10px 24px rgba(0,0,0,.16);
-        transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease;
-    }
-    .panel-card .plan-dropdown-toggle::before {
-        content:'';
-        position:absolute;
-        left:6%;
-        right:6%;
-        top:2px;
-        height:40%;
-        border-radius:999px;
-        background:linear-gradient(180deg,rgba(255,255,255,.12),transparent);
-        pointer-events:none;
-    }
-    .panel-card .plan-dropdown-toggle:hover {
-        transform:translateY(-2px);
-        border-color:rgba(139,92,246,.48);
-        box-shadow:
-            inset 0 1px 0 rgba(255,255,255,.14),
-            inset 0 -2px 0 rgba(0,0,0,.18),
-            0 6px 0 rgba(0,0,0,.30),
-            0 14px 28px rgba(0,0,0,.22);
-    }
-    .panel-card .plan-dropdown-toggle.open {
-        border-color:rgba(139,92,246,.65);
-        border-bottom-left-radius:10px;
-        border-bottom-right-radius:10px;
-    }
-    .plan-selected-info {
-        min-width:0;
-        flex:1;
-        display:flex;
-        align-items:center;
-        gap:10px;
-        position:relative;
-        z-index:1;
-    }
-    .plan-selected-label {
-        min-width:0;
-        font-size:14px;
-        font-weight:700;
-        line-height:1.35;
-        word-break:break-word;
-    }
-    .plan-selected-price {
-        position:relative;
-        z-index:1;
-        font-size:16px;
-        font-weight:800;
-        color:#fff;
-        white-space:nowrap;
-    }
-    .plan-dropdown-chevron {
-        position:absolute;
-        right:16px;
-        top:50%;
-        transform:translateY(-50%);
-        font-size:17px;
-        color:#a5b4fc;
-        transition:transform .2s ease, color .2s ease;
-        z-index:2;
-    }
-    .plan-dropdown-toggle.open .plan-dropdown-chevron {
-        transform:translateY(-50%) rotate(180deg);
-        color:#c4b5fd;
-    }
-    .panel-card .plan-dropdown-menu {
-        display:none;
-        position:absolute;
-        left:0;
-        right:0;
-        top:calc(100% - 1px);
-        padding:8px;
-        background:rgba(15,17,24,.98);
-        border:1px solid rgba(139,92,246,.45);
-        border-top:0;
-        border-radius:0 0 14px 14px;
-        box-shadow:0 16px 34px rgba(0,0,0,.38);
-        backdrop-filter:blur(18px);
-        -webkit-backdrop-filter:blur(18px);
-        z-index:50;
-    }
-    .panel-card .plan-dropdown-menu.open {
         display:flex;
         flex-direction:column;
-        gap:6px;
-        animation:planDropIn .18s ease;
-    }
-    @keyframes planDropIn {
-        from { opacity:0; transform:translateY(-5px); }
-        to { opacity:1; transform:translateY(0); }
+        gap:10px;
+        margin-top:4px;
+        width:100%;
     }
     .panel-card .plan-option {
         position:relative;
         width:100%;
         min-height:48px;
-        padding:11px 38px 11px 14px;
-        border:1px solid rgba(255,255,255,.08);
-        border-radius:10px;
-        background:linear-gradient(145deg,rgba(255,255,255,.07),rgba(255,255,255,.025));
-        cursor:pointer;
-        transition:transform .16s ease, background .16s ease, border-color .16s ease;
-        color:var(--text-primary);
-        display:flex;
-        align-items:center;
-        justify-content:space-between;
-        gap:14px;
-        text-align:initial;
-        overflow:hidden;
+        padding:12px 38px 12px 14px;
+        border:1px solid rgba(255,255,255,.10); border-radius:var(--radius-sm);
+        background:linear-gradient(135deg,rgba(255,255,255,.075),rgba(255,255,255,.025));
+        backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+        box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 8px 24px rgba(0,0,0,.16);
+        cursor:pointer; transition:var(--transition); color:var(--text-primary);
+        display:flex; align-items:center; justify-content:space-between; gap:14px;
+        text-align:initial; overflow:hidden;
     }
-    .panel-card .plan-option:hover {
-        transform:translateX(2px);
-        border-color:rgba(139,92,246,.55);
-        background:linear-gradient(145deg,rgba(124,58,237,.20),rgba(139,92,246,.07));
-    }
-    .panel-card .plan-option.active {
-        border-color:rgba(139,92,246,.72);
-        background:linear-gradient(145deg,rgba(124,58,237,.25),rgba(139,92,246,.08));
-        box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 0 0 1px rgba(139,92,246,.10);
-    }
-    .plan-option .plan-option-label {
-        order:1;
-        flex:1;
-        display:flex;
-        align-items:center;
-        min-height:24px;
-        font-size:13px;
-        font-weight:600;
-        line-height:1.35;
-        word-break:break-word;
-        text-align:left;
-    }
-    .plan-option .plan-option-price {
-        order:2;
-        display:block;
-        margin-top:0;
-        font-size:15px;
-        font-weight:800;
-        color:#fff;
-        white-space:nowrap;
-    }
+    .panel-card .plan-option:hover { transform:translateY(-2px); border-color:rgba(79,140,255,.45); background:linear-gradient(135deg,rgba(79,140,255,.13),rgba(139,92,246,.08)); }
+    .panel-card .plan-option.active { border-color:var(--accent-blue); box-shadow:0 0 0 1px rgba(79,140,255,.25),0 10px 28px rgba(79,140,255,.12); }
+    .plan-option .plan-option-label { order:1; flex:1; display:flex; align-items:center; min-height:24px; font-size:13px; font-weight:500; line-height:1.35; word-break:break-word; text-align:left; }
+    .plan-option .plan-option-price { order:2; display:block; margin-top:0; font-size:16px; font-weight:500; color:#fff; white-space:nowrap; }
     .plan-option .plan-option-check {
         position:absolute;
-        top:50%;
-        right:10px;
-        transform:translateY(-50%) scale(.7);
+        top:8px;
+        right:8px;
         width:18px;
         height:18px;
         border-radius:50%;
         display:flex;
         align-items:center;
         justify-content:center;
-        background:#7c3aed;
+        background:#ffb300;
         color:#fff;
-        font-size:9px;
+        font-size:10px;
         line-height:1;
         opacity:0;
+        transform:scale(.75);
         transition:var(--transition);
-        box-shadow:0 2px 8px rgba(124,58,237,.40);
+        box-shadow:0 2px 8px rgba(24,119,242,.35);
         z-index:2;
     }
-    .plan-option.active .plan-option-check {
-        opacity:1;
-        transform:translateY(-50%) scale(1);
-    }
+    .plan-option.active .plan-option-check { opacity:1; transform:scale(1); }
 
     /* ============================================
        WALLET - Modern Dashboard
@@ -1917,6 +1691,738 @@
 @keyframes nrzGlitchRed { 0%,78%,100%{opacity:0;transform:none} 79%{opacity:1;clip-path:inset(8% 0 78% 0);transform:translate(-3px,0)} 80%{opacity:.8;clip-path:inset(66% 0 14% 0);transform:translate(3px,0)} 81%{opacity:0} 91%{opacity:.9;clip-path:inset(38% 0 42% 0);transform:translate(-2px,0)} 92%{opacity:0} }
 @keyframes nrzGlitchWhite { 0%,81%,100%{opacity:0;transform:none} 82%{opacity:1;clip-path:inset(70% 0 9% 0);transform:translate(3px,0)} 83%{opacity:.75;clip-path:inset(16% 0 64% 0);transform:translate(-3px,0)} 84%{opacity:0} 94%{opacity:.9;clip-path:inset(42% 0 36% 0);transform:translate(2px,0)} 95%{opacity:0} }
 @keyframes nrzGlitchFlicker { 0%,100%{opacity:1} 79%,82%{opacity:.82} 80%{opacity:1} }
+
+/* =========================================================
+   NRZ NEO-BRUTALISM REDESIGN
+   Inspired by the supplied mobile-app references:
+   chunky black borders, offset shadows, warm paper surface,
+   yellow/pink/purple accents and tactile buttons.
+   ========================================================= */
+:root {
+    --bg-primary: #f7f0e5;
+    --bg-secondary: #eee5d7;
+    --bg-card: #fffdf8;
+    --bg-card-hover: #ffffff;
+    --bg-input: #ffffff;
+    --border-color: #111111;
+    --border-light: #111111;
+    --text-primary: #111111;
+    --text-secondary: #454545;
+    --text-muted: #737373;
+    --accent-blue: #6257f5;
+    --accent-cyan: #22c55e;
+    --accent-purple: #7b5cff;
+    --accent-pink: #ff4d8d;
+    --accent-gold: #ffd21f;
+    --accent-green: #42df5b;
+    --accent-red: #ff5a5f;
+    --shadow-card: 7px 7px 0 #111111;
+    --shadow-glow: none;
+    --radius: 18px;
+    --radius-sm: 12px;
+    --radius-lg: 24px;
+}
+
+html, body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+body {
+    background:
+        radial-gradient(circle at 0% 12%, rgba(255,77,141,.18) 0 90px, transparent 91px),
+        radial-gradient(circle at 100% 88%, rgba(123,92,255,.18) 0 120px, transparent 121px),
+        var(--bg-primary);
+}
+
+button, input, select, textarea {
+    color: var(--text-primary);
+}
+
+::selection {
+    background: #ffd21f;
+    color: #111;
+}
+
+.navbar {
+    height: 76px;
+    padding: 0 24px;
+    background: rgba(255,253,248,.96);
+    border-bottom: 3px solid #111;
+    box-shadow: 0 4px 0 #111;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+.navbar .brand {
+    color: #111;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 900;
+}
+
+.navbar .brand .brand-icon {
+    background: #ffd21f;
+    color: #111;
+    border: 3px solid #111;
+    border-radius: 10px;
+    box-shadow: 4px 4px 0 #111;
+}
+
+.navbar .brand span {
+    background: none;
+    -webkit-text-fill-color: initial;
+    color: #111;
+}
+
+.navbar .balance-pill {
+    padding: 9px 16px;
+    background: #42df5b;
+    border: 3px solid #111;
+    border-radius: 999px;
+    color: #111;
+    box-shadow: 4px 4px 0 #111;
+    font-weight: 900;
+}
+
+.navbar .balance-pill:hover {
+    border-color: #111;
+    transform: translate(-1px,-1px);
+    box-shadow: 5px 5px 0 #111;
+}
+
+.navbar .menu-btn {
+    width: 44px;
+    height: 44px;
+    background: #fffdf8;
+    border: 3px solid #111;
+    border-radius: 10px;
+    color: #111;
+    box-shadow: 4px 4px 0 #111;
+}
+
+.navbar .menu-btn:hover {
+    background: #ffd21f;
+    border-color: #111;
+    transform: translate(-1px,-1px);
+}
+
+.dropdown {
+    top: 86px;
+    right: 24px;
+    background: #fffdf8;
+    border: 3px solid #111;
+    border-radius: 16px;
+    box-shadow: 7px 7px 0 #111;
+    padding: 8px;
+    backdrop-filter: none;
+}
+
+.dropdown-item {
+    color: #222;
+    border-radius: 9px;
+    font-weight: 800;
+}
+
+.dropdown-item:hover {
+    background: #ffd21f;
+    color: #111;
+}
+
+.dropdown-item i,
+.dropdown-item:hover i {
+    color: #111;
+}
+
+.page-content {
+    padding: 104px 24px 80px;
+    max-width: 1180px;
+}
+
+.page-title {
+    font-family: 'Space Grotesk', sans-serif;
+    color: #111;
+    font-size: 32px;
+    font-weight: 900;
+}
+
+.page-title span {
+    background: none;
+    -webkit-text-fill-color: initial;
+    color: #6257f5;
+}
+
+.search-box input {
+    background: #fffdf8;
+    border: 3px solid #111;
+    border-radius: 14px;
+    box-shadow: 5px 5px 0 #111;
+    color: #111;
+    font-weight: 700;
+}
+
+.search-box input:focus {
+    border-color: #111;
+    box-shadow: 7px 7px 0 #111;
+}
+
+.search-box .search-icon {
+    color: #111;
+}
+
+.panel-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 26px;
+}
+
+.panel-card {
+    background: #fffdf8;
+    border: 3px solid #111;
+    border-radius: 18px;
+    box-shadow: 7px 7px 0 #111;
+    overflow: visible;
+}
+
+.panel-card:hover {
+    border-color: #111;
+    transform: translate(-2px,-3px);
+    box-shadow: 10px 10px 0 #111;
+}
+
+.panel-card .banner-wrap,
+.panel-card .video-wrap {
+    border-bottom: 3px solid #111;
+    border-radius: 14px 14px 0 0;
+}
+
+.panel-card .panel-body {
+    padding: 20px;
+    gap: 13px;
+}
+
+.panel-card .panel-body .panel-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: #111;
+}
+
+.panel-logo {
+    border: 3px solid #111;
+    border-radius: 12px;
+}
+
+.panel-card .panel-body .feature-list .chip {
+    background: var(--chip-color, #ffd21f);
+    color: #111;
+    border: 2px solid #111;
+    border-radius: 999px;
+    font-weight: 900;
+    padding: 5px 12px;
+    box-shadow: 2px 2px 0 #111;
+}
+
+.btn-outline {
+    background: #fffdf8;
+    border: 3px solid #111;
+    border-radius: 11px;
+    color: #111;
+    box-shadow: 3px 3px 0 #111;
+    font-weight: 900;
+}
+
+.btn-outline:hover {
+    background: #ffd21f;
+    border-color: #111;
+    color: #111;
+    transform: translate(-1px,-1px);
+    box-shadow: 4px 4px 0 #111;
+}
+
+.btn-primary-solid,
+.btn-auth {
+    background: #7b5cff;
+    border: 3px solid #111;
+    border-radius: 13px;
+    color: #fff;
+    box-shadow: 5px 5px 0 #111;
+    font-weight: 900;
+    letter-spacing: .1px;
+}
+
+.btn-primary-solid:hover,
+.btn-auth:hover {
+    background: #6257f5;
+    transform: translate(-2px,-2px);
+    box-shadow: 7px 7px 0 #111;
+}
+
+.btn-primary-solid:active,
+.btn-auth:active,
+.navbar .menu-btn:active,
+.navbar .balance-pill:active {
+    transform: translate(2px,2px);
+    box-shadow: 2px 2px 0 #111;
+}
+
+.btn-auth::before {
+    display: none;
+}
+
+.auth-card {
+    background: #fffdf8;
+    border: 3px solid #111;
+    border-radius: 22px;
+    box-shadow: 9px 9px 0 #111;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+.auth-card::before,
+.auth-card::after {
+    display: none;
+}
+
+.auth-card .brand h1 {
+    color: #111;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 900;
+}
+
+.auth-card .brand h1 span {
+    background: none;
+    -webkit-text-fill-color: initial;
+    color: #6257f5;
+}
+
+.auth-card .brand .logo-icon {
+    background: #ffd21f;
+    border: 3px solid #111;
+    color: #111;
+    box-shadow: 5px 5px 0 #111;
+}
+
+.auth-card .input-group input,
+.premium-card .input-group input,
+.checkout-uid-section input {
+    background: #fff;
+    border: 3px solid #111;
+    border-radius: 11px;
+    color: #111;
+    box-shadow: 3px 3px 0 #111;
+}
+
+.auth-card .input-group input:focus,
+.premium-card .input-group input:focus,
+.checkout-uid-section input:focus {
+    border-color: #111;
+    box-shadow: 5px 5px 0 #111;
+}
+
+.auth-card .input-group .input-icon {
+    color: #111;
+}
+
+.social-row .social-btn {
+    border: 3px solid #111;
+    border-radius: 11px;
+    color: #111;
+    box-shadow: 3px 3px 0 #111;
+    background: #fffdf8;
+}
+
+.social-row .social-btn:hover {
+    background: #ff4d8d;
+    color: #111;
+    border-color: #111;
+}
+
+.toast {
+    background: #fffdf8;
+    border: 3px solid #111;
+    border-left-width: 6px;
+    border-radius: 12px;
+    box-shadow: 6px 6px 0 #111;
+    color: #111;
+}
+
+.modal-overlay {
+    background: rgba(17,17,17,.72);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.modal {
+    background: #fffdf8;
+    border: 3px solid #111;
+    border-radius: 20px;
+    box-shadow: 9px 9px 0 #111;
+    color: #111;
+}
+
+.modal .checkout-box,
+.status-grid,
+.copy-row {
+    background: #fff;
+    border: 3px solid #111;
+    border-radius: 12px;
+}
+
+.checkout-icon-btn {
+    background: #fffdf8;
+    border: 3px solid #111;
+    color: #111;
+    border-radius: 10px;
+    box-shadow: 3px 3px 0 #111;
+}
+
+.checkout-icon-btn:hover {
+    border-color: #111;
+    color: #111;
+    background: #ffd21f;
+}
+
+.wallet-stat,
+.premium-card,
+.profile-card,
+.plan-details-card,
+.plans-empty {
+    background: #fffdf8;
+    border: 3px solid #111;
+    border-radius: 18px;
+    box-shadow: 7px 7px 0 #111;
+}
+
+.wallet-stat:hover,
+.premium-card:hover,
+.profile-card:hover {
+    border-color: #111;
+}
+
+.wallet-stat .stat-icon.blue,
+.wallet-stat .stat-icon.purple,
+.wallet-stat .stat-icon.gold {
+    background: #ffd21f;
+    color: #111;
+    border: 3px solid #111;
+}
+
+.wallet-stat .stat-icon.green {
+    background: #42df5b;
+    color: #111;
+    border: 3px solid #111;
+}
+
+.wallet-tab {
+    background: #fffdf8;
+    border: 3px solid #111;
+    border-radius: 999px;
+    color: #111;
+    box-shadow: 3px 3px 0 #111;
+}
+
+.wallet-tab.active {
+    background: #6257f5;
+    color: #fff;
+    border-color: #111;
+}
+
+.wallet-tab.crypto.active {
+    background: #ffd21f;
+    color: #111;
+    border-color: #111;
+}
+
+.wallet-tab.manual.active {
+    background: #ff4d8d;
+    color: #111;
+    border-color: #111;
+}
+
+.wallet-tab.support.active {
+    background: #42df5b;
+    color: #111;
+    border-color: #111;
+}
+
+.qr-display {
+    background: #fff;
+    border: 3px dashed #111;
+    border-radius: 12px;
+}
+
+.plan-details-card {
+    border-color: #111;
+}
+
+.plan-field {
+    background: #fff;
+    border: 3px solid #111;
+    border-radius: 15px;
+}
+
+.plan-status {
+    border: 3px solid #111;
+    background: #42df5b;
+    color: #111;
+    border-radius: 999px;
+}
+
+.plan-status.inactive {
+    border-color: #111;
+    background: #ff5a5f;
+    color: #111;
+}
+
+.empty-state {
+    color: #111;
+}
+
+/* --- Plan selector: compact dropdown like the supplied reference --- */
+.panel-card .plans-container.neo-plan-selector {
+    position: relative;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.neo-plan-selector .plan-trigger {
+    width: 100%;
+    min-height: 64px;
+    padding: 13px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    background: #101010;
+    color: #fff;
+    border: 3px solid #111;
+    border-radius: 16px;
+    box-shadow: 5px 5px 0 #111;
+    text-align: left;
+    font-weight: 900;
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+}
+
+.neo-plan-selector .plan-trigger:hover {
+    background: #1d1d1d;
+    transform: translate(-1px,-1px);
+    box-shadow: 6px 6px 0 #111;
+}
+
+.neo-plan-selector.is-open .plan-trigger {
+    background: #6257f5;
+    color: #fff;
+    transform: translate(2px,2px);
+    box-shadow: 2px 2px 0 #111;
+}
+
+.plan-trigger-main {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    flex: 1;
+}
+
+.plan-trigger-label {
+    min-width: 0;
+    font-size: 15px;
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.plan-trigger-price {
+    flex: 0 0 auto;
+    font-size: 17px;
+    font-weight: 900;
+    white-space: nowrap;
+}
+
+.plan-trigger-chevron {
+    flex: 0 0 auto;
+    font-size: 17px;
+    transition: transform .2s ease;
+}
+
+.neo-plan-selector.is-open .plan-trigger-chevron {
+    transform: rotate(180deg);
+}
+
+.neo-plan-selector .plan-menu {
+    position: absolute;
+    z-index: 80;
+    left: 0;
+    right: 0;
+    top: calc(100% + 10px);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px;
+    background: #fffdf8;
+    border: 3px solid #111;
+    border-radius: 15px;
+    box-shadow: 7px 7px 0 #111;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-6px);
+    transition: opacity .16s ease, transform .16s ease, visibility .16s ease;
+}
+
+.neo-plan-selector.is-open .plan-menu {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.neo-plan-selector .plan-option {
+    position: relative;
+    width: 100%;
+    min-height: 52px;
+    padding: 11px 42px 11px 13px;
+    background: #fff;
+    color: #111;
+    border: 3px solid #111;
+    border-radius: 11px;
+    box-shadow: 3px 3px 0 #111;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    text-align: left;
+    cursor: pointer;
+    transition: transform .12s ease, background .12s ease;
+}
+
+.neo-plan-selector .plan-option:hover {
+    background: #ffd21f;
+    transform: translate(-1px,-1px);
+}
+
+.neo-plan-selector .plan-option.active {
+    background: #42df5b;
+    border-color: #111;
+    box-shadow: 4px 4px 0 #111;
+}
+
+.neo-plan-selector .plan-option-label {
+    flex: 1;
+    min-width: 0;
+    font-size: 13px;
+    font-weight: 900;
+    line-height: 1.3;
+}
+
+.neo-plan-selector .plan-option-price {
+    flex: 0 0 auto;
+    font-size: 15px;
+    font-weight: 900;
+    color: #111;
+    white-space: nowrap;
+}
+
+.neo-plan-selector .plan-option-check {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    width: 21px;
+    height: 21px;
+    margin-top: -10.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #111;
+    color: #fff;
+    border: 2px solid #111;
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(.7);
+    transition: .15s ease;
+}
+
+.neo-plan-selector .plan-option.active .plan-option-check {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Footer / miscellaneous surfaces */
+.store-footer {
+    color: #111 !important;
+}
+
+.store-footer a {
+    color: #6257f5 !important;
+    font-weight: 900;
+}
+
+.amount-pill,
+.copy-btn {
+    background: #fffdf8 !important;
+    border: 3px solid #111 !important;
+    color: #111 !important;
+    box-shadow: 3px 3px 0 #111;
+}
+
+.amount-pill.active {
+    background: #ffd21f !important;
+}
+
+@media (max-width: 600px) {
+    .navbar {
+        padding: 0 14px;
+        height: 68px;
+    }
+
+    .page-content {
+        padding: 92px 15px 60px;
+    }
+
+    .page-title {
+        font-size: 25px;
+    }
+
+    .panel-grid {
+        grid-template-columns: 1fr;
+        gap: 22px;
+    }
+
+    .panel-card {
+        box-shadow: 6px 6px 0 #111;
+    }
+
+    .panel-card .panel-body {
+        padding: 17px;
+    }
+
+    .neo-plan-selector .plan-trigger {
+        min-height: 60px;
+        border-radius: 14px;
+        box-shadow: 4px 4px 0 #111;
+    }
+
+    .neo-plan-selector .plan-menu {
+        max-height: 280px;
+        overflow-y: auto;
+        box-shadow: 6px 6px 0 #111;
+    }
+
+    .plan-trigger-label {
+        font-size: 14px;
+    }
+
+    .plan-trigger-price {
+        font-size: 16px;
+    }
+
+    .modal {
+        border-radius: 17px;
+        box-shadow: 6px 6px 0 #111;
+    }
+}
+
 </style>
 </head>
 <body>
@@ -3307,47 +3813,53 @@
         document.getElementById('dropdown-menu').classList.toggle('active');
     });
 
-    window.togglePlanDropdown = function(event, panelId) {
-        if (event) event.stopPropagation();
+    window.togglePlanMenu = function(trigger, panelId) {
         const container = document.getElementById(`plans-${panelId}`);
         if (!container) return;
-        document.querySelectorAll('.plans-container .plan-dropdown-menu.open').forEach(menu => {
-            if (menu.closest('.plans-container') !== container) menu.classList.remove('open');
+
+        document.querySelectorAll('.neo-plan-selector.is-open').forEach(openContainer => {
+            if (openContainer !== container) {
+                openContainer.classList.remove('is-open');
+                const openTrigger = openContainer.querySelector('.plan-trigger');
+                if (openTrigger) openTrigger.setAttribute('aria-expanded', 'false');
+            }
         });
-        const menu = container.querySelector('.plan-dropdown-menu');
-        const toggle = container.querySelector('.plan-dropdown-toggle');
-        const willOpen = !menu?.classList.contains('open');
-        menu?.classList.toggle('open', willOpen);
-        toggle?.classList.toggle('open', willOpen);
-        toggle?.setAttribute('aria-expanded', String(willOpen));
+
+        const isOpen = container.classList.toggle('is-open');
+        trigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     };
 
     window.selectPlanOption = function(el, panelId) {
         const container = document.getElementById(`plans-${panelId}`);
         if (!container) return;
-        container.querySelectorAll('.plan-option').forEach(btn => btn.classList.remove('active'));
+
+        container.querySelectorAll('.plan-option').forEach(btn => {
+            btn.classList.remove('active');
+            btn.setAttribute('aria-selected', 'false');
+        });
+
         el.classList.add('active');
+        el.setAttribute('aria-selected', 'true');
 
-        const label = el.querySelector('.plan-option-label');
-        const price = el.querySelector('.plan-option-price');
-        const selectedLabel = container.querySelector('.plan-selected-label');
-        const selectedPrice = container.querySelector('.plan-selected-price');
-        if (selectedLabel && label) selectedLabel.innerHTML = label.innerHTML;
-        if (selectedPrice && price) selectedPrice.textContent = price.textContent;
+        const label = el.querySelector('.plan-option-label')?.innerHTML || 'Plan';
+        const price = el.querySelector('.plan-option-price')?.innerText || '';
+        const triggerLabel = container.querySelector('.plan-trigger-label');
+        const triggerPrice = container.querySelector('.plan-trigger-price');
 
-        const menu = container.querySelector('.plan-dropdown-menu');
-        const toggle = container.querySelector('.plan-dropdown-toggle');
-        menu?.classList.remove('open');
-        toggle?.classList.remove('open');
-        toggle?.setAttribute('aria-expanded', 'false');
+        if (triggerLabel) triggerLabel.innerHTML = label;
+        if (triggerPrice) triggerPrice.innerText = price;
+
+        container.classList.remove('is-open');
+        const trigger = container.querySelector('.plan-trigger');
+        if (trigger) trigger.setAttribute('aria-expanded', 'false');
     };
 
     document.addEventListener('click', function(e) {
-        if (!e.target.closest('.plans-container')) {
-            document.querySelectorAll('.plans-container .plan-dropdown-menu.open').forEach(menu => menu.classList.remove('open'));
-            document.querySelectorAll('.plans-container .plan-dropdown-toggle.open').forEach(toggle => {
-                toggle.classList.remove('open');
-                toggle.setAttribute('aria-expanded', 'false');
+        if (!e.target.closest('.neo-plan-selector')) {
+            document.querySelectorAll('.neo-plan-selector.is-open').forEach(container => {
+                container.classList.remove('is-open');
+                const trigger = container.querySelector('.plan-trigger');
+                if (trigger) trigger.setAttribute('aria-expanded', 'false');
             });
         }
     });
@@ -3398,27 +3910,41 @@
                         if (Number.isFinite(ao) && Number.isFinite(bo)) return ao - bo;
                         return (a[1]?.price || 0) - (b[1]?.price || 0);
                     });
+
                     const firstKey = sorted[0][0];
                     const firstData = sorted[0][1] || {};
                     const firstLabel = firstData.label || `${firstData.days || ''} Days`;
-                    plansHtml = `<div class="plans-container" id="plans-${panelId}" role="group" aria-label="Plans">
-                        <button type="button" class="plan-dropdown-toggle" aria-expanded="false" onclick="togglePlanDropdown(event, '${panelId}')">
-                            <span class="plan-selected-info">
-                                <span class="plan-selected-label">${ffColorText(firstLabel)}</span>
+                    const firstPayload = JSON.stringify({
+                        key: firstKey,
+                        label: firstLabel,
+                        price: firstData.price || 0
+                    }).replace(/"/g, '&quot;');
+
+                    plansHtml = `<div class="plans-container neo-plan-selector" id="plans-${panelId}" role="group" aria-label="Plans">
+                        <button type="button" class="plan-trigger" onclick="togglePlanMenu(this, '${panelId}')" aria-haspopup="listbox" aria-expanded="false">
+                            <span class="plan-trigger-main">
+                                <span class="plan-trigger-label">${ffColorText(firstLabel)}</span>
+                                <span class="plan-trigger-price">₹${firstData.price || 0}</span>
                             </span>
-                            <span class="plan-selected-price">₹${firstData.price || 0}</span>
-                            <i class="fas fa-chevron-down plan-dropdown-chevron" aria-hidden="true"></i>
+                            <i class="fas fa-chevron-down plan-trigger-chevron" aria-hidden="true"></i>
                         </button>
-                        <div class="plan-dropdown-menu" role="menu">`;
+                        <div class="plan-menu" role="listbox" aria-label="Choose a plan">`;
+
                     sorted.forEach(([key, data], index) => {
                         const label = data.label || `${data.days || ''} Days`;
-                        const payload = JSON.stringify({ key, label, price: data.price || 0 }).replace(/"/g, '&quot;');
-                        plansHtml += `<button type="button" role="menuitem" class="plan-option${index === 0 ? ' active' : ''}" data-plan='${payload}' onclick="selectPlanOption(this, '${panelId}')">
-                            <span class="plan-option-check" aria-hidden="true"><i class="fas fa-check"></i></span>
+                        const payload = JSON.stringify({
+                            key,
+                            label,
+                            price: data.price || 0
+                        }).replace(/"/g, '&quot;');
+
+                        plansHtml += `<button type="button" class="plan-option${index === 0 ? ' active' : ''}" data-plan='${payload}' role="option" aria-selected="${index === 0 ? 'true' : 'false'}" onclick="selectPlanOption(this, '${panelId}')">
                             <span class="plan-option-label">${ffColorText(label)}</span>
                             <span class="plan-option-price">₹${data.price || 0}</span>
+                            <span class="plan-option-check" aria-hidden="true"><i class="fas fa-check"></i></span>
                         </button>`;
                     });
+
                     plansHtml += `</div></div>`;
                 } else {
                     plansHtml = `<p style="color:var(--text-muted);font-size:13px;text-align:center;margin:8px 0;">Pricing unavailable</p>`;
