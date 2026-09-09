@@ -2091,8 +2091,6 @@
     </div>
 </div>
 
-    .success-order-message { color: var(--accent-gold); font-weight: 700; }
-
 <!-- SUCCESS MODAL -->
 <div class="modal-overlay hidden" id="modal-success">
     <div class="modal" style="text-align:center;">
@@ -3445,7 +3443,7 @@
         if(!container) return;
         const active=String(plan?.status||'').toLowerCase()==='active';
         if(!plan || !active){
-            container.innerHTML='<div class="plans-empty"><i class="fas fa-calendar-xmark"></i><h3>No Active Plan</h3><p>Admin ne abhi aapke account par koi plan assign nahi kiya hai.</p></div>';
+            container.innerHTML='<div class="plans-empty"><i class="fas fa-calendar-xmark"></i><h3>No Active Plan</h3><p>Buy a weekly or monthly Likes plan.</p></div>';
             return;
         }
         const daysLeft=getPlanDaysLeft(plan);
