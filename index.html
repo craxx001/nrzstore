@@ -1475,20 +1475,19 @@
         letter-spacing: 2px;
         word-break: break-all;
     }
-    
-    .success-delivery-time {
-        display:flex; align-items:center; justify-content:center; gap:8px;
-        margin-top:12px; color:#facc15; font-weight:700; font-size:14px;
-    }
-    .success-delivery-time i { color:#facc15; }
-    .success-delivery-time.hidden { display:none; }
-.success-order-message {
+    .success-order-message {
         color:var(--text-secondary);
         font-size:14px;
         line-height:1.7;
         margin:0;
         text-align:center;
     }
+    .success-delivery-time {
+        display:flex; align-items:center; justify-content:center; gap:8px;
+        margin-top:12px; color:#facc15; font-size:14px; font-weight:700;
+        line-height:1.6; text-align:center; word-break:break-word;
+    }
+    .success-delivery-time i { color:#facc15; font-size:14px; flex:0 0 auto; }
     .modal .action-row {
         display: flex;
         gap: 10px;
@@ -2090,7 +2089,9 @@
         <p style="color:var(--text-secondary);font-size:14px;margin-bottom:16px;">Order placed.</p>
         <div class="key-display">
             <p class="success-order-message">We have received your order.</p>
-            <div id="success-delivery-time" class="success-delivery-time hidden"><i class="fas fa-clock"></i><span></span></div>
+            <div class="success-delivery-time hidden" id="success-delivery-time">
+                <i class="fas fa-clock"></i><span></span>
+            </div>
         </div>
         <div class="action-row">
             <button class="btn btn-outline-modal" onclick="closeModal('modal-success')">Close</button>
@@ -3085,7 +3086,7 @@
                         </div>
                         ${(updateBtn || feedbackBtn) ? `<div class="btn-row">${updateBtn}${feedbackBtn}</div>` : ''}
                         ${plansHtml}
-                        <button class="btn-primary-solid" onclick="handlePurchaseClick('${panelId}','${panelName}','${p.link || ''}', '${String(p.deliveryTime || '').replace(/'/g, \"\\'\")}')" style="width:100%;">
+                        <button class="btn-primary-solid" onclick="handlePurchaseClick('${panelId}','${panelName}','${p.link || ''}','${String(p.deliveryTime || '').replace(/'/g, \"\\'\")}')" style="width:100%;">
                             <i class="fas fa-shopping-cart"></i> Buy Now
                         </button>
                     </div>
