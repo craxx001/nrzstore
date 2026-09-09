@@ -572,6 +572,9 @@
     }
     .navbar .balance-pill {
         display: flex;
+         cursor: pointer;
+         font-family: inherit;
+         outline: none;
         align-items: center;
         gap: 8px;
         padding: 8px 18px;
@@ -1789,7 +1792,7 @@
             <span id="site-name" class="nrz-store-glitch" data-text="NRZ STORE"><span class="nrz-red">NRZ</span> <span class="nrz-white">STORE</span></span>
         </div>
         <div class="nav-actions">
-            <div class="balance-pill"><i class="fas fa-wallet"></i> ₹<span id="nav-balance">0.00</span></div>
+            <button type="button" class="balance-pill" id="nav-wallet-pill" aria-label="Open Wallet" onclick="navigate('wallet')"><i class="fas fa-wallet"></i> ₹<span id="nav-balance">0.00</span></button>
             <button class="menu-btn" id="menu-toggle"><i class="fas fa-bars"></i></button>
         </div>
         <div class="dropdown" id="dropdown-menu">
@@ -2099,6 +2102,23 @@
         </div>
         <div class="action-row">
             <button class="btn btn-outline-modal" onclick="closeModal('modal-success')">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- INSUFFICIENT BALANCE / ADD MONEY MODAL -->
+<div class="modal-overlay hidden" id="modal-insufficient-balance">
+    <div class="modal" style="text-align:center;max-width:420px;">
+        <div style="width:58px;height:58px;margin:0 auto 14px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,77,77,.12);color:#ff4d4d;font-size:24px;"><i class="fas fa-wallet"></i></div>
+        <h2 style="font-size:22px;font-weight:800;margin-bottom:6px;">Insufficient Balance</h2>
+        <p style="color:var(--text-secondary);font-size:14px;line-height:1.6;margin-bottom:18px;">Your wallet balance is not enough for this purchase. Add money to your wallet and try again.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;text-align:left;">
+            <div style="padding:12px;border:1px solid var(--border-color);border-radius:12px;background:var(--bg-input);"><div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;font-weight:700;">Available</div><strong id="insufficient-current" style="font-size:16px;">₹0.00</strong></div>
+            <div style="padding:12px;border:1px solid var(--border-color);border-radius:12px;background:var(--bg-input);"><div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;font-weight:700;">Required</div><strong id="insufficient-required" style="font-size:16px;color:var(--accent-gold);">₹0.00</strong></div>
+        </div>
+        <div class="modal-actions" style="justify-content:center;">
+            <button class="btn btn-outline-modal" onclick="closeModal('modal-insufficient-balance')">Cancel</button>
+            <button class="btn btn-primary-modal" onclick="goToAddMoney()"><i class="fas fa-plus"></i> Add Money</button>
         </div>
     </div>
 </div>
@@ -3251,6 +3271,16 @@
         }
     };
 
+    window.goToAddMoney = function() {
+        closeModal('modal-insufficient-balance');
+        navigate('wallet');
+        setTimeout(() => {
+            switchWalletTab('auto');
+            const gateway = document.getElementById('wallet-tab-auto');
+            if (gateway) gateway.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 50);
+    };
+
     window.executePurchase = async function() {
         const checkout = window.currentCheckout;
         const enteredUid = document.getElementById('chk-uid-input')?.value.trim() || '';
@@ -3258,7 +3288,13 @@
         const price = checkout.finalPrice || 0;
         const btn = document.getElementById('btn-confirm-pay');
         const balance = parseFloat(userData.balance || 0);
-        if (balance < price) return showToast(`Insufficient balance. Need ₹${price.toFixed(2)}`, "error");
+        if (balance < price) {
+            navigate('wallet');
+            document.getElementById('insufficient-current').innerText = `₹${balance.toFixed(2)}`;
+            document.getElementById('insufficient-required').innerText = `₹${price.toFixed(2)}`;
+            openModal('modal-insufficient-balance');
+            return;
+        }
         showLoader();
         btn.disabled = true;
         btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Processing...`;
@@ -3294,7 +3330,11 @@
                 closeModal('modal-checkout');
                 openModal('modal-success');
             } else {
-                showToast("Transaction failed. Insufficient funds.", "error");
+                navigate('wallet');
+                const latestBalance = Number(userData?.balance) || 0;
+                document.getElementById('insufficient-current').innerText = `₹${latestBalance.toFixed(2)}`;
+                document.getElementById('insufficient-required').innerText = `₹${price.toFixed(2)}`;
+                openModal('modal-insufficient-balance');
             }
         } catch (e) { showToast("System error. Try again.", "error"); } finally {
             hideLoader();
