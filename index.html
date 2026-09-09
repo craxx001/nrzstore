@@ -1475,7 +1475,14 @@
         letter-spacing: 2px;
         word-break: break-all;
     }
-    .success-order-message {
+    
+    .success-delivery-time {
+        display:flex; align-items:center; justify-content:center; gap:8px;
+        margin-top:12px; color:#facc15; font-weight:700; font-size:14px;
+    }
+    .success-delivery-time i { color:#facc15; }
+    .success-delivery-time.hidden { display:none; }
+.success-order-message {
         color:var(--text-secondary);
         font-size:14px;
         line-height:1.7;
@@ -2082,7 +2089,8 @@
         <h2 style="font-size:22px;font-weight:800;margin-bottom:4px;">Purchase Success!</h2>
         <p style="color:var(--text-secondary);font-size:14px;margin-bottom:16px;">Order placed.</p>
         <div class="key-display">
-            <p class="success-order-message">We have received your order, processing will be start shortly.</p>
+            <p class="success-order-message">We have received your order.</p>
+            <div id="success-delivery-time" class="success-delivery-time hidden"><i class="fas fa-clock"></i><span></span></div>
         </div>
         <div class="action-row">
             <button class="btn btn-outline-modal" onclick="closeModal('modal-success')">Close</button>
@@ -3077,7 +3085,7 @@
                         </div>
                         ${(updateBtn || feedbackBtn) ? `<div class="btn-row">${updateBtn}${feedbackBtn}</div>` : ''}
                         ${plansHtml}
-                        <button class="btn-primary-solid" onclick="handlePurchaseClick('${panelId}','${panelName}','${p.link || ''}')" style="width:100%;">
+                        <button class="btn-primary-solid" onclick="handlePurchaseClick('${panelId}','${panelName}','${p.link || ''}', '${String(p.deliveryTime || '').replace(/'/g, \"\\'\")}')" style="width:100%;">
                             <i class="fas fa-shopping-cart"></i> Buy Now
                         </button>
                     </div>
@@ -3123,7 +3131,7 @@
     window.currentCheckout = {};
     window.appliedCoupon = null;
 
-    window.handlePurchaseClick = (panelId, panelName, link) => {
+    window.handlePurchaseClick = (panelId, panelName, link, deliveryTime) => {
         const container = document.getElementById(`plans-${panelId}`);
         const selected = container?.querySelector('.plan-option.active');
         if (!selected) return showToast('Please select a plan', 'warning');
@@ -3134,7 +3142,7 @@
             return showToast('Error reading plan data', 'error');
         }
         window.currentCheckout = {
-            panelId, panelName, link: link || '',
+            panelId, panelName, link: link || '', deliveryTime: deliveryTime || '',
             planKey: planData.key || '',
             label: planData.label || 'Plan',
             originalPrice: parseFloat(planData.price) || 0,
@@ -3241,6 +3249,13 @@
                     await runTransaction(ref(db, `coupons/${window.appliedCoupon.id}/used`), (curr) => (curr || 0) + 1);
                 }
                 closeModal('modal-checkout');
+                const deliveryBox = document.getElementById('success-delivery-time');
+                if (deliveryBox) {
+                    const deliveryText = String(checkout.deliveryTime || '').trim();
+                    deliveryBox.classList.toggle('hidden', !deliveryText);
+                    const textEl = deliveryBox.querySelector('span');
+                    if (textEl) textEl.textContent = deliveryText;
+                }
                 openModal('modal-success');
             } else {
                 showToast("Transaction failed. Insufficient funds.", "error");
