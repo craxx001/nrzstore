@@ -923,34 +923,154 @@
     }
     .btn-primary-solid:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
+    /* PLAN SELECTOR - compact dropdown like the reference image */
     .panel-card .plans-container {
-        display:flex;
-        flex-direction:column;
-        gap:10px;
-        margin-top:4px;
+        position:relative;
         width:100%;
+        margin-top:4px;
+        z-index:20;
+    }
+    .panel-card .plan-selector {
+        position:relative;
+        width:100%;
+    }
+    .panel-card .plan-selector-trigger {
+        width:100%;
+        min-height:58px;
+        padding:13px 46px 13px 18px;
+        border:1px solid rgba(255,255,255,.12);
+        border-radius:22px;
+        background:linear-gradient(135deg,rgba(255,255,255,.075),rgba(255,255,255,.025));
+        backdrop-filter:blur(16px);
+        -webkit-backdrop-filter:blur(16px);
+        box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 8px 24px rgba(0,0,0,.16);
+        color:var(--text-primary);
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:12px;
+        text-align:left;
+        cursor:pointer;
+        transition:var(--transition);
+    }
+    .panel-card .plan-selector-trigger:hover,
+    .panel-card .plan-selector.open .plan-selector-trigger {
+        border-color:rgba(79,140,255,.45);
+        background:linear-gradient(135deg,rgba(79,140,255,.12),rgba(139,92,246,.08));
+    }
+    .plan-selector-current {
+        min-width:0;
+        flex:1;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:12px;
+        font-size:15px;
+        font-weight:600;
+        line-height:1.35;
+    }
+    .plan-selector-current .current-label {
+        min-width:0;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
+    }
+    .plan-selector-current .current-price {
+        flex-shrink:0;
+        color:#fff;
+        font-size:16px;
+        font-weight:700;
+        white-space:nowrap;
+    }
+    .plan-selector-chevron {
+        position:absolute;
+        right:18px;
+        top:50%;
+        transform:translateY(-50%);
+        color:#91a0ba;
+        font-size:17px;
+        transition:transform .25s ease,color .25s ease;
+        pointer-events:none;
+    }
+    .plan-selector.open .plan-selector-chevron {
+        transform:translateY(-50%) rotate(180deg);
+        color:var(--accent-blue);
+    }
+    .panel-card .plans-dropdown {
+        position:absolute;
+        left:0;
+        right:0;
+        top:calc(100% + 9px);
+        padding:8px;
+        background:rgba(18,20,28,.98);
+        border:1px solid rgba(255,255,255,.12);
+        border-radius:18px;
+        box-shadow:0 18px 45px rgba(0,0,0,.48);
+        backdrop-filter:blur(22px);
+        -webkit-backdrop-filter:blur(22px);
+        opacity:0;
+        visibility:hidden;
+        transform:translateY(-7px) scale(.985);
+        transform-origin:top center;
+        transition:opacity .2s ease,transform .2s ease,visibility .2s ease;
+        max-height:270px;
+        overflow-y:auto;
+        z-index:50;
+    }
+    .panel-card .plans-dropdown.open {
+        opacity:1;
+        visibility:visible;
+        transform:translateY(0) scale(1);
     }
     .panel-card .plan-option {
         position:relative;
         width:100%;
-        min-height:48px;
-        padding:12px 38px 12px 14px;
-        border:1px solid rgba(255,255,255,.10); border-radius:var(--radius-sm);
-        background:linear-gradient(135deg,rgba(255,255,255,.075),rgba(255,255,255,.025));
-        backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
-        box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 8px 24px rgba(0,0,0,.16);
-        cursor:pointer; transition:var(--transition); color:var(--text-primary);
-        display:flex; align-items:center; justify-content:space-between; gap:14px;
-        text-align:initial; overflow:hidden;
+        min-height:50px;
+        padding:11px 38px 11px 14px;
+        margin:2px 0;
+        border:1px solid transparent;
+        border-radius:13px;
+        background:transparent;
+        color:var(--text-primary);
+        cursor:pointer;
+        transition:var(--transition);
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:12px;
+        text-align:left;
     }
-    .panel-card .plan-option:hover { transform:translateY(-2px); border-color:rgba(79,140,255,.45); background:linear-gradient(135deg,rgba(79,140,255,.13),rgba(139,92,246,.08)); }
-    .panel-card .plan-option.active { border-color:var(--accent-blue); box-shadow:0 0 0 1px rgba(79,140,255,.25),0 10px 28px rgba(79,140,255,.12); }
-    .plan-option .plan-option-label { order:1; flex:1; display:flex; align-items:center; min-height:24px; font-size:13px; font-weight:500; line-height:1.35; word-break:break-word; text-align:left; }
-    .plan-option .plan-option-price { order:2; display:block; margin-top:0; font-size:16px; font-weight:500; color:#fff; white-space:nowrap; }
+    .panel-card .plan-option:hover {
+        background:rgba(79,140,255,.10);
+        border-color:rgba(79,140,255,.20);
+    }
+    .panel-card .plan-option.active {
+        background:rgba(79,140,255,.13);
+        border-color:rgba(79,140,255,.34);
+    }
+    .plan-option .plan-option-label {
+        flex:1;
+        min-width:0;
+        display:flex;
+        align-items:center;
+        min-height:24px;
+        font-size:13px;
+        font-weight:600;
+        line-height:1.35;
+        word-break:break-word;
+        text-align:left;
+    }
+    .plan-option .plan-option-price {
+        display:block;
+        font-size:15px;
+        font-weight:700;
+        color:#fff;
+        white-space:nowrap;
+    }
     .plan-option .plan-option-check {
         position:absolute;
-        top:8px;
-        right:8px;
+        top:50%;
+        right:12px;
         width:18px;
         height:18px;
         border-radius:50%;
@@ -959,15 +1079,24 @@
         justify-content:center;
         background:#ffb300;
         color:#fff;
-        font-size:10px;
+        font-size:9px;
         line-height:1;
         opacity:0;
-        transform:scale(.75);
+        transform:translateY(-50%) scale(.75);
         transition:var(--transition);
-        box-shadow:0 2px 8px rgba(24,119,242,.35);
+        box-shadow:0 2px 8px rgba(255,179,0,.35);
         z-index:2;
     }
-    .plan-option.active .plan-option-check { opacity:1; transform:scale(1); }
+    .plan-option.active .plan-option-check {
+        opacity:1;
+        transform:translateY(-50%) scale(1);
+    }
+    @media (max-width:600px) {
+        .panel-card .plan-selector-trigger { min-height:56px; border-radius:19px; padding-left:16px; }
+        .plan-selector-current { font-size:14px; }
+        .plan-selector-current .current-price { font-size:15px; }
+        .panel-card .plans-dropdown { max-height:245px; border-radius:16px; }
+    }
 
     /* ============================================
        WALLET - Modern Dashboard
@@ -1691,738 +1820,6 @@
 @keyframes nrzGlitchRed { 0%,78%,100%{opacity:0;transform:none} 79%{opacity:1;clip-path:inset(8% 0 78% 0);transform:translate(-3px,0)} 80%{opacity:.8;clip-path:inset(66% 0 14% 0);transform:translate(3px,0)} 81%{opacity:0} 91%{opacity:.9;clip-path:inset(38% 0 42% 0);transform:translate(-2px,0)} 92%{opacity:0} }
 @keyframes nrzGlitchWhite { 0%,81%,100%{opacity:0;transform:none} 82%{opacity:1;clip-path:inset(70% 0 9% 0);transform:translate(3px,0)} 83%{opacity:.75;clip-path:inset(16% 0 64% 0);transform:translate(-3px,0)} 84%{opacity:0} 94%{opacity:.9;clip-path:inset(42% 0 36% 0);transform:translate(2px,0)} 95%{opacity:0} }
 @keyframes nrzGlitchFlicker { 0%,100%{opacity:1} 79%,82%{opacity:.82} 80%{opacity:1} }
-
-/* =========================================================
-   NRZ NEO-BRUTALISM REDESIGN
-   Inspired by the supplied mobile-app references:
-   chunky black borders, offset shadows, warm paper surface,
-   yellow/pink/purple accents and tactile buttons.
-   ========================================================= */
-:root {
-    --bg-primary: #f7f0e5;
-    --bg-secondary: #eee5d7;
-    --bg-card: #fffdf8;
-    --bg-card-hover: #ffffff;
-    --bg-input: #ffffff;
-    --border-color: #111111;
-    --border-light: #111111;
-    --text-primary: #111111;
-    --text-secondary: #454545;
-    --text-muted: #737373;
-    --accent-blue: #6257f5;
-    --accent-cyan: #22c55e;
-    --accent-purple: #7b5cff;
-    --accent-pink: #ff4d8d;
-    --accent-gold: #ffd21f;
-    --accent-green: #42df5b;
-    --accent-red: #ff5a5f;
-    --shadow-card: 7px 7px 0 #111111;
-    --shadow-glow: none;
-    --radius: 18px;
-    --radius-sm: 12px;
-    --radius-lg: 24px;
-}
-
-html, body {
-    background: var(--bg-primary);
-    color: var(--text-primary);
-}
-
-body {
-    background:
-        radial-gradient(circle at 0% 12%, rgba(255,77,141,.18) 0 90px, transparent 91px),
-        radial-gradient(circle at 100% 88%, rgba(123,92,255,.18) 0 120px, transparent 121px),
-        var(--bg-primary);
-}
-
-button, input, select, textarea {
-    color: var(--text-primary);
-}
-
-::selection {
-    background: #ffd21f;
-    color: #111;
-}
-
-.navbar {
-    height: 76px;
-    padding: 0 24px;
-    background: rgba(255,253,248,.96);
-    border-bottom: 3px solid #111;
-    box-shadow: 0 4px 0 #111;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-}
-
-.navbar .brand {
-    color: #111;
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 900;
-}
-
-.navbar .brand .brand-icon {
-    background: #ffd21f;
-    color: #111;
-    border: 3px solid #111;
-    border-radius: 10px;
-    box-shadow: 4px 4px 0 #111;
-}
-
-.navbar .brand span {
-    background: none;
-    -webkit-text-fill-color: initial;
-    color: #111;
-}
-
-.navbar .balance-pill {
-    padding: 9px 16px;
-    background: #42df5b;
-    border: 3px solid #111;
-    border-radius: 999px;
-    color: #111;
-    box-shadow: 4px 4px 0 #111;
-    font-weight: 900;
-}
-
-.navbar .balance-pill:hover {
-    border-color: #111;
-    transform: translate(-1px,-1px);
-    box-shadow: 5px 5px 0 #111;
-}
-
-.navbar .menu-btn {
-    width: 44px;
-    height: 44px;
-    background: #fffdf8;
-    border: 3px solid #111;
-    border-radius: 10px;
-    color: #111;
-    box-shadow: 4px 4px 0 #111;
-}
-
-.navbar .menu-btn:hover {
-    background: #ffd21f;
-    border-color: #111;
-    transform: translate(-1px,-1px);
-}
-
-.dropdown {
-    top: 86px;
-    right: 24px;
-    background: #fffdf8;
-    border: 3px solid #111;
-    border-radius: 16px;
-    box-shadow: 7px 7px 0 #111;
-    padding: 8px;
-    backdrop-filter: none;
-}
-
-.dropdown-item {
-    color: #222;
-    border-radius: 9px;
-    font-weight: 800;
-}
-
-.dropdown-item:hover {
-    background: #ffd21f;
-    color: #111;
-}
-
-.dropdown-item i,
-.dropdown-item:hover i {
-    color: #111;
-}
-
-.page-content {
-    padding: 104px 24px 80px;
-    max-width: 1180px;
-}
-
-.page-title {
-    font-family: 'Space Grotesk', sans-serif;
-    color: #111;
-    font-size: 32px;
-    font-weight: 900;
-}
-
-.page-title span {
-    background: none;
-    -webkit-text-fill-color: initial;
-    color: #6257f5;
-}
-
-.search-box input {
-    background: #fffdf8;
-    border: 3px solid #111;
-    border-radius: 14px;
-    box-shadow: 5px 5px 0 #111;
-    color: #111;
-    font-weight: 700;
-}
-
-.search-box input:focus {
-    border-color: #111;
-    box-shadow: 7px 7px 0 #111;
-}
-
-.search-box .search-icon {
-    color: #111;
-}
-
-.panel-grid {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 26px;
-}
-
-.panel-card {
-    background: #fffdf8;
-    border: 3px solid #111;
-    border-radius: 18px;
-    box-shadow: 7px 7px 0 #111;
-    overflow: visible;
-}
-
-.panel-card:hover {
-    border-color: #111;
-    transform: translate(-2px,-3px);
-    box-shadow: 10px 10px 0 #111;
-}
-
-.panel-card .banner-wrap,
-.panel-card .video-wrap {
-    border-bottom: 3px solid #111;
-    border-radius: 14px 14px 0 0;
-}
-
-.panel-card .panel-body {
-    padding: 20px;
-    gap: 13px;
-}
-
-.panel-card .panel-body .panel-name {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 22px;
-    font-weight: 900;
-    color: #111;
-}
-
-.panel-logo {
-    border: 3px solid #111;
-    border-radius: 12px;
-}
-
-.panel-card .panel-body .feature-list .chip {
-    background: var(--chip-color, #ffd21f);
-    color: #111;
-    border: 2px solid #111;
-    border-radius: 999px;
-    font-weight: 900;
-    padding: 5px 12px;
-    box-shadow: 2px 2px 0 #111;
-}
-
-.btn-outline {
-    background: #fffdf8;
-    border: 3px solid #111;
-    border-radius: 11px;
-    color: #111;
-    box-shadow: 3px 3px 0 #111;
-    font-weight: 900;
-}
-
-.btn-outline:hover {
-    background: #ffd21f;
-    border-color: #111;
-    color: #111;
-    transform: translate(-1px,-1px);
-    box-shadow: 4px 4px 0 #111;
-}
-
-.btn-primary-solid,
-.btn-auth {
-    background: #7b5cff;
-    border: 3px solid #111;
-    border-radius: 13px;
-    color: #fff;
-    box-shadow: 5px 5px 0 #111;
-    font-weight: 900;
-    letter-spacing: .1px;
-}
-
-.btn-primary-solid:hover,
-.btn-auth:hover {
-    background: #6257f5;
-    transform: translate(-2px,-2px);
-    box-shadow: 7px 7px 0 #111;
-}
-
-.btn-primary-solid:active,
-.btn-auth:active,
-.navbar .menu-btn:active,
-.navbar .balance-pill:active {
-    transform: translate(2px,2px);
-    box-shadow: 2px 2px 0 #111;
-}
-
-.btn-auth::before {
-    display: none;
-}
-
-.auth-card {
-    background: #fffdf8;
-    border: 3px solid #111;
-    border-radius: 22px;
-    box-shadow: 9px 9px 0 #111;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-}
-
-.auth-card::before,
-.auth-card::after {
-    display: none;
-}
-
-.auth-card .brand h1 {
-    color: #111;
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 900;
-}
-
-.auth-card .brand h1 span {
-    background: none;
-    -webkit-text-fill-color: initial;
-    color: #6257f5;
-}
-
-.auth-card .brand .logo-icon {
-    background: #ffd21f;
-    border: 3px solid #111;
-    color: #111;
-    box-shadow: 5px 5px 0 #111;
-}
-
-.auth-card .input-group input,
-.premium-card .input-group input,
-.checkout-uid-section input {
-    background: #fff;
-    border: 3px solid #111;
-    border-radius: 11px;
-    color: #111;
-    box-shadow: 3px 3px 0 #111;
-}
-
-.auth-card .input-group input:focus,
-.premium-card .input-group input:focus,
-.checkout-uid-section input:focus {
-    border-color: #111;
-    box-shadow: 5px 5px 0 #111;
-}
-
-.auth-card .input-group .input-icon {
-    color: #111;
-}
-
-.social-row .social-btn {
-    border: 3px solid #111;
-    border-radius: 11px;
-    color: #111;
-    box-shadow: 3px 3px 0 #111;
-    background: #fffdf8;
-}
-
-.social-row .social-btn:hover {
-    background: #ff4d8d;
-    color: #111;
-    border-color: #111;
-}
-
-.toast {
-    background: #fffdf8;
-    border: 3px solid #111;
-    border-left-width: 6px;
-    border-radius: 12px;
-    box-shadow: 6px 6px 0 #111;
-    color: #111;
-}
-
-.modal-overlay {
-    background: rgba(17,17,17,.72);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-}
-
-.modal {
-    background: #fffdf8;
-    border: 3px solid #111;
-    border-radius: 20px;
-    box-shadow: 9px 9px 0 #111;
-    color: #111;
-}
-
-.modal .checkout-box,
-.status-grid,
-.copy-row {
-    background: #fff;
-    border: 3px solid #111;
-    border-radius: 12px;
-}
-
-.checkout-icon-btn {
-    background: #fffdf8;
-    border: 3px solid #111;
-    color: #111;
-    border-radius: 10px;
-    box-shadow: 3px 3px 0 #111;
-}
-
-.checkout-icon-btn:hover {
-    border-color: #111;
-    color: #111;
-    background: #ffd21f;
-}
-
-.wallet-stat,
-.premium-card,
-.profile-card,
-.plan-details-card,
-.plans-empty {
-    background: #fffdf8;
-    border: 3px solid #111;
-    border-radius: 18px;
-    box-shadow: 7px 7px 0 #111;
-}
-
-.wallet-stat:hover,
-.premium-card:hover,
-.profile-card:hover {
-    border-color: #111;
-}
-
-.wallet-stat .stat-icon.blue,
-.wallet-stat .stat-icon.purple,
-.wallet-stat .stat-icon.gold {
-    background: #ffd21f;
-    color: #111;
-    border: 3px solid #111;
-}
-
-.wallet-stat .stat-icon.green {
-    background: #42df5b;
-    color: #111;
-    border: 3px solid #111;
-}
-
-.wallet-tab {
-    background: #fffdf8;
-    border: 3px solid #111;
-    border-radius: 999px;
-    color: #111;
-    box-shadow: 3px 3px 0 #111;
-}
-
-.wallet-tab.active {
-    background: #6257f5;
-    color: #fff;
-    border-color: #111;
-}
-
-.wallet-tab.crypto.active {
-    background: #ffd21f;
-    color: #111;
-    border-color: #111;
-}
-
-.wallet-tab.manual.active {
-    background: #ff4d8d;
-    color: #111;
-    border-color: #111;
-}
-
-.wallet-tab.support.active {
-    background: #42df5b;
-    color: #111;
-    border-color: #111;
-}
-
-.qr-display {
-    background: #fff;
-    border: 3px dashed #111;
-    border-radius: 12px;
-}
-
-.plan-details-card {
-    border-color: #111;
-}
-
-.plan-field {
-    background: #fff;
-    border: 3px solid #111;
-    border-radius: 15px;
-}
-
-.plan-status {
-    border: 3px solid #111;
-    background: #42df5b;
-    color: #111;
-    border-radius: 999px;
-}
-
-.plan-status.inactive {
-    border-color: #111;
-    background: #ff5a5f;
-    color: #111;
-}
-
-.empty-state {
-    color: #111;
-}
-
-/* --- Plan selector: compact dropdown like the supplied reference --- */
-.panel-card .plans-container.neo-plan-selector {
-    position: relative;
-    width: 100%;
-    margin-top: 5px;
-}
-
-.neo-plan-selector .plan-trigger {
-    width: 100%;
-    min-height: 64px;
-    padding: 13px 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 14px;
-    background: #101010;
-    color: #fff;
-    border: 3px solid #111;
-    border-radius: 16px;
-    box-shadow: 5px 5px 0 #111;
-    text-align: left;
-    font-weight: 900;
-    transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
-}
-
-.neo-plan-selector .plan-trigger:hover {
-    background: #1d1d1d;
-    transform: translate(-1px,-1px);
-    box-shadow: 6px 6px 0 #111;
-}
-
-.neo-plan-selector.is-open .plan-trigger {
-    background: #6257f5;
-    color: #fff;
-    transform: translate(2px,2px);
-    box-shadow: 2px 2px 0 #111;
-}
-
-.plan-trigger-main {
-    min-width: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 14px;
-    flex: 1;
-}
-
-.plan-trigger-label {
-    min-width: 0;
-    font-size: 15px;
-    line-height: 1.3;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.plan-trigger-price {
-    flex: 0 0 auto;
-    font-size: 17px;
-    font-weight: 900;
-    white-space: nowrap;
-}
-
-.plan-trigger-chevron {
-    flex: 0 0 auto;
-    font-size: 17px;
-    transition: transform .2s ease;
-}
-
-.neo-plan-selector.is-open .plan-trigger-chevron {
-    transform: rotate(180deg);
-}
-
-.neo-plan-selector .plan-menu {
-    position: absolute;
-    z-index: 80;
-    left: 0;
-    right: 0;
-    top: calc(100% + 10px);
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 10px;
-    background: #fffdf8;
-    border: 3px solid #111;
-    border-radius: 15px;
-    box-shadow: 7px 7px 0 #111;
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transform: translateY(-6px);
-    transition: opacity .16s ease, transform .16s ease, visibility .16s ease;
-}
-
-.neo-plan-selector.is-open .plan-menu {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    transform: translateY(0);
-}
-
-.neo-plan-selector .plan-option {
-    position: relative;
-    width: 100%;
-    min-height: 52px;
-    padding: 11px 42px 11px 13px;
-    background: #fff;
-    color: #111;
-    border: 3px solid #111;
-    border-radius: 11px;
-    box-shadow: 3px 3px 0 #111;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    text-align: left;
-    cursor: pointer;
-    transition: transform .12s ease, background .12s ease;
-}
-
-.neo-plan-selector .plan-option:hover {
-    background: #ffd21f;
-    transform: translate(-1px,-1px);
-}
-
-.neo-plan-selector .plan-option.active {
-    background: #42df5b;
-    border-color: #111;
-    box-shadow: 4px 4px 0 #111;
-}
-
-.neo-plan-selector .plan-option-label {
-    flex: 1;
-    min-width: 0;
-    font-size: 13px;
-    font-weight: 900;
-    line-height: 1.3;
-}
-
-.neo-plan-selector .plan-option-price {
-    flex: 0 0 auto;
-    font-size: 15px;
-    font-weight: 900;
-    color: #111;
-    white-space: nowrap;
-}
-
-.neo-plan-selector .plan-option-check {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    width: 21px;
-    height: 21px;
-    margin-top: -10.5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #111;
-    color: #fff;
-    border: 2px solid #111;
-    border-radius: 50%;
-    opacity: 0;
-    transform: scale(.7);
-    transition: .15s ease;
-}
-
-.neo-plan-selector .plan-option.active .plan-option-check {
-    opacity: 1;
-    transform: scale(1);
-}
-
-/* Footer / miscellaneous surfaces */
-.store-footer {
-    color: #111 !important;
-}
-
-.store-footer a {
-    color: #6257f5 !important;
-    font-weight: 900;
-}
-
-.amount-pill,
-.copy-btn {
-    background: #fffdf8 !important;
-    border: 3px solid #111 !important;
-    color: #111 !important;
-    box-shadow: 3px 3px 0 #111;
-}
-
-.amount-pill.active {
-    background: #ffd21f !important;
-}
-
-@media (max-width: 600px) {
-    .navbar {
-        padding: 0 14px;
-        height: 68px;
-    }
-
-    .page-content {
-        padding: 92px 15px 60px;
-    }
-
-    .page-title {
-        font-size: 25px;
-    }
-
-    .panel-grid {
-        grid-template-columns: 1fr;
-        gap: 22px;
-    }
-
-    .panel-card {
-        box-shadow: 6px 6px 0 #111;
-    }
-
-    .panel-card .panel-body {
-        padding: 17px;
-    }
-
-    .neo-plan-selector .plan-trigger {
-        min-height: 60px;
-        border-radius: 14px;
-        box-shadow: 4px 4px 0 #111;
-    }
-
-    .neo-plan-selector .plan-menu {
-        max-height: 280px;
-        overflow-y: auto;
-        box-shadow: 6px 6px 0 #111;
-    }
-
-    .plan-trigger-label {
-        font-size: 14px;
-    }
-
-    .plan-trigger-price {
-        font-size: 16px;
-    }
-
-    .modal {
-        border-radius: 17px;
-        box-shadow: 6px 6px 0 #111;
-    }
-}
-
 </style>
 </head>
 <body>
@@ -3813,55 +3210,66 @@ button, input, select, textarea {
         document.getElementById('dropdown-menu').classList.toggle('active');
     });
 
-    window.togglePlanMenu = function(trigger, panelId) {
+    window.togglePlanDropdown = function(panelId) {
         const container = document.getElementById(`plans-${panelId}`);
         if (!container) return;
+        const selector = container.querySelector('.plan-selector');
+        const dropdown = container.querySelector('.plans-dropdown');
+        const trigger = container.querySelector('.plan-selector-trigger');
+        if (!selector || !dropdown || !trigger) return;
 
-        document.querySelectorAll('.neo-plan-selector.is-open').forEach(openContainer => {
-            if (openContainer !== container) {
-                openContainer.classList.remove('is-open');
-                const openTrigger = openContainer.querySelector('.plan-trigger');
-                if (openTrigger) openTrigger.setAttribute('aria-expanded', 'false');
-            }
+        const willOpen = !dropdown.classList.contains('open');
+
+        // Close every other panel's plan menu first.
+        document.querySelectorAll('.plans-dropdown.open').forEach(menu => {
+            menu.classList.remove('open');
+            const parent = menu.closest('.plan-selector');
+            parent?.classList.remove('open');
+            parent?.querySelector('.plan-selector-trigger')?.setAttribute('aria-expanded', 'false');
         });
 
-        const isOpen = container.classList.toggle('is-open');
-        trigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        dropdown.classList.toggle('open', willOpen);
+        selector.classList.toggle('open', willOpen);
+        trigger.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
     };
 
     window.selectPlanOption = function(el, panelId) {
         const container = document.getElementById(`plans-${panelId}`);
         if (!container) return;
+        const selector = container.querySelector('.plan-selector');
+        const dropdown = container.querySelector('.plans-dropdown');
+        const trigger = container.querySelector('.plan-selector-trigger');
+        if (!selector || !dropdown || !trigger) return;
 
         container.querySelectorAll('.plan-option').forEach(btn => {
             btn.classList.remove('active');
             btn.setAttribute('aria-selected', 'false');
         });
-
         el.classList.add('active');
         el.setAttribute('aria-selected', 'true');
 
+        // Update the closed selector with the newly selected plan.
         const label = el.querySelector('.plan-option-label')?.innerHTML || 'Plan';
-        const price = el.querySelector('.plan-option-price')?.innerText || '';
-        const triggerLabel = container.querySelector('.plan-trigger-label');
-        const triggerPrice = container.querySelector('.plan-trigger-price');
+        const price = el.querySelector('.plan-option-price')?.innerText || '₹0';
+        const currentLabel = container.querySelector('.current-label');
+        const currentPrice = container.querySelector('.current-price');
+        if (currentLabel) currentLabel.innerHTML = label;
+        if (currentPrice) currentPrice.innerText = price;
 
-        if (triggerLabel) triggerLabel.innerHTML = label;
-        if (triggerPrice) triggerPrice.innerText = price;
-
-        container.classList.remove('is-open');
-        const trigger = container.querySelector('.plan-trigger');
-        if (trigger) trigger.setAttribute('aria-expanded', 'false');
+        dropdown.classList.remove('open');
+        selector.classList.remove('open');
+        trigger.setAttribute('aria-expanded', 'false');
     };
 
-    document.addEventListener('click', function(e) {
-        if (!e.target.closest('.neo-plan-selector')) {
-            document.querySelectorAll('.neo-plan-selector.is-open').forEach(container => {
-                container.classList.remove('is-open');
-                const trigger = container.querySelector('.plan-trigger');
-                if (trigger) trigger.setAttribute('aria-expanded', 'false');
-            });
-        }
+    // Close plan menus when tapping anywhere outside them.
+    document.addEventListener('click', function(event) {
+        if (event.target.closest('.plan-selector')) return;
+        document.querySelectorAll('.plans-dropdown.open').forEach(menu => {
+            menu.classList.remove('open');
+            const parent = menu.closest('.plan-selector');
+            parent?.classList.remove('open');
+            parent?.querySelector('.plan-selector-trigger')?.setAttribute('aria-expanded', 'false');
+        });
     });
 
     // --- FETCH PANELS ---
@@ -3904,48 +3312,30 @@ button, input, select, textarea {
 
                 let plansHtml = '';
                 if (p.plans && Object.keys(p.plans).length > 0) {
-                    const sorted = Object.entries(p.plans).sort((a, b) => {
-                        const ao = Number(a[1]?.order);
-                        const bo = Number(b[1]?.order);
-                        if (Number.isFinite(ao) && Number.isFinite(bo)) return ao - bo;
-                        return (a[1]?.price || 0) - (b[1]?.price || 0);
-                    });
-
-                    const firstKey = sorted[0][0];
-                    const firstData = sorted[0][1] || {};
-                    const firstLabel = firstData.label || `${firstData.days || ''} Days`;
-                    const firstPayload = JSON.stringify({
-                        key: firstKey,
-                        label: firstLabel,
-                        price: firstData.price || 0
-                    }).replace(/"/g, '&quot;');
-
-                    plansHtml = `<div class="plans-container neo-plan-selector" id="plans-${panelId}" role="group" aria-label="Plans">
-                        <button type="button" class="plan-trigger" onclick="togglePlanMenu(this, '${panelId}')" aria-haspopup="listbox" aria-expanded="false">
-                            <span class="plan-trigger-main">
-                                <span class="plan-trigger-label">${ffColorText(firstLabel)}</span>
-                                <span class="plan-trigger-price">₹${firstData.price || 0}</span>
-                            </span>
-                            <i class="fas fa-chevron-down plan-trigger-chevron" aria-hidden="true"></i>
-                        </button>
-                        <div class="plan-menu" role="listbox" aria-label="Choose a plan">`;
-
+                    const sorted = Object.entries(p.plans).sort((a, b) => { const ao = Number(a[1]?.order); const bo = Number(b[1]?.order); if (Number.isFinite(ao) && Number.isFinite(bo)) return ao - bo; return (a[1]?.price || 0) - (b[1]?.price || 0); });
+                    const firstPlan = sorted[0];
+                    const firstLabel = firstPlan[1].label || `${firstPlan[1].days || ''} Days`;
+                    plansHtml = `<div class="plans-container" id="plans-${panelId}" role="group" aria-label="Plans">
+                        <div class="plan-selector">
+                            <button type="button" class="plan-selector-trigger" aria-haspopup="listbox" aria-expanded="false" onclick="togglePlanDropdown('${panelId}')">
+                                <span class="plan-selector-current">
+                                    <span class="current-label">${ffColorText(firstLabel)}</span>
+                                    <span class="current-price">₹${firstPlan[1].price || 0}</span>
+                                </span>
+                                <i class="fas fa-chevron-down plan-selector-chevron" aria-hidden="true"></i>
+                            </button>
+                            <div class="plans-dropdown" role="listbox">
+                    `;
                     sorted.forEach(([key, data], index) => {
                         const label = data.label || `${data.days || ''} Days`;
-                        const payload = JSON.stringify({
-                            key,
-                            label,
-                            price: data.price || 0
-                        }).replace(/"/g, '&quot;');
-
-                        plansHtml += `<button type="button" class="plan-option${index === 0 ? ' active' : ''}" data-plan='${payload}' role="option" aria-selected="${index === 0 ? 'true' : 'false'}" onclick="selectPlanOption(this, '${panelId}')">
+                        const payload = JSON.stringify({ key, label, price: data.price || 0 }).replace(/"/g, '&quot;');
+                        plansHtml += `<button type="button" role="option" aria-selected="${index === 0 ? 'true' : 'false'}" class="plan-option${index === 0 ? ' active' : ''}" data-plan='${payload}' onclick="selectPlanOption(this, '${panelId}')">
+                            <span class="plan-option-check" aria-hidden="true"><i class="fas fa-check"></i></span>
                             <span class="plan-option-label">${ffColorText(label)}</span>
                             <span class="plan-option-price">₹${data.price || 0}</span>
-                            <span class="plan-option-check" aria-hidden="true"><i class="fas fa-check"></i></span>
                         </button>`;
                     });
-
-                    plansHtml += `</div></div>`;
+                    plansHtml += `</div></div></div>`;
                 } else {
                     plansHtml = `<p style="color:var(--text-muted);font-size:13px;text-align:center;margin:8px 0;">Pricing unavailable</p>`;
                 }
