@@ -984,8 +984,17 @@
         align-items: center;
         gap: 16px;
         transition: var(--transition);
+        position: relative;
     }
     .wallet-stat:hover { border-color: var(--border-light); }
+
+    /* Balance expiry indicator */
+    .wallet-expiry { position:absolute; top:18px; right:20px; display:none; flex-direction:column; align-items:flex-end; gap:3px; text-align:right; line-height:1; z-index:2; }
+    .wallet-expiry.active { display:flex; }
+    .wallet-expiry-label { color:#ff4d4d; font-size:10px; font-weight:800; letter-spacing:.7px; text-transform:uppercase; }
+    .wallet-expiry-time { display:flex; align-items:center; gap:5px; color:#ff5b5b; font-size:13px; font-weight:800; white-space:nowrap; }
+    .wallet-expiry-time i { font-size:11px; }
+    @media (max-width:600px) { .wallet-expiry{top:15px;right:16px;} .wallet-expiry-label{font-size:9px;} .wallet-expiry-time{font-size:12px;} }
     .wallet-stat .stat-icon {
         width: 48px;
         height: 48px;
@@ -1839,11 +1848,15 @@
 
         <!-- Stats -->
         <div class="wallet-stats">
-            <div class="wallet-stat">
+            <div class="wallet-stat" id="wallet-balance-card">
                 <div class="stat-icon blue"><i class="fas fa-wallet"></i></div>
                 <div class="stat-info">
                     <h4>Balance</h4>
                     <h2 id="wallet-stat-bal">₹0.00</h2>
+                </div>
+                <div class="wallet-expiry" id="wallet-expiry">
+                    <span class="wallet-expiry-label">Expires in</span>
+                    <span class="wallet-expiry-time"><i class="far fa-clock"></i><span id="wallet-expiry-time">30d</span></span>
                 </div>
             </div>
             <div class="wallet-stat">
@@ -2139,6 +2152,9 @@
     // --- STATE ---
     let currentUser = null;
     let userData = { balance: 0, plan: null };
+    let lastObservedBalance = null;
+    let walletExpiryInterval = null;
+    let walletExpiryProcessing = false;
     window.ZAP_KEY = "";
     window.MANUAL_UPI = "";
     let securityCompleted = false;
@@ -2404,7 +2420,13 @@
             });
 
             if (result.committed) {
-                await runTransaction(ref(db, `users/${currentUser.uid}/balance`), (bal) => (Number(bal) || 0) + amount);
+                const expiryAt = Date.now() + (30 * 24 * 60 * 60 * 1000);
+                await runTransaction(ref(db, `users/${currentUser.uid}`), (user) => {
+                    if (!user) return user;
+                    user.balance = (Number(user.balance) || 0) + amount;
+                    user.walletExpiresAt = expiryAt;
+                    return user;
+                });
                 await update(ref(db, `gateway_payments/${orderId}`), {
                     status: "approved",
                     gateway_status: "success",
@@ -2892,9 +2914,67 @@
     document.getElementById('btn-logout').addEventListener('click', async function() {
         showLoader();
         try { await signOut(auth);
+            lastObservedBalance = null;
+            if (walletExpiryInterval) { clearInterval(walletExpiryInterval); walletExpiryInterval = null; }
             document.getElementById('dropdown-menu').classList.remove('active'); } catch (e) { console.error(e); }
         hideLoader();
     });
+
+    // --- WALLET MONEY EXPIRY (30 DAYS) ---
+    const WALLET_EXPIRY_MS = 30 * 24 * 60 * 60 * 1000;
+    function formatWalletExpiry(ms) {
+        if (ms <= 0) return '0d';
+        const totalSeconds = Math.ceil(ms / 1000);
+        const days = Math.floor(totalSeconds / 86400);
+        const hours = Math.floor((totalSeconds % 86400) / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+        if (days > 0) return `${days}d`;
+        if (hours > 0) return `${hours}h`;
+        if (minutes > 0) return `${minutes}m`;
+        return `${seconds}s`;
+    }
+    function updateWalletExpiryUI() {
+        const box=document.getElementById('wallet-expiry'), out=document.getElementById('wallet-expiry-time');
+        if (!box || !out) return;
+        const balance=Number(userData?.balance)||0, expiryAt=Number(userData?.walletExpiresAt)||0, remaining=expiryAt-Date.now();
+        if (balance >= 1 && remaining > 0) { box.classList.add('active'); out.textContent=formatWalletExpiry(remaining); }
+        else box.classList.remove('active');
+    }
+    async function expireWalletMoney() {
+        if (!currentUser || walletExpiryProcessing) return;
+        const balance=Number(userData?.balance)||0, expiryAt=Number(userData?.walletExpiresAt)||0;
+        if (balance < 1 || !expiryAt || expiryAt > Date.now()) return;
+        walletExpiryProcessing=true;
+        try {
+            const result=await runTransaction(ref(db, `users/${currentUser.uid}`), user => {
+                if (!user) return user;
+                const bal=Number(user.balance)||0, exp=Number(user.walletExpiresAt)||0;
+                if (bal >= 1 && exp > 0 && exp <= Date.now()) { user.balance=0; user.walletExpiresAt=null; return user; }
+                return undefined;
+            });
+            if (result.committed) {
+                const id='EXP'+Date.now();
+                await set(ref(db, `transactions/${currentUser.uid}/${id}`), {id, type:'wallet_expiry', amount:-balance, status:'success', desc:'Wallet balance expired after 30 days', date:new Date().toISOString()});
+                showToast('Your wallet balance has expired.', 'warning');
+            }
+        } catch(e) { console.error('Wallet expiry error:',e); }
+        finally { walletExpiryProcessing=false; }
+    }
+    function startWalletExpiryWatcher() {
+        if (walletExpiryInterval) clearInterval(walletExpiryInterval);
+        updateWalletExpiryUI();
+        walletExpiryInterval=setInterval(async()=>{
+            updateWalletExpiryUI();
+            const balance=Number(userData?.balance)||0, expiryAt=Number(userData?.walletExpiresAt)||0;
+            if (balance >= 1 && expiryAt > 0 && expiryAt <= Date.now()) await expireWalletMoney();
+        },1000);
+    }
+    async function restartWalletExpiry() {
+        if (!currentUser) return;
+        try { await update(ref(db, `users/${currentUser.uid}`), {walletExpiresAt:Date.now()+WALLET_EXPIRY_MS}); }
+        catch(e) { console.error('Wallet expiry restart error:',e); }
+    }
 
     // --- USER DATA ---
     function initUserData() {
@@ -2904,11 +2984,16 @@
                 userData = snap.val();
                 if (userData.status === "banned") { signOut(auth);
                     alert("Account banned."); return; }
-                const bal = parseFloat(userData.balance || 0).toFixed(2);
+                const numericBalance = Number(userData.balance) || 0;
+                const bal = numericBalance.toFixed(2);
                 document.getElementById('nav-balance').innerText = bal;
                 document.getElementById('prof-bal').innerText = `₹${bal}`;
                 document.getElementById('wallet-stat-bal').innerText = `₹${bal}`;
                 document.getElementById('prof-email').innerText = userData.email;
+                if (lastObservedBalance !== null && numericBalance > lastObservedBalance && numericBalance >= 1) restartWalletExpiry();
+                if (numericBalance >= 1 && !Number(userData.walletExpiresAt)) restartWalletExpiry();
+                lastObservedBalance = numericBalance;
+                updateWalletExpiryUI();
                 if (userData.createdAt) {
                     document.getElementById('prof-date').innerText = new Date(userData.createdAt).toLocaleDateString();
                 }
@@ -2918,6 +3003,7 @@
             }
             hideLoader();
         });
+        startWalletExpiryWatcher();
         onValue(ref(db, `transactions/${currentUser.uid}`), (snap) => {
             let totalDep = 0, todayDep = 0;
             const today = new Date().toLocaleDateString();
@@ -3177,9 +3263,11 @@
         btn.disabled = true;
         btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Processing...`;
         try {
-            const result = await runTransaction(ref(db, `users/${currentUser.uid}/balance`), (bal) => {
-                if (bal === null) return 0;
-                if (bal >= price) return bal - price;
+            const expiryAt = Date.now() + WALLET_EXPIRY_MS;
+            const result = await runTransaction(ref(db, `users/${currentUser.uid}`), (user) => {
+                if (!user) return user;
+                const bal = Number(user.balance) || 0;
+                if (bal >= price) { user.balance = bal - price; user.walletExpiresAt = expiryAt; return user; }
                 return undefined;
             });
             if (result.committed) {
