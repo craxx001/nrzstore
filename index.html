@@ -1251,6 +1251,14 @@
 
     .wallet-section { animation: fadeUp 0.3s ease; }
 
+    .manual-limit-row { display:flex; align-items:center; justify-content:space-between; gap:10px; margin:-2px 0 18px; }
+    .manual-limit-text { color:#ffd54a; font-size:13px; font-weight:700; line-height:1.45; }
+    .manual-info-btn { width:30px; height:30px; flex:0 0 30px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; background:rgba(255,213,74,.08); border:1px solid rgba(255,213,74,.35); color:#ffd54a; font-size:13px; cursor:pointer; transition:var(--transition); }
+    .manual-info-btn:hover { background:rgba(255,213,74,.16); border-color:#ffd54a; transform:translateY(-1px); }
+    .manual-info-box { margin:0 0 20px; padding:18px; border:1px solid rgba(255,213,74,.24); border-radius:var(--radius-sm); background:rgba(255,213,74,.045); color:var(--text-secondary); font-size:12px; line-height:1.7; }
+    .manual-info-box h4 { color:#ffd54a; font-size:14px; font-weight:800; margin-bottom:10px; }
+    .manual-info-box strong { color:var(--text-primary); }
+
     .premium-card {
         background: var(--bg-card);
         border: 1px solid var(--border-color);
@@ -2050,8 +2058,8 @@
         <!-- Tabs -->
         <div class="wallet-tabs">
             <div class="wallet-tab active" onclick="switchWalletTab('auto')" id="tab-btn-auto"><i class="fas fa-bolt"></i> Instant UPI</div>
-            <div class="wallet-tab crypto" onclick="switchWalletTab('crypto')" id="tab-btn-crypto"><i class="fab fa-bitcoin"></i> Binance</div>
             <div class="wallet-tab manual" onclick="switchWalletTab('manual')" id="tab-btn-manual"><i class="fas fa-qrcode"></i> Manual UPI</div>
+            <div class="wallet-tab crypto" onclick="switchWalletTab('crypto')" id="tab-btn-crypto"><i class="fab fa-bitcoin"></i> Binance</div>
             <div class="wallet-tab support" onclick="switchWalletTab('support')" id="tab-btn-support"><i class="fas fa-headset"></i> Support</div>
         </div>
 
@@ -2070,8 +2078,6 @@
                     <button type="button" class="amount-pill" data-amount="50">₹50</button>
                     <button type="button" class="amount-pill" data-amount="100">₹100</button>
                     <button type="button" class="amount-pill" data-amount="250">₹250</button>
-                    <button type="button" class="amount-pill" data-amount="500">₹500</button>
-                    <button type="button" class="amount-pill" data-amount="1000">₹1000</button>
                 </div>
                 <input id="add-amount" type="hidden" value="5"/>
                 <button class="btn-primary-solid" id="btn-submit-payment" style="width:100%;">
@@ -2140,7 +2146,17 @@
                     <i class="fas fa-qrcode" style="color:var(--accent-purple);"></i>
                     <h3>Manual UPI</h3>
                 </div>
-                <p class="card-desc">Scan the QR code or copy the UPI ID to pay<br><strong style="color:#ffd54a;">The amount will be credited to your wallet within 30 minutes</strong></p>
+                <p class="card-desc">Scan the QR code or copy the UPI ID to pay</p>
+                <div class="manual-limit-row">
+                    <strong class="manual-limit-text">200₹ and above amount is valid to pay</strong>
+                    <button type="button" class="manual-info-btn" aria-label="Transaction limits and policy notice" onclick="toggleManualLimitInfo()"><i class="fas fa-exclamation"></i></button>
+                </div>
+                <div id="manual-limit-info" class="manual-info-box hidden">
+                    <h4>Transaction Limits &amp; Policy Notice</h4>
+                    <div><strong>Valid Range:</strong> ₹200 – ₹5,000 per transaction via Manual UPI.</div>
+                    <div><strong>Notice:</strong> Any deposit below ₹200 or above ₹5,000 will be flagged as an invalid transaction.</div>
+                    <div><strong>Policy:</strong> Funds from non-compliant transactions will not be credited to your wallet, nor will they be eligible for a refund. Please ensure your payment falls within the allowed limits before proceeding.</div>
+                </div>
 
                 <div class="qr-display manual">
                     <img id="manual-qr-display" src="" alt="QR" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-qrcode\\' style=\\'font-size:48px;color:var(--text-muted);\\'></i>'"/>
@@ -2802,6 +2818,11 @@
         });
     }
 
+    function toggleManualLimitInfo() {
+        const box = document.getElementById('manual-limit-info');
+        if (box) box.classList.toggle('hidden');
+    }
+
     // --- MANUAL DEPOSIT ---
     document.getElementById('btn-submit-manual').addEventListener('click', async function() {
         const amt = document.getElementById('manual-amount').value;
@@ -2809,7 +2830,10 @@
         const appName = document.getElementById('manual-app').value.trim();
         const screenshot = document.getElementById('manual-screenshot').value.trim();
         const btn = this;
-        if (!amt || amt <= 0) return showToast("Enter valid amount", "error");
+        const amountNum = parseFloat(amt);
+        if (!Number.isFinite(amountNum) || amountNum < 200 || amountNum > 5000) {
+            return showToast("Manual UPI amount must be between ₹200 and ₹5,000", "error");
+        }
         if (!utr || utr.length < 8) return showToast("Enter valid UTR", "error");
         if (!appName) return showToast("Enter payment app name", "error");
 
